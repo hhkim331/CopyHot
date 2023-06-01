@@ -5,9 +5,9 @@ namespace DynamicMeshCutter
 {
     public class PlaneBehaviour : CutterBehaviour
     {
-        private void Update()
+        private void LateUpdate()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetMouseButtonDown(0))
             {
                 Cut();
             }

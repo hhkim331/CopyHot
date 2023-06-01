@@ -13,8 +13,10 @@ public class BulletTest : CutterBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
+        base.Update();
+
         //총알 앞으로 날라가게 하기
         transform.position += transform.forward * Time.deltaTime * 10f;
     }
