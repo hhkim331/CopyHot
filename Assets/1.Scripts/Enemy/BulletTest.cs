@@ -5,9 +5,13 @@ using UnityEngine;
 
 public class BulletTest : CutterBehaviour
 {
+    Collider coll;
+
     // Start is called before the first frame update
     void Start()
     {
+        coll = GetComponent<Collider>();
+
         //10초 뒤에 자기 자신을 파괴
         Destroy(gameObject, 10f);
     }
@@ -29,23 +33,18 @@ public class BulletTest : CutterBehaviour
         {
             Transform root = collision.transform.root;
 
-            //총알의 위치를 중심으로 Plane 생성
-            Vector3 _from = transform.position;
-            Vector3 _to = transform.position + transform.forward * 10f;
-
-            Plane plane = new Plane(_from, _to, Camera.main.transform.position);
             var targets = root.GetComponentsInChildren<MeshTarget>();
             foreach (var target in targets)
             {
-                Cut(target, _to, plane.normal, null, OnCreated);
+                Cut(target, transform.position, transform.up, null, OnCreated);
             }
 
             ////충돌한 상대방 게임오브젝트 삭제
             //Destroy(collision.gameObject);
             //자기 자신도 삭제
-            Destroy(gameObject);
+            //Destroy(gameObject);
 
-
+            coll.enabled = false;
 
 
         }
