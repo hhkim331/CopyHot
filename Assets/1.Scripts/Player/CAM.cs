@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Camera : MonoBehaviour
+public class CAM : MonoBehaviour
 {
     //회전가능여부
     public bool useVertical = false;
