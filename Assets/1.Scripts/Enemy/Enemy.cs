@@ -1,5 +1,4 @@
-using System;
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -18,34 +17,51 @@ public class Enemy : MonoBehaviour
     }
     public E_State e_State = E_State.Idle;
 
-    public enum E_WeaponType
-    {
-        None,
-        Melee,
-        Range
-    }
-    public E_WeaponType e_WeaponType = E_WeaponType.None;
+    public Weapon.WeaponType e_WeaponType = Weapon.WeaponType.None;
 
     GameObject player;
-
     NavMeshAgent nav;
 
-    //½ºÆù ÀÌÆåÆ®
+    //ì  ì• ë‹ˆë©”ì´ì…˜
+    [SerializeField] EnemyAnimatorController enemyAnimatorController;
+
+    [Header("ë¬´ê¸° ì¥ì°© ìœ„ì¹˜")]
+    [SerializeField] Transform weaponPos;
+    Weapon myWeapon;  //í˜„ì¬ ì¥ì°© ë¬´ê¸°
+
+    //ìŠ¤í° ì´í™íŠ¸
     public float spawnEffectTime = 0.5f;
 
-
-    //°ø°İ°¡´É¿©ºÎ
+    //ê³µê²©ê°€ëŠ¥ì—¬ë¶€
     bool isAttackable = true;
-    //°ø°İ°¡´É »ç°Å¸®
-    public float attackRange = 1.5f;
-    //°ø°İ µô·¹ÀÌ
-    public float attackDelay = 1f;
-    //°ø°İÇàµ¿ ½Ã°£
-    public float attackTime = 0f;
+    //ê³µê²©ê°€ëŠ¥ ì‚¬ê±°ë¦¬
+    float attackRange = 2f;
+    //ì£¼ë¨¹ê³µê²© ì‚¬ê±°ë¦¬
+    public float punchRange = 2f;
+    //ê³µê²© ë”œë ˆì´
+    float attackDelay = 0f;
+    //ê³µê²© ì¿¨íƒ€ì„
+    float attackCoolTime = 2f;
+    //í€ì¹˜ ê³µê²© ì¿¨íƒ€ì„
+    public float punchCoolTime = 2f;
+    //ë”ë¯¸ ê³µê²© ì˜¤ë¸Œì íŠ¸
+    public GameObject attackDummy;
 
-    //Áİ±â »ç°Å¸®
+    //ì¤ê¸° ì‚¬ê±°ë¦¬
     public float pickUpRange = 1.5f;
-    //ÀÎ½Ä°¡´É »ç°Å¸®
+    //ì¤ê¸° ë”œë ˆì´
+    float pickUpDelay = 0.5f;
+    //ì¤ê¸° í–‰ë™ ì‹œê°„
+    float pickUpTime = 0f;
+    //ì¤ê¸° íƒ€ê²ŒíŒ… ì˜¤ë¸Œì íŠ¸
+    GameObject pickUpTarget;
+
+    //ìŠ¤í„´ìƒíƒœ ì§€ì†ì‹œê°„
+    float stunDuration = 1f;
+    //ìŠ¤í„´ ì‹œê°„
+    float stunTime = 0f;
+
+    //ì¸ì‹ê°€ëŠ¥ ì‚¬ê±°ë¦¬
     public float detectRange = 5f;
 
     // Start is called before the first frame update
@@ -76,89 +92,127 @@ public class Enemy : MonoBehaviour
                 PickUp();
                 break;
         }
-
-        nav.SetDestination(player.transform.position);
     }
 
     void Idle()
     {
-        //ÇÃ·¹ÀÌ¾î¿Í °Å¸®°¡ ¸Ö¾îÁö¸é Move·Î ÀüÈ¯
-        //°ø°İ ºÒ°¡´É »óÅÂ°¡ Ç®¸®¸é AttackÀ¸·Î ÀüÈ¯
-
+        //ê³µê²© ë¶ˆê°€ëŠ¥
+        if (isAttackable)
+        {
+            //í”Œë ˆì´ì–´ì™€ ê±°ë¦¬ê°€ ë©€ì–´ì§€ë©´ Moveë¡œ ì „í™˜
+            float pDistance = Vector3.Distance(transform.position, player.transform.position);
+            if (pDistance > attackRange) e_State = E_State.Move;
+        }
+        else
+            e_State = E_State.Move;
     }
 
     void Move()
     {
-        //ÇÃ·¹ÀÌ¾î¿ÍÀÇ °Å¸®°è»ê
+        //í”Œë ˆì´ì–´ì™€ì˜ ê±°ë¦¬ê³„ì‚°
         float pDistance = Vector3.Distance(transform.position, player.transform.position);
 
-        //ÃÑÀ» µé°íÀÖ´Â °æ¿ì
-        if (e_WeaponType == E_WeaponType.Range)
+        //ì´ì„ ë“¤ê³ ìˆëŠ” ê²½ìš°
+        if (e_WeaponType == Weapon.WeaponType.Range)
         {
-            ////ÃÑÀÇ »ç¼±¿¡ ÇÃ·¹ÀÌ¾î°¡ ÀÖ´ÂÁö Ã¼Å©
-            //if(Physics.Raycast(transform.position, player.transform.position - transform.position, out RaycastHit hit, detectRange))
-            //{
-            //    //ÇÃ·¹ÀÌ¾î°¡ ÃÑÀÇ »ç¼±¿¡ ÀÖÀ¸¸é ÃßÀû
-            //    if(hit.transform.gameObject == player)
-            //    {
-            //        nav.SetDestination(player.transform.position);
-            //    }
-            //    //ÇÃ·¹ÀÌ¾î°¡ ÃÑÀÇ »ç¼±¿¡ ¾øÀ¸¸é Idle
-            //    else
-            //    {
-            //        e_State = E_State.Idle;
-            //    }
-            //}
+            //ì´ì˜ ì‚¬ì„ 
+            bool fire = Physics.Raycast(weaponPos.position, weaponPos.forward, out RaycastHit fireHit);
+            bool range = Physics.Raycast(weaponPos.position, player.transform.position - weaponPos.position, out RaycastHit rangeHit);
+
+            if (fire && fireHit.transform.gameObject == player)
+            {
+                nav.ResetPath();
+                e_State = E_State.Attack;
+            }
+            else if (range && rangeHit.transform.gameObject == player)
+            {
+                //í”Œë ˆì´ì–´ ë°©í–¥ ë°”ë¼ë³´ê¸°
+                Vector3 dir = player.transform.position - transform.position;
+                dir.y = 0;
+                Quaternion rot = Quaternion.LookRotation(dir);
+                transform.rotation = Quaternion.Lerp(transform.rotation, rot, 10f * Time.deltaTime);
+                nav.ResetPath();
+            }
+            else
+            {
+                nav.SetDestination(player.transform.position);
+            }
         }
-        //±ÙÁ¢°ø°İÀ» ÇØ¾ßÇÏ´Â °æ¿ì
+        //ê·¼ì ‘ê³µê²©ì„ í•´ì•¼í•˜ëŠ” ê²½ìš°
         else if (pDistance < attackRange)
         {
-            //ÇÃ·¹ÀÌ¾î¿Í °¡±î¿öÁö¸é Ãß°İÁßÁö
-            nav.enabled = false;
-
-
-
-
-
-            //°ø°İ °¡´É »óÅÂÀÎ°æ¿ì Attack
-            if(isAttackable) e_State = E_State.Attack;
-            //°ø°İ ºÒ°¡´É »óÅÂÀÎ°æ¿ì Idle
+            //í”Œë ˆì´ì–´ì™€ ê°€ê¹Œì›Œì§€ë©´ ì¶”ê²©ì¤‘ì§€
+            nav.ResetPath();
+            //ê³µê²© ê°€ëŠ¥ ìƒíƒœì¸ê²½ìš° Attack
+            if (isAttackable) e_State = E_State.Attack;
+            //ê³µê²© ë¶ˆê°€ëŠ¥ ìƒíƒœì¸ê²½ìš° Idle
             else e_State = E_State.Idle;
         }
         else
         {
-            //½ºÅ×ÀÌÁö¿¡ Á¸ÀçÇÏ´Â ¸ğµç ¹«±â¿ÍÀÇ °Å¸®°è»ê
+            //ìŠ¤í…Œì´ì§€ì— ì¡´ì¬í•˜ëŠ” ëª¨ë“  ë¬´ê¸°ì™€ì˜ ê±°ë¦¬ê³„ì‚°
             GameObject[] weapons = GameObject.FindGameObjectsWithTag("Weapon");
-            GameObject newWeapon;
             float wDistance = float.MaxValue;
+            Vector3 wPos = Vector3.zero;
 
-            foreach (GameObject weapon in weapons)
+            //íƒ€ê²Ÿì´ ì¡´ì¬í•˜ëŠ” ê²½ìš°
+            if (pickUpTarget != null)
             {
-                float curDistance = Vector3.Distance(transform.position, weapon.transform.position);
+                //íƒ€ê²Ÿê³¼ì˜ ê±°ë¦¬ë¥¼ ê³„ì‚°
+                wDistance = Vector3.Distance(transform.position, pickUpTarget.transform.position);
 
-                if(curDistance < wDistance)
+                //íƒ€ê²Ÿì˜ ì†Œìœ ìê°€ ìˆëŠ” ê²½ìš° íƒ€ê²Ÿì„ nullë¡œ ì´ˆê¸°í™”
+                if (pickUpTarget.GetComponent<Weapon>().owner != Weapon.W_Owner.None)
+                    pickUpTarget = null;
+
+                //íƒ€ê²Ÿì´ ì‚¬ê±°ë¦¬ ë°–ìœ¼ë¡œ ë²—ì–´ë‚œ ê²½ìš° íƒ€ê²Ÿì„ nullë¡œ ì´ˆê¸°í™”
+                if (wDistance > detectRange)
+                    pickUpTarget = null;
+
+            }
+
+            if (pickUpTarget == null)
+            {
+                wDistance = detectRange;
+                foreach (GameObject weapon in weapons)
                 {
-                    wDistance = curDistance;
-                    newWeapon = weapon;
+                    float curDistance = Vector3.Distance(transform.position, weapon.transform.position);
+
+                    if (curDistance < wDistance)
+                    {
+                        //ì£¼ì¸ì´ ìˆëŠ” ê²½ìš° ë¬´ì‹œ
+                        if (weapon.GetComponent<Weapon>().owner != Weapon.W_Owner.None)
+                            continue;
+
+                        wDistance = curDistance;
+                        pickUpTarget = weapon;
+                    }
                 }
             }
 
-            //¹«±âº¸´Ù ÇÃ·¹ÀÌ¾î°¡ ´õ °¡±î¿î°æ¿ì ÇÃ·¹ÀÌ¾î¸¦ ÃßÀû
-            if (pDistance < wDistance)
+            if (pickUpTarget != null)
+                wPos = pickUpTarget.transform.position;
+
+            //ë¬´ê¸°ë³´ë‹¤ í”Œë ˆì´ì–´ê°€ ë” ê°€ê¹Œìš´ê²½ìš° í”Œë ˆì´ì–´ë¥¼ ì¶”ì 
+            if (pDistance <= wDistance)
             {
                 nav.SetDestination(player.transform.position);
             }
-            else if (wDistance < pickUpRange)
+            else if (pickUpTarget != null)
             {
-                e_State = E_State.PickUp;
-            }
-            else if (wDistance < detectRange)
-            {
-                nav.SetDestination(player.transform.position);
+                if (wDistance <= pickUpRange)
+                {
+                    e_State = E_State.PickUp;
+                }
+                else if (wDistance <= detectRange)
+                {
+                    nav.SetDestination(wPos);
+                    //nav.SetDestination(player.transform.position);
+                }
             }
             else
             {
-                //¾Æ¹«·± ÇØ´ç»çÇ×ÀÌ ¾ø´Â °æ¿ì ÃßÀû
+                //ì•„ë¬´ëŸ° í•´ë‹¹ì‚¬í•­ì´ ì—†ëŠ” ê²½ìš° ì¶”ì 
                 nav.SetDestination(player.transform.position);
             }
         }
@@ -166,40 +220,127 @@ public class Enemy : MonoBehaviour
 
     void Attack()
     {
-        //°ø°İÀÌ ºÒ°¡´ÉÇÑ »óÅÂÀÎ °æ¿ì Idle·Î ÀüÈ¯
+        //ê³µê²©ì´ ë¶ˆê°€ëŠ¥í•œ ìƒíƒœì¸ ê²½ìš° Idleë¡œ ì „í™˜
         if (!isAttackable)
         {
             e_State = E_State.Idle;
             return;
         }
 
-        //°ø°İ °¡´É »ç°Å¸®¿¡¼­ ÇÃ·¹ÀÌ¾î°¡ ¹ş¾î³­ °æ¿ì Move·Î ÀüÈ¯
         float pDistance = Vector3.Distance(transform.position, player.transform.position);
-        if (pDistance > attackRange)
+        //ê³µê²© ë”œë ˆì´
+        attackDelay += Time.deltaTime;
+        switch (e_WeaponType)
         {
-            e_State = E_State.Move;
-            return;
+            case Weapon.WeaponType.None:
+                //ê³µê²© ê°€ëŠ¥ ì‚¬ê±°ë¦¬ì—ì„œ í”Œë ˆì´ì–´ê°€ ë²—ì–´ë‚œ ê²½ìš° Move ì „í™˜
+                if (pDistance > attackRange)
+                {
+                    e_State = E_State.Move;
+                    return;
+                }
+
+                //ê³µê²© ë”œë ˆì´ê°€ ëë‚œ ê²½ìš° ê³µê²©
+                if (attackDelay >= attackCoolTime)
+                {
+                    attackDelay = 0;
+                    StartCoroutine(PunchCoroutine());
+                    //myWeapon.Attack();
+                }
+                break;
+            case Weapon.WeaponType.Melee:
+                //ê³µê²© ê°€ëŠ¥ ì‚¬ê±°ë¦¬ì—ì„œ í”Œë ˆì´ì–´ê°€ ë²—ì–´ë‚œ ê²½ìš° Move ì „í™˜
+                if (pDistance > attackRange)
+                {
+                    e_State = E_State.Move;
+                    return;
+                }
+                //ê³µê²© ë”œë ˆì´ê°€ ëë‚œ ê²½ìš° ê³µê²©
+                if (attackDelay >= attackCoolTime)
+                {
+                    attackDelay = 0;
+                    myWeapon.Attack();
+                }
+                break;
+            case Weapon.WeaponType.Range:
+                //ê³µê²© ê°€ëŠ¥ ì‚¬ê±°ë¦¬ì—ì„œ í”Œë ˆì´ì–´ê°€ ë²—ì–´ë‚œ ê²½ìš° Move ì „í™˜
+                //ì´ì˜ ì‚¬ì„ ì— í”Œë ˆì´ì–´ê°€ ìˆëŠ”ì§€ ì²´í¬
+                if (Physics.Raycast(weaponPos.position, weaponPos.forward, out RaycastHit hit))
+                {
+                    //í”Œë ˆì´ì–´ê°€ ì´ì˜ ì‚¬ì„ ì— ìˆìœ¼ë©´ ê³µê²©
+                    if (hit.transform.gameObject == player)
+                    {
+                        //ê³µê²© ë”œë ˆì´ê°€ ëë‚œ ê²½ìš° ê³µê²©
+                        if (attackDelay >= attackCoolTime)
+                        {
+                            attackDelay = 0;
+                            myWeapon.Attack();
+                        }
+                    }
+                    //í”Œë ˆì´ì–´ê°€ ì´ì˜ ì‚¬ì„ ì— ì—†ìœ¼ë©´ ì¶”ì 
+                    else
+                    {
+                        e_State = E_State.Move;
+                    }
+                }
+                else
+                {
+                    e_State = E_State.Move;
+                }
+
+                break;
         }
+    }
+
+    IEnumerator PunchCoroutine()
+    {
+        yield return new WaitForSeconds(0.4f);
+        attackDummy.SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+        attackDummy.SetActive(false);
     }
 
     void Stunned()
     {
-
+        stunTime += Time.deltaTime;
+        if (stunTime >= stunDuration)
+        {
+            stunTime = 0;
+            e_State = E_State.Idle;
+        }
     }
 
     void PickUp()
     {
-
+        pickUpTime += Time.deltaTime;
+        if(pickUpTime<=pickUpDelay)
+        {
+            //ë¬´ê¸°ë¥¼ ì¤ëŠ”ì¤‘
+            myWeapon = pickUpTarget.GetComponent<Weapon>();
+            myWeapon.Set(weaponPos, Weapon.W_Owner.Enemy);
+            e_WeaponType = myWeapon.weaponType;
+            attackRange = myWeapon.attackRange;
+            attackCoolTime = myWeapon.attackCoolTime;
+        }
+        else if(pickUpTime <= pickUpDelay*2)
+        {
+            //ë¬´ê¸°ë¥¼ ì¤ê³  ì¼ì–´ë‚˜ëŠ” ì¤‘
+        }
+        else
+        {
+            //ì¤ê¸° ì™„ë£Œ
+            e_State = E_State.Idle;
+        }
     }
 
     public void Set(EnemySpawnData enemySpawnData, bool immediate)
     {
         transform.position = enemySpawnData.position;
         transform.eulerAngles = enemySpawnData.rotation;
-        
+
         e_State = E_State.Idle;
-        e_WeaponType = (E_WeaponType)enemySpawnData.defaultWeapon;
-        //¹«±â ÀåÂø
+        e_WeaponType = (Weapon.WeaponType)enemySpawnData.defaultWeapon;
+        //ë¬´ê¸° ì¥ì°©
 
         if (!immediate)
             SpawnEffect();
@@ -207,7 +348,7 @@ public class Enemy : MonoBehaviour
 
     void SpawnEffect()
     {
-        //Æ÷Å» + °ø°İ ºÒ°¡»óÅÂ
+        //í¬íƒˆ + ê³µê²© ë¶ˆê°€ìƒíƒœ
     }
 
     void ChangeState()
@@ -215,4 +356,33 @@ public class Enemy : MonoBehaviour
 
     }
 
+    //ë¬´ê¸° ë–¨êµ¬ê¸°
+    void Drop(bool fly)
+    {
+        if (myWeapon != null)
+        {
+            myWeapon.Unset();
+            //ìºë¦­í„°ê°€ ë³´ê³ ìˆëŠ” ë°©í–¥ì˜ ìš°ì¸¡ ìƒë‹¨ë°©í–¥ìœ¼ë¡œ í˜ì„ ê°€í•˜ê¸°
+            if(fly)
+                myWeapon.GetComponent<Rigidbody>().AddForce((transform.forward +   transform.right * Random.Range(0.1f, 0.5f) + transform.up * Random.Range(0.5f, 1f)).normalized * 5, ForceMode.Impulse);
+
+            myWeapon = null;
+            e_WeaponType = Weapon.WeaponType.None;
+            attackRange = punchRange;
+            attackCoolTime = punchCoolTime;
+        }
+    }
+
+    public void Hurt()
+    {
+        Drop(true);
+        e_State = E_State.Stunned;
+        stunTime = 0;
+    }
+
+    public void Die()
+    {
+        Drop(false);
+        e_State = E_State.Die;
+    }
 }

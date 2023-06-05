@@ -109,7 +109,7 @@ namespace DynamicMeshCutter
             ApplicationHasQuit = true;
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             ApplicationHasQuit = false;
         }

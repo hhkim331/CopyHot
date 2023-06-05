@@ -1,58 +1,50 @@
-using DynamicMeshCutter;
+ï»¿using DynamicMeshCutter;
 using UnityEngine;
 
-public class Bullet : CutterBehaviour
+public class Bullet : MonoBehaviour
 {
-    //*
     Collider coll;
+    MeshRenderer mesh;
+    bool hit = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        //*
         coll = GetComponent<Collider>();
+        mesh = GetComponent<MeshRenderer>();
 
-        //10ÃÊ µÚ¿¡ ÀÚ±â ÀÚ½ÅÀ» ÆÄ±«
+        //10ì´ˆ ë’¤ì— ìê¸° ìì‹ ì„ íŒŒê´´
         Destroy(gameObject, 10f);
     }
 
     // Update is called once per frame
-    protected override void Update()
+    void Update()
     {
-        base.Update();
-
-        //ÃÑ¾Ë ¾ÕÀ¸·Î ³¯¶ó°¡°Ô ÇÏ±â
+        if (hit) return;
+        //ì´ì•Œ ì•ìœ¼ë¡œ ë‚ ë¼ê°€ê²Œ í•˜ê¸°
         transform.position += transform.forward * Time.deltaTime * 10f;
     }
 
-    //Ãæµ¹Ã³¸®
+    //ì¶©ëŒì²˜ë¦¬
     private void OnCollisionEnter(Collision collision)
     {
-        //*
-        //Ãæµ¹ÇÑ »ó´ë¹æ °ÔÀÓ¿ÀºêÁ§Æ®ÀÇ ÅÂ±×°ª ºñ±³
-        if (collision.gameObject.tag == "Enemy")
+        //ì¶©ëŒí•œ ìƒëŒ€ë°© ê²Œì„ì˜¤ë¸Œì íŠ¸ì˜ íƒœê·¸ê°’ ë¹„êµ
+        if (collision.gameObject.tag == "Enemy" && !hit)
         {
+            collision.transform.root.GetComponent<Enemy>().Hurt();
+
+            hit = true;
             Transform root = collision.transform.root;
 
-            var targets = root.GetComponentsInChildren<MeshTarget>();
-            foreach (var target in targets)
-            {
-                Cut(target, transform.position, transform.up, null, OnCreated);
-            }
-
-            ////Ãæµ¹ÇÑ »ó´ë¹æ °ÔÀÓ¿ÀºêÁ§Æ® »èÁ¦
-            //Destroy(collision.gameObject);
-            //ÀÚ±â ÀÚ½Åµµ »èÁ¦
-            //Destroy(gameObject);
-
+            //DeathCutter.Instance.Cut(root, transform);
         }
-            //Ãæµ¹ ºñÈ°¼ºÈ­
-            coll.enabled = false;
-    }
 
-    //*
-    void OnCreated(Info info, MeshCreationData cData)
-    {
-        MeshCreation.TranslateCreatedObjects(info, cData.CreatedObjects, cData.CreatedTargets, Separation);
+        //ì¶©ëŒ ë¹„í™œì„±í™”
+        coll.enabled = false;
+        mesh.enabled = false;
+
+
+        //1ì´ˆ ë’¤ì— ìê¸° ìì‹ ì„ íŒŒê´´
+        Destroy(gameObject, 1f);
     }
 }

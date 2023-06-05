@@ -1,18 +1,9 @@
 
-using UnityEngine;
-
 namespace DynamicMeshCutter
 {
     public class PlaneBehaviour : CutterBehaviour
     {
-        private void LateUpdate()
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                Cut();
-            }
-        }
-
+        public float DebugPlaneLength = 2;
         public void Cut()
         {
             var roots = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
