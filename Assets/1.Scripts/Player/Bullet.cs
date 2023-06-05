@@ -3,11 +3,13 @@ using UnityEngine;
 
 public class Bullet : CutterBehaviour
 {
+    //*
     Collider coll;
 
     // Start is called before the first frame update
     void Start()
     {
+        //*
         coll = GetComponent<Collider>();
 
         //10초 뒤에 자기 자신을 파괴
@@ -26,6 +28,7 @@ public class Bullet : CutterBehaviour
     //충돌처리
     private void OnCollisionEnter(Collision collision)
     {
+        //*
         //충돌한 상대방 게임오브젝트의 태그값 비교
         if (collision.gameObject.tag == "Enemy")
         {
@@ -42,11 +45,12 @@ public class Bullet : CutterBehaviour
             //자기 자신도 삭제
             //Destroy(gameObject);
 
+        }
             //충돌 비활성화
             coll.enabled = false;
-        }
     }
 
+    //*
     void OnCreated(Info info, MeshCreationData cData)
     {
         MeshCreation.TranslateCreatedObjects(info, cData.CreatedObjects, cData.CreatedTargets, Separation);
