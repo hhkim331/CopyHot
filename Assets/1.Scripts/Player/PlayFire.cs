@@ -26,9 +26,7 @@ public class PlayFire : MonoBehaviour
             GameObject bullet = Instantiate(BulletFactory);
             //총알이 소환되는 위치를 지정
             bullet.transform.position = firePosition.transform.position;
-            //생성된 총알이 나아갈수있게 힘을 준다.(화약역할)
-            Rigidbody rb = bullet.GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * firePower);
+            bullet.transform.forward = firePosition.transform.forward;
         }
     }
 }

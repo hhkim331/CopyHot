@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -68,7 +68,7 @@ public class EnemyAnimatorController : MonoBehaviour
         }
     }
 
-    public void ChangeWeapon(Enemy.E_WeaponType weaponType)
+    public void ChangeWeapon(Weapon.WeaponType weaponType)
     {
 
     }
@@ -77,11 +77,11 @@ public class EnemyAnimatorController : MonoBehaviour
     {
         switch (enemy.e_WeaponType)
         {
-            case Enemy.E_WeaponType.None:
+            case Weapon.WeaponType.None:
                 break;
-            case Enemy.E_WeaponType.Melee:
+            case Weapon.WeaponType.Melee:
                 break;
-            case Enemy.E_WeaponType.Range:
+            case Weapon.WeaponType.Range:
                 break;
         }
     }
@@ -90,11 +90,11 @@ public class EnemyAnimatorController : MonoBehaviour
     {
         switch (enemy.e_WeaponType)
         {
-            case Enemy.E_WeaponType.None:
+            case Weapon.WeaponType.None:
                 break;
-            case Enemy.E_WeaponType.Melee:
+            case Weapon.WeaponType.Melee:
                 break;
-            case Enemy.E_WeaponType.Range:
+            case Weapon.WeaponType.Range:
                 break;
         }
 
@@ -104,11 +104,11 @@ public class EnemyAnimatorController : MonoBehaviour
     {
         switch (enemy.e_WeaponType)
         {
-            case Enemy.E_WeaponType.None:
+            case Weapon.WeaponType.None:
                 break;
-            case Enemy.E_WeaponType.Melee:
+            case Weapon.WeaponType.Melee:
                 break;
-            case Enemy.E_WeaponType.Range:
+            case Weapon.WeaponType.Range:
                 break;
         }
     }

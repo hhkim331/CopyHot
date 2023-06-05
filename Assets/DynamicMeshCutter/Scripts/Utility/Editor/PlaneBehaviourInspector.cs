@@ -13,14 +13,14 @@ namespace DynamicMeshCutter
             _pb = (PlaneBehaviour)target;
         }
 
-        //public override void OnInspectorGUI()
-        //{
-        //    base.OnInspectorGUI();
-        //    if (GUILayout.Button("Cut"))
-        //    {
-        //        _pb.Cut();
-        //    }
-        //}
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            if (GUILayout.Button("Cut"))
+            {
+                _pb.Cut();
+            }
+        }
 
         void OnSceneGUI()
         {
@@ -35,7 +35,7 @@ namespace DynamicMeshCutter
             else
                 v = Vector3.Cross(normal, Vector3.up).normalized * normal.magnitude; ;
 
-            v *= 1;//_pb.DebugPlaneLength;
+            v *= _pb.DebugPlaneLength;
 
             var corner0 = position + v;
             var corner2 = position - v;
