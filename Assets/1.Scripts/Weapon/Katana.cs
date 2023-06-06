@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseballBat : Weapon
+public class Katana : Weapon
 {
-    //내구도
-    public int durability = 3;
     bool isAttack = false;
 
     private void Update()
@@ -21,21 +19,21 @@ public class BaseballBat : Weapon
         else if (owner == W_Owner.Enemy)
         {
             //무기 오른쪽에서 왼쪽으로 회전시키기
-            transform.localRotation = Quaternion.Euler(0, transform.localRotation.eulerAngles.y - 180 * Time.deltaTime * attackSpeed, -90);
+            transform.localRotation = Quaternion.Euler(0, transform.localRotation.eulerAngles.y - 180 * Time.deltaTime * attackSpeed, 90);
         }
 
-        if(transform.localRotation.eulerAngles.y < 190)
+        if (transform.localRotation.eulerAngles.y < 280 && transform.localRotation.eulerAngles.y>90)
         {
             isAttack = false;
             col.enabled = false;
-            transform.localRotation = Quaternion.Euler(0, 350, -90);
+            transform.localRotation = Quaternion.Euler(0, 80, 90);
         }
     }
 
     public override void Set(Transform weaponPos, W_Owner owner)
     {
         base.Set(weaponPos, owner);
-        transform.localRotation = Quaternion.Euler(0, -10, -90);
+        transform.localRotation = Quaternion.Euler(0, 80, 90);
     }
 
     public override void Unset()
@@ -53,7 +51,7 @@ public class BaseballBat : Weapon
 
     private void OnTriggerEnter(Collider other)
     {
-        if(owner == W_Owner.Player)
+        if (owner == W_Owner.Player)
         {
             //적 피격
             if (other.transform.root.tag == "Enemy")
@@ -64,12 +62,11 @@ public class BaseballBat : Weapon
                     Debug.Log("적 맞음!");
                     //DeathCutter.Instance.Cut(other.transform.root, transform.position, transform.right);
                     DeathCutter deathCutter = StageManager.Instance.poolManager.GetFromPool<DeathCutter>();
-                    deathCutter.CutTriple(other.transform.root, transform);
-                    durability--;
+                    deathCutter.Cut(other.transform.root, transform.position, transform.right);
                 }
             }
         }
-        else if(owner == W_Owner.Enemy)
+        else if (owner == W_Owner.Enemy)
         {
             //플레이어 피격
             if (other.transform.root.tag == "Player")

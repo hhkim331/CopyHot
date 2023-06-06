@@ -113,11 +113,11 @@ namespace DynamicMeshCutter
         {
             ApplicationHasQuit = false;
         }
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             _cutterIsEnabled = true;
         }
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             _cutterIsEnabled = false;
             Terminate();    

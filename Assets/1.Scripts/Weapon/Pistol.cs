@@ -10,8 +10,8 @@ public class Pistol : Weapon
     //총알이 발사되는 지점
     public GameObject firePosition;
 
-    //생성할 총알 오브젝트
-    public GameObject BulletFactory;
+    ////생성할 총알 오브젝트
+    //public GameObject BulletFactory;
 
     public override void Unset()
     {
@@ -28,7 +28,8 @@ public class Pistol : Weapon
             bulletCount--;
 
         //총알을 소환한다
-        GameObject bullet = Instantiate(BulletFactory);
+        Bullet bullet = StageManager.Instance.poolManager.GetFromPool<Bullet>();
+        //GameObject bullet = Instantiate(BulletFactory);
         //총알이 소환되는 위치를 지정
         bullet.transform.position = firePosition.transform.position;
         bullet.transform.forward = firePosition.transform.forward;
