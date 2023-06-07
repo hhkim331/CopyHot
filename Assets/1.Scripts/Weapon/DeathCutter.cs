@@ -17,7 +17,7 @@ public class DeathCutter : CutterBehaviour, IPoolObject
     //    base.Awake();
     //    Instance = this;
     //}
-    float waitforCut = 0.1f;
+    float waitforCut = 0.2f;
     float waitTime = 0f;
 
     protected override void Update()
@@ -63,7 +63,10 @@ public class DeathCutter : CutterBehaviour, IPoolObject
     {
         int cLength = cData.CreatedTargets.Length;
         for (int i = 0; i < cLength; i++)
+        {
+            cData.CreatedObjects[i].layer = LayerMask.NameToLayer("Piece");
             cData.CreatedObjects[i].transform.parent = targetFather;
+        }
 
         MeshCreation.TranslateCreatedObjects(info, cData.CreatedObjects, cData.CreatedTargets, Separation);
     }
@@ -73,7 +76,10 @@ public class DeathCutter : CutterBehaviour, IPoolObject
         int cLength = cData.CreatedTargets.Length;
         if (cLength == 0) return;
         for (int i = 0; i < cLength; i++)
+        {
+            cData.CreatedObjects[i].layer = LayerMask.NameToLayer("Piece");
             cData.CreatedObjects[i].transform.parent = targetFather;
+        }
 
         for (int i = 0; i < cLength; i++)
         {
@@ -86,7 +92,10 @@ public class DeathCutter : CutterBehaviour, IPoolObject
         int cLength = cData.CreatedTargets.Length;
         if (cLength == 0) return;
         for (int i = 0; i < cLength; i++)
+        {
+            cData.CreatedObjects[i].layer = LayerMask.NameToLayer("Piece");
             cData.CreatedObjects[i].transform.parent = targetFather;
+        }
 
         for (int i = 0; i < cLength; i++)
         {
@@ -96,9 +105,13 @@ public class DeathCutter : CutterBehaviour, IPoolObject
 
     public void OnCreatedInPool()
     {
+        waitTime = 0f;
+        targetFather = null;
     }
 
     public void OnGettingFromPool()
     {
+        waitTime = 0f;
+        targetFather = null;
     }
 }

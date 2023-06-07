@@ -120,8 +120,14 @@ namespace DynamicMeshCutter
         protected virtual void OnDisable()
         {
             _cutterIsEnabled = false;
-            Terminate();    
+            //Terminate();    
         }
+
+        private void OnDestroy()
+        {
+            Terminate();
+        }
+
         protected virtual void Update()
         {
             if (_successes.Count != 0)
@@ -222,6 +228,14 @@ namespace DynamicMeshCutter
             }
             else
             {
+                if(info==null)
+                {
+                    Debug.Log("info is null");
+                }
+                if (AsyncWorker == null)
+                {
+                    Debug.Log("AsyncWorker is null");
+                }
                 AsyncWorker.Enqeue(info);
             }
         }

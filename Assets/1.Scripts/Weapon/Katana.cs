@@ -13,7 +13,8 @@ public class Katana : Weapon
         //소유자가 플레이어인 경우
         if (owner == W_Owner.Player)
         {
-
+            //무기 오른쪽에서 왼쪽으로 회전시키기
+            transform.localRotation = Quaternion.Euler(0, transform.localRotation.eulerAngles.y - 180 * Time.deltaTime * attackSpeed, 90);
         }
         //소유자가 적인 경우
         else if (owner == W_Owner.Enemy)

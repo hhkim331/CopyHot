@@ -9,6 +9,9 @@ public class Bullet : MonoBehaviour, IPoolObject
     bool hit = false;
     float lifeTime = 0f;
 
+    //오브젝트 풀안에서 꺼냈는가?
+    bool inPool = true;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -20,8 +23,9 @@ public class Bullet : MonoBehaviour, IPoolObject
     void Update()
     {
         lifeTime+=Time.deltaTime;
-        if (lifeTime > 5f)
+        if (lifeTime > 5f && !inPool)
         {
+            inPool = true;
             StageManager.Instance.poolManager.TakeToPool<Bullet>("Bullets", this);
         }
 
@@ -53,7 +57,11 @@ public class Bullet : MonoBehaviour, IPoolObject
         coll.enabled = false;
         mesh.enabled = false;
 
-        StageManager.Instance.poolManager.TakeToPool<Bullet>("Bullets", this);
+        if(!inPool)
+        {
+            inPool = true;
+            StageManager.Instance.poolManager.TakeToPool<Bullet>("Bullets", this);
+        }
     }
 
     public void OnCreatedInPool()
@@ -62,6 +70,7 @@ public class Bullet : MonoBehaviour, IPoolObject
 
     public void OnGettingFromPool()
     {
+        inPool = false;
         hit = false;
         lifeTime = 0f;
         coll.enabled = true;

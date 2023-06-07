@@ -27,14 +27,8 @@ public class Weapon : MonoBehaviour
     //공격 쿨타임
     public float attackCoolTime = 2f;
 
-    protected Collider col;
-    protected Rigidbody rb;
-
-    private void Awake()
-    {
-        col = GetComponent<Collider>();
-        rb = GetComponent<Rigidbody>();
-    }
+    public Collider col;
+    public Rigidbody rb;
 
     public virtual void Set(Transform weaponPos, W_Owner owner)
     {

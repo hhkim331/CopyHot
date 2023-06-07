@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2641196973833819545
+--- !u!1 &3102472665163501727
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,39 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2641196973833819551}
-  - component: {fileID: 2641196973833819550}
-  - component: {fileID: 2641196973833819548}
+  - component: {fileID: 3102472665163501720}
+  - component: {fileID: 3102472665163501722}
+  - component: {fileID: 3102472665163501721}
   m_Layer: 0
-  m_Name: Katana
+  m_Name: BaseBallBat
   m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2641196973833819551
+--- !u!4 &3102472665163501720
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2641196973833819545}
+  m_GameObject: {fileID: 3102472665163501727}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8220916339150231182}
+  - {fileID: 3102472665530361468}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &2641196973833819550
+--- !u!54 &3102472665163501722
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2641196973833819545}
+  m_GameObject: {fileID: 3102472665163501727}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -50,26 +50,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2641196973833819548
+--- !u!114 &3102472665163501721
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2641196973833819545}
+  m_GameObject: {fileID: 3102472665163501727}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef83366d784c32d4084d4d7df6253e0c, type: 3}
+  m_Script: {fileID: 11500000, guid: db6219337560e184081ff94e6966c5cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weaponType: 1
   owner: 0
-  attackSpeed: 2
-  attackRange: 3
-  attackCoolTime: 1.5
-  col: {fileID: 8220916339150231176}
-  rb: {fileID: 2641196973833819550}
---- !u!1 &8220916339153488522
+  attackSpeed: 1
+  attackRange: 2
+  attackCoolTime: 2
+  col: {fileID: 3102472665530498296}
+  rb: {fileID: 3102472665163501722}
+  durability: 3
+--- !u!1 &3102472665530399324
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -77,47 +78,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8220916339150231182}
-  - component: {fileID: 8220916339150231178}
-  - component: {fileID: 8220916339151230026}
-  - component: {fileID: 8220916339150231176}
+  - component: {fileID: 3102472665530361468}
+  - component: {fileID: 3102472665533752924}
+  - component: {fileID: 3102472665532654748}
+  - component: {fileID: 3102472665530498296}
   m_Layer: 0
-  m_Name: Katana
+  m_Name: BaseBall_Bat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8220916339150231182
+--- !u!4 &3102472665530361468
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8220916339153488522}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: -0.023, z: 0.775}
-  m_LocalScale: {x: 0.03849118, y: 0.03849118, z: 0.017821811}
+  m_GameObject: {fileID: 3102472665530399324}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2641196973833819551}
+  m_Father: {fileID: 3102472665163501720}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &8220916339150231178
+--- !u!33 &3102472665533752924
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8220916339153488522}
-  m_Mesh: {fileID: 4300000, guid: df515fe1248a5234b8c83771ea2ea776, type: 3}
---- !u!23 &8220916339151230026
+  m_GameObject: {fileID: 3102472665530399324}
+  m_Mesh: {fileID: 4300002, guid: 84aa072381d856f46b8a5f3fc7494400, type: 3}
+--- !u!23 &3102472665532654748
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8220916339153488522}
+  m_GameObject: {fileID: 3102472665530399324}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -131,7 +132,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a86d4fb95b416e43a8b514aec6d3ccc, type: 2}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -153,17 +154,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8220916339150231176
-MeshCollider:
+--- !u!136 &3102472665530498296
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8220916339153488522}
+  m_GameObject: {fileID: 3102472665530399324}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: df515fe1248a5234b8c83771ea2ea776, type: 3}
+  m_Radius: 0.0307
+  m_Height: 0.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.4, z: -0.00010000076}

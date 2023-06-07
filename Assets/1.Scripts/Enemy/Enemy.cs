@@ -347,8 +347,22 @@ public class Enemy : MonoBehaviour
         transform.eulerAngles = enemySpawnData.rotation;
 
         e_State = E_State.Idle;
-        e_WeaponType = (Weapon.WeaponType)enemySpawnData.defaultWeapon;
+
         //무기 장착
+        if(enemySpawnData.defaultWeapon != 0)
+        {
+            GameObject newWeapon = Instantiate(GameManager.Instance.totalEnemySpawnData.GetWeapon(enemySpawnData.defaultWeapon));
+            myWeapon = newWeapon.GetComponent<Weapon>();
+            myWeapon.Set(weaponPos, Weapon.W_Owner.Enemy);
+            e_WeaponType = myWeapon.weaponType;
+            attackRange = myWeapon.attackRange;
+            attackCoolTime = myWeapon.attackCoolTime;
+
+            e_WeaponType = myWeapon.weaponType;
+        }
+        else
+            e_WeaponType = Weapon.WeaponType.None;
+
 
         if (!immediate)
             SpawnEffect();
@@ -394,5 +408,7 @@ public class Enemy : MonoBehaviour
         Drop(false);
         e_State = E_State.Die;
         nav.ResetPath();
+
+        Destroy(gameObject, 3f);
     }
 }

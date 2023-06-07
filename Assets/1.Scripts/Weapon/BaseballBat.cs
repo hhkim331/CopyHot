@@ -8,6 +8,14 @@ public class BaseballBat : Weapon
     public int durability = 3;
     bool isAttack = false;
 
+    //피벗용 부모
+    Transform pivotParent;
+
+    private void Awake()
+    {
+        pivotParent = transform.root;
+    }
+
     private void Update()
     {
         if (!isAttack) return;
@@ -15,20 +23,21 @@ public class BaseballBat : Weapon
         //소유자가 플레이어인 경우
         if (owner == W_Owner.Player)
         {
-
+            //무기 오른쪽에서 왼쪽으로 회전시키기
+            pivotParent.localRotation = Quaternion.Euler(0, pivotParent.localRotation.eulerAngles.y - 180 * Time.deltaTime * attackSpeed, -90);
         }
         //소유자가 적인 경우
         else if (owner == W_Owner.Enemy)
         {
             //무기 오른쪽에서 왼쪽으로 회전시키기
-            transform.localRotation = Quaternion.Euler(0, transform.localRotation.eulerAngles.y - 180 * Time.deltaTime * attackSpeed, -90);
+            pivotParent.localRotation = Quaternion.Euler(0, pivotParent.localRotation.eulerAngles.y - 180 * Time.deltaTime * attackSpeed, -90);
         }
 
-        if(transform.localRotation.eulerAngles.y < 190)
+        if(pivotParent.localRotation.eulerAngles.y < 190)
         {
             isAttack = false;
             col.enabled = false;
-            transform.localRotation = Quaternion.Euler(0, 350, -90);
+            pivotParent.localRotation = Quaternion.Euler(0, 350, -90);
         }
     }
 
