@@ -22,6 +22,9 @@ public class Enemy : MonoBehaviour
     GameObject player;
     NavMeshAgent nav;
 
+    //소환 id
+    int id;
+
     //적 애니메이션
     [SerializeField] EnemyAnimatorController enemyAnimatorController;
 
@@ -343,6 +346,8 @@ public class Enemy : MonoBehaviour
 
     public void Set(EnemySpawnData enemySpawnData, bool immediate)
     {
+        id = enemySpawnData.id;
+
         transform.position = enemySpawnData.position;
         transform.eulerAngles = enemySpawnData.rotation;
 
@@ -409,6 +414,7 @@ public class Enemy : MonoBehaviour
         e_State = E_State.Die;
         nav.ResetPath();
 
+        StageManager.Instance.enemySpawner.CheckStepEnd(id);
         Destroy(gameObject, 3f);
     }
 }

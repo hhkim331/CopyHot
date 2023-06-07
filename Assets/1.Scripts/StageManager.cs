@@ -12,6 +12,8 @@ public class StageManager : MonoBehaviour
     public EnemySpawner enemySpawner;
     public PoolManager poolManager;
 
+    //UI
+
 
     void Awake()
     {
@@ -27,9 +29,11 @@ public class StageManager : MonoBehaviour
 
     }
 
-    //// Update is called once per frame
-    //void Update()
-    //{
-        
-    //}
+    /// <summary>
+    /// 스테이지 클리어
+    /// </summary>
+    public void StageClear()
+    {
+
+    }
 }
