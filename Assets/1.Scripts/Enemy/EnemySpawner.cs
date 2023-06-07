@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +8,7 @@ public class EnemySpawner : MonoBehaviour
     int curStep = 0;
     float stepTime = 0f;
 
-    //ÇØ´ç ½ºÅÜµ¿¾È ¼ÒÈ¯µÈ ÀûµéÀÇ ¾ÆÀÌµğ¸¦ ÀúÀåÇÏ´Â ¸®½ºÆ®
+    //í•´ë‹¹ ìŠ¤í…ë™ì•ˆ ì†Œí™˜ëœ ì ë“¤ì˜ ì•„ì´ë””ë¥¼ ì €ì¥í•˜ëŠ” ë¦¬ìŠ¤íŠ¸
     List<int> spawnIdList;
 
     public GameObject enemyPrefab;
@@ -42,8 +42,9 @@ public class EnemySpawner : MonoBehaviour
     public void Spawn(int step)
     {
         curStep = step;
+        stepTime = 0;
 
-        //½ºÆù¾ÆÀÌµğ ¸®½ºÆ® ÃÊ±âÈ­
+        //ìŠ¤í°ì•„ì´ë”” ë¦¬ìŠ¤íŠ¸ ì´ˆê¸°í™”
         if (spawnIdList != null) spawnIdList.Clear();
         else spawnIdList = new List<int>();
 
@@ -58,7 +59,7 @@ public class EnemySpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// Àû ¼ÒÈ¯
+    /// ì  ì†Œí™˜
     /// </summary>
     /// <param name="enemySpawnData"></param>
     /// <param name="immediate"></param>

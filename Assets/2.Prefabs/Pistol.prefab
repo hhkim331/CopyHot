@@ -131,9 +131,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponType: 2
   owner: 0
+  attackSpeed: 1
+  attackRange: 2
+  attackCoolTime: 2
+  col: {fileID: 5042569063383934121}
+  rb: {fileID: 5042569063383934120}
   bulletCount: 4
   firePosition: {fileID: 9112473840075362392}
-  BulletFactory: {fileID: 279819897143706500, guid: d06b2d48693b76e439fc1610865886db, type: 3}
 --- !u!1 &9112473840075362392
 GameObject:
   m_ObjectHideFlags: 0

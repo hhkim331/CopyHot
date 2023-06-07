@@ -150,64 +150,72 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            //스테이지에 존재하는 모든 무기와의 거리계산
-            GameObject[] weapons = GameObject.FindGameObjectsWithTag("Weapon");
-            float wDistance = float.MaxValue;
-            Vector3 wPos = Vector3.zero;
-
-            //타겟이 존재하는 경우
-            if (pickUpTarget != null)
+            if (e_WeaponType == Weapon.WeaponType.None)
             {
-                //타겟과의 거리를 계산
-                wDistance = Vector3.Distance(transform.position, pickUpTarget.transform.position);
+                //스테이지에 존재하는 모든 무기와의 거리계산
+                GameObject[] weapons = GameObject.FindGameObjectsWithTag("Weapon");
+                float wDistance = float.MaxValue;
+                Vector3 wPos = Vector3.zero;
 
-                //타겟의 소유자가 있는 경우 타겟을 null로 초기화
-                if (pickUpTarget.GetComponent<Weapon>().owner != Weapon.W_Owner.None)
-                    pickUpTarget = null;
-
-                //타겟이 사거리 밖으로 벗어난 경우 타겟을 null로 초기화
-                if (wDistance > detectRange)
-                    pickUpTarget = null;
-
-            }
-
-            if (pickUpTarget == null)
-            {
-                wDistance = detectRange;
-                foreach (GameObject weapon in weapons)
+                //타겟이 존재하는 경우
+                if (pickUpTarget != null)
                 {
-                    float curDistance = Vector3.Distance(transform.position, weapon.transform.position);
+                    //타겟과의 거리를 계산
+                    wDistance = Vector3.Distance(transform.position, pickUpTarget.transform.position);
 
-                    if (curDistance < wDistance)
+                    //타겟의 소유자가 있는 경우 타겟을 null로 초기화
+                    if (pickUpTarget.GetComponent<Weapon>().owner != Weapon.W_Owner.None)
+                        pickUpTarget = null;
+
+                    //타겟이 사거리 밖으로 벗어난 경우 타겟을 null로 초기화
+                    if (wDistance > detectRange)
+                        pickUpTarget = null;
+
+                }
+
+                if (pickUpTarget == null)
+                {
+                    wDistance = detectRange;
+                    foreach (GameObject weapon in weapons)
                     {
-                        //주인이 있는 경우 무시
-                        if (weapon.GetComponent<Weapon>().owner != Weapon.W_Owner.None)
-                            continue;
+                        float curDistance = Vector3.Distance(transform.position, weapon.transform.position);
 
-                        wDistance = curDistance;
-                        pickUpTarget = weapon;
+                        if (curDistance < wDistance)
+                        {
+                            //주인이 있는 경우 무시
+                            if (weapon.GetComponent<Weapon>().owner != Weapon.W_Owner.None)
+                                continue;
+
+                            wDistance = curDistance;
+                            pickUpTarget = weapon;
+                        }
                     }
                 }
-            }
 
-            if (pickUpTarget != null)
-                wPos = pickUpTarget.transform.position;
+                if (pickUpTarget != null)
+                    wPos = pickUpTarget.transform.position;
 
-            //무기보다 플레이어가 더 가까운경우 플레이어를 추적
-            if (pDistance <= wDistance)
-            {
-                nav.SetDestination(player.transform.position);
-            }
-            else if (pickUpTarget != null)
-            {
-                if (wDistance <= pickUpRange)
+                //무기보다 플레이어가 더 가까운경우 플레이어를 추적
+                if (pDistance <= wDistance)
                 {
-                    e_State = E_State.PickUp;
+                    nav.SetDestination(player.transform.position);
                 }
-                else if (wDistance <= detectRange)
+                else if (pickUpTarget != null)
                 {
-                    nav.SetDestination(wPos);
-                    //nav.SetDestination(player.transform.position);
+                    if (wDistance <= pickUpRange)
+                    {
+                        e_State = E_State.PickUp;
+                    }
+                    else if (wDistance <= detectRange)
+                    {
+                        nav.SetDestination(wPos);
+                        //nav.SetDestination(player.transform.position);
+                    }
+                }
+                else
+                {
+                    //아무런 해당사항이 없는 경우 추적
+                    nav.SetDestination(player.transform.position);
                 }
             }
             else
@@ -313,7 +321,7 @@ public class Enemy : MonoBehaviour
     void PickUp()
     {
         pickUpTime += Time.deltaTime;
-        if(pickUpTime<=pickUpDelay)
+        if (pickUpTime <= pickUpDelay)
         {
             //무기를 줍는중
             myWeapon = pickUpTarget.GetComponent<Weapon>();
@@ -322,7 +330,7 @@ public class Enemy : MonoBehaviour
             attackRange = myWeapon.attackRange;
             attackCoolTime = myWeapon.attackCoolTime;
         }
-        else if(pickUpTime <= pickUpDelay*2)
+        else if (pickUpTime <= pickUpDelay * 2)
         {
             //무기를 줍고 일어나는 중
         }
@@ -339,8 +347,22 @@ public class Enemy : MonoBehaviour
         transform.eulerAngles = enemySpawnData.rotation;
 
         e_State = E_State.Idle;
-        e_WeaponType = (Weapon.WeaponType)enemySpawnData.defaultWeapon;
+
         //무기 장착
+        if(enemySpawnData.defaultWeapon != 0)
+        {
+            GameObject newWeapon = Instantiate(GameManager.Instance.totalEnemySpawnData.GetWeapon(enemySpawnData.defaultWeapon));
+            myWeapon = newWeapon.GetComponent<Weapon>();
+            myWeapon.Set(weaponPos, Weapon.W_Owner.Enemy);
+            e_WeaponType = myWeapon.weaponType;
+            attackRange = myWeapon.attackRange;
+            attackCoolTime = myWeapon.attackCoolTime;
+
+            e_WeaponType = myWeapon.weaponType;
+        }
+        else
+            e_WeaponType = Weapon.WeaponType.None;
+
 
         if (!immediate)
             SpawnEffect();
@@ -363,8 +385,8 @@ public class Enemy : MonoBehaviour
         {
             myWeapon.Unset();
             //캐릭터가 보고있는 방향의 우측 상단방향으로 힘을 가하기
-            if(fly)
-                myWeapon.GetComponent<Rigidbody>().AddForce((transform.forward +   transform.right * Random.Range(0.1f, 0.5f) + transform.up * Random.Range(0.5f, 1f)).normalized * 5, ForceMode.Impulse);
+            if (fly)
+                myWeapon.GetComponent<Rigidbody>().AddForce((transform.forward + transform.right * Random.Range(0.1f, 0.5f) + transform.up * Random.Range(0.5f, 1f)).normalized * 5, ForceMode.Impulse);
 
             myWeapon = null;
             e_WeaponType = Weapon.WeaponType.None;
@@ -378,11 +400,15 @@ public class Enemy : MonoBehaviour
         Drop(true);
         e_State = E_State.Stunned;
         stunTime = 0;
+        nav.ResetPath();
     }
 
     public void Die()
     {
         Drop(false);
         e_State = E_State.Die;
+        nav.ResetPath();
+
+        Destroy(gameObject, 3f);
     }
 }

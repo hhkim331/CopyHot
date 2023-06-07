@@ -1,27 +1,28 @@
-using System;
+ï»¿using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
 public class EnemySpawnData
 {
-    //¾ÆÀÌµğ
+    //ì•„ì´ë””
     public int id = 0;
-    //½ºÅÜ
+    //ìŠ¤í…
     public int step = 0;
-    //»ı¼º½Ã°£
+    //ìƒì„±ì‹œê°„
     public float createTime = 0f;
-    //À§Ä¡
+    //ìœ„ì¹˜
     public Vector3 position = Vector3.zero;
-    //È¸Àü¹æÇâ
+    //íšŒì „ë°©í–¥
     public Vector3 rotation = Vector3.zero;
-    //±âº» Àåºñ»óÅÂ
+    //ê¸°ë³¸ ì¥ë¹„ìƒíƒœ
     public int defaultWeapon = 0;
 }
 
 [Serializable]
 public class StageSpawnData
 {
+    public string SceneName = "";
     public EnemySpawnData[] enemySpawnDatas;
 }
 
@@ -29,5 +30,23 @@ public class StageSpawnData
 public class TotalEnemySpawnData : ScriptableObject
 {
     public int stageCount = 0;
+    public GameObject pistol;
+    public GameObject bat;
+    public GameObject katana;
     public StageSpawnData[] stageSpawnDatas;
+
+    public GameObject GetWeapon(int defaultWeapon)
+    {
+        switch(defaultWeapon)
+        {
+            case 1:
+                return pistol;
+            case 2:
+                return bat;
+            case 3:
+                return katana;
+        }
+
+        return null;
+    }
 }

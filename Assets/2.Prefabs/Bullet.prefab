@@ -111,11 +111,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b5497ca7487ebf4cb4ecad1b0ff2287, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Separation: 0.02
-  DestroyTargets: 1
-  UseAsync: 1
-  VertexCreationThreshold: 0
-  DefaultMaterial: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!54 &1954604366080172154
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -130,5 +125,5 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
