@@ -30,6 +30,9 @@ public class Weapon : MonoBehaviour
     public Collider col;
     public Rigidbody rb;
 
+    public bool isThrow = false;
+
+    //무기 장착
     public virtual void Set(Transform weaponPos, W_Owner owner)
     {
         this.owner = owner;
@@ -43,6 +46,7 @@ public class Weapon : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezeAll;
     }
 
+    //무기 해제
     public virtual void Unset()
     {
         owner = W_Owner.None;
@@ -57,5 +61,23 @@ public class Weapon : MonoBehaviour
     public virtual void Attack()
     {
 
+    }
+
+    public virtual void Throw()
+    {
+        isThrow = true;
+    }
+
+    protected virtual void OnCollisionEnter(Collision collision)
+    {
+        if (!isThrow) return;
+
+        if(collision.gameObject.CompareTag("Enemy"))
+        {
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            enemy.Hurt();
+        }
+
+        Destroy(gameObject);
     }
 }

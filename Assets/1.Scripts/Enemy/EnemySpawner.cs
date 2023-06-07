@@ -5,11 +5,14 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     StageSpawnData stageSpawnData;
+    int lastStep = 0;
     int curStep = 0;
     float stepTime = 0f;
 
     //해당 스텝동안 소환된 적들의 아이디를 저장하는 리스트
     List<int> spawnIdList;
+    //해당 스텝중 살아있는 적들의 아이디를 저장하는 리스트
+    List<int> liveSpawnIdList;
 
     public GameObject enemyPrefab;
 
@@ -36,21 +39,45 @@ public class EnemySpawner : MonoBehaviour
     public void Set(StageSpawnData stageSpawnData)
     {
         this.stageSpawnData = stageSpawnData;
-        Spawn(0);
-    }
-
-    public void Spawn(int step)
-    {
-        curStep = step;
-        stepTime = 0;
-
-        //스폰아이디 리스트 초기화
-        if (spawnIdList != null) spawnIdList.Clear();
-        else spawnIdList = new List<int>();
 
         foreach (EnemySpawnData enemySpawnData in stageSpawnData.enemySpawnDatas)
         {
-            if (enemySpawnData.step != step)
+            if(lastStep < enemySpawnData.step)
+                lastStep = enemySpawnData.step;
+        }
+        curStep = 0;
+        Spawn();
+    }
+
+    public void CheckStepEnd(int id)
+    {
+        liveSpawnIdList.Remove(id);
+        if(liveSpawnIdList.Count > 0)
+            return;
+
+        if(curStep ==lastStep)
+        {
+            //스테이지 클리어
+            StageManager.Instance.StageClear();
+            return;
+        }
+
+        curStep++;
+        Spawn();
+    }
+
+    public void Spawn()
+    {
+        stepTime = 0;
+        //아이디 리스트 초기화
+        if (spawnIdList != null) spawnIdList.Clear();
+        else spawnIdList = new List<int>();
+        if (liveSpawnIdList != null) liveSpawnIdList.Clear();
+        else liveSpawnIdList = new List<int>();
+
+        foreach (EnemySpawnData enemySpawnData in stageSpawnData.enemySpawnDatas)
+        {
+            if (enemySpawnData.step != curStep)
                 continue;
 
             if (enemySpawnData.createTime == -1)
@@ -66,6 +93,7 @@ public class EnemySpawner : MonoBehaviour
     void SpawnEnemy(EnemySpawnData enemySpawnData, bool immediate = false)
     {
         spawnIdList.Add(enemySpawnData.id);
+        liveSpawnIdList.Add(enemySpawnData.id);
 
         GameObject enemy = Instantiate(enemyPrefab);
         enemy.GetComponent<Enemy>().Set(enemySpawnData, immediate);

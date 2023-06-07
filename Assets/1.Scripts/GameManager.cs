@@ -6,4 +6,6 @@ public class GameManager : Singleton<GameManager>
 {
     public int stage;
     public TotalEnemySpawnData totalEnemySpawnData;
+
+
 }
