@@ -1,19 +1,19 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
 
-    public float moveSpeed = 2.0f; // ÀÌµ¿ ¼Óµµ
-    public float jumpForce = 5.0f; // Á¡ÇÁÇÏ´Â Èû
-    private bool isGround = true; // ¶¥¿¡ ºÙ¾îÀÖ´Â°¡?
-    Rigidbody rigid; // Rigidbody¸¦ °¡Á®¿Ã º¯¼ö
+    public float moveSpeed = 2.0f; // ì´ë™ ì†ë„
+    public float jumpForce = 5.0f; // ì í”„í•˜ëŠ” í˜
+    private bool isGround = true; // ë•…ì— ë¶™ì–´ìˆëŠ”ê°€?
+    Rigidbody rigid; // Rigidbodyë¥¼ ê°€ì ¸ì˜¬ ë³€ìˆ˜
 
     // Start is called before the first frame update
     void Start()
     {
-        // Rigidbody¸¦ °¡Á®¿Â´Ù.
+        // Rigidbodyë¥¼ ê°€ì ¸ì˜¨ë‹¤.
         rigid = GetComponent<Rigidbody>();           
     }
 
@@ -22,24 +22,24 @@ public class PlayerMove : MonoBehaviour
     {
        
 
-        //  Å°º¸µå¿¡ µû¸¥ ÀÌµ¿·® ÃøÁ¤
+        //  í‚¤ë³´ë“œì— ë”°ë¥¸ ì´ë™ëŸ‰ ì¸¡ì •
         float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
         
-        //ÀÌµ¿°ªÀ» ÀúÀå
+        //ì´ë™ê°’ì„ ì €ì¥
         Vector3 dirH = transform.right * h;
         Vector3 dirV = transform.forward * v;
         Vector3 dir = dirH + dirV;
-        // ÀÌµ¿°ªÀ» ÁÂÇ¥¿¡ ¹İ¿µ
+        // ì´ë™ê°’ì„ ì¢Œí‘œì— ë°˜ì˜
         //transform.position = transform.position + dir * moveSpeed * Time.deltaTime;
         rigid.MovePosition(transform.position + dir * moveSpeed * Time.deltaTime);
 
-        // ¸¸¾à¿¡ ½ºÆäÀÌ½º¹Ù°¡ ´­·ÁÀÖÀ»¶§ ¶¥¿¡ºÙ¾îÀÖ´Ù¸é
+        // ë§Œì•½ì— ìŠ¤í˜ì´ìŠ¤ë°”ê°€ ëˆŒë ¤ìˆì„ë•Œ ë•…ì—ë¶™ì–´ìˆë‹¤ë©´
         if (Input.GetKey(KeyCode.Space) && isGround)
         {
-            //Á¡ÇÁ¸¦¶Ú´Ù
+            //ì í”„ë¥¼ë›´ë‹¤
             rigid.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            //isGround°ªÀ» ÃÊ±âÈ­
+            //isGroundê°’ì„ ì´ˆê¸°í™”
             isGround = false;
         }
 
@@ -47,15 +47,23 @@ public class PlayerMove : MonoBehaviour
 
     }
 
-    // Ãæµ¹°¨Áö
+    // ì¶©ëŒê°ì§€
     private void OnCollisionEnter(Collision collision)
     {
-        // ¸¸¾à¿¡ °ÔÀÓ¿ÀºêÁ§Æ®ÅÂ±×°¡ Ground¿Í Ãæµ¹ÇÑ´Ù¸é
+        // ë§Œì•½ì— ê²Œì„ì˜¤ë¸Œì íŠ¸íƒœê·¸ê°€ Groundì™€ ì¶©ëŒí•œë‹¤ë©´
         if (collision.gameObject.CompareTag("Ground"))
         {
-            // isGround°ªÀ» true·Î ÇÑ´Ù.
+            // isGroundê°’ì„ trueë¡œ í•œë‹¤.
             isGround = true;
         }
 
     }
+
+    //void slow()
+    //{
+    //    if(Input.GetKey(KeyCode.Space))
+    //    {
+
+    //    }
+    //}
 }

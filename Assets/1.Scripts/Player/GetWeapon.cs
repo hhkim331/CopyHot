@@ -1,20 +1,18 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GetWeapon : MonoBehaviour
 {
 
-    //¹«±â°øÀå
-    public GameObject gunFactory;
+    //ë¬´ê¸°ê³µì¥
+    public GameObject pistolFactory;
     public GameObject arFactory;
     public GameObject batFactory;
-    //µé°íÀÖ´ÂÁö È®ÀÎ
+    //ë“¤ê³ ìˆëŠ”ì§€ í™•ì¸
     public bool wPos = false;
-    //¹«±â¸¦ ÀåÂøÇÒ À§Ä¡ ÁöÁ¤
+    //ë¬´ê¸°ë¥¼ ì¥ì°©í•  ìœ„ì¹˜ ì§€ì •
     public Transform weaponPos;
-    //¹«±â ÁöÁ¤
-    public GameObject Weapon;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,72 +22,29 @@ public class GetWeapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        //Å°¸¦ ´©¸¥´Ù.
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            //ÁöÁ¤µÈ À§Ä¡¿¡ ¿ÀºêÁ§Æ®°¡ ÀÖ´Ù¸é
-            if (wPos == true)
-            {                
-                // ÆÄ±«ÇÏ°í
-                Destroy(weaponPos.gameObject);
-            }
-            //ÁöÁ¤µÈ À§Ä¡¿¡ ¿ÀºêÁ§Æ®¸¦ »õ·Î ²¨³»¿Â´Ù
-            GameObject Gun = Instantiate(gunFactory);
-            //°ÔÀÓ¿ÀºêÁ§Æ®.º¹»çÇÑ´Ù.(°ÔÀÓ¿ÀºêÁ§Æ®.ÇÏÀÌ¶óÅ°Ã¢¿¡¼­("°Ç"), ¿şÆùÆ÷½ºÆ÷Áö¼Ç¿¡, ¹æÇâÀ» ±×´ë·Î).ºÎ¸ğ ¿ÀºêÁ§Æ® = 
-            GameObject.Instantiate(GameObject.Find("Gun(Clone)"), weaponPos.position, Quaternion.identity).transform.parent = this.gameObject.transform;
-            wPos = true;
-            Debug.Log(wPos);
-        }
-        //Å°¸¦ ´©¸¥´Ù.
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            //ÁöÁ¤µÈ À§Ä¡¿¡ ¿ÀºêÁ§Æ®°¡ ÀÖ´Ù¸é
-            if (wPos == true)
-            {
-                // ÆÄ±«ÇÏ°í
-                Destroy(weaponPos.gameObject);
-            }
-            //ÁöÁ¤µÈ À§Ä¡·Î ¿ÀºêÁ§Æ®¸¦ »õ·Î ²¨³»¿Â´Ù
-            GameObject AR = Instantiate(arFactory);
-            GameObject.Instantiate(GameObject.Find("ar(Clone)"), weaponPos.position, Quaternion.identity).transform.parent = this.gameObject.transform;
-            wPos = true;
-            Debug.Log(wPos);
-        }
-        //Å°¸¦ ´©¸¥´Ù.
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            //ÁöÁ¤µÈ À§Ä¡¿¡ ¿ÀºêÁ§Æ®°¡ ÀÖ´Ù¸é
-            if (wPos == true)
-            {
-                // ÆÄ±«ÇÏ°í
-                Destroy(weaponPos.gameObject);
-            }
-            //ÁöÁ¤µÈ À§Ä¡·Î ¿ÀºêÁ§Æ®¸¦ »õ·Î ²¨³»¿Â´Ù
-            GameObject Bat = Instantiate(batFactory);
-            GameObject.Instantiate(GameObject.Find("Bat(Clone)"), weaponPos.position, Quaternion.identity).transform.parent = this.gameObject.transform;
-            wPos = true;
-            Debug.Log(wPos);
-        }
+        pistol();
+        ar();
+        bat();
+        blow();
     }
-    //Ãæµ¹°¨Áö
+    //ì¶©ëŒê°ì§€
     //private void OnTriggerStay(Collider other)
     //{
-    //    //¸¸¾à ¹«±â ÅÂ±×°¡ ´Ş¸° ¹°°Ç°ú Ãæµ¹ÇÑ´Ù¸é
+    //    //ë§Œì•½ ë¬´ê¸° íƒœê·¸ê°€ ë‹¬ë¦° ë¬¼ê±´ê³¼ ì¶©ëŒí•œë‹¤ë©´
     //    if (other.tag == "Weapon")
     //    {
-    //        //Å°¸¦ ´©¸¥´Ù
+    //        //í‚¤ë¥¼ ëˆ„ë¥¸ë‹¤
     //        if (Input.GetButtonDown("Fire1"))
     //        {
-    //            //¿ÀºêÁ§Æ®¸¦ ÆÄ±«ÇÏ°í
+    //            //ì˜¤ë¸Œì íŠ¸ë¥¼ íŒŒê´´í•˜ê³ 
     //            Destroy(other.gameObject);
-    //            //ÁöÁ¤µÈ À§Ä¡¿¡ ¿ÀºêÁ§Æ®°¡ ÀÖ´Ù¸é
+    //            //ì§€ì •ëœ ìœ„ì¹˜ì— ì˜¤ë¸Œì íŠ¸ê°€ ìˆë‹¤ë©´
     //            if (wPos == true)
     //            {
-    //                // ÆÄ±«ÇÏ°í
+    //                // íŒŒê´´í•˜ê³ 
     //                Destroy(weaponPos.gameObject);
     //            }
-    //            //ÁöÁ¤µÈ À§Ä¡·Î ¿ÀºêÁ§Æ®¸¦ »õ·Î ²¨³»¿Â´Ù
+    //            //ì§€ì •ëœ ìœ„ì¹˜ë¡œ ì˜¤ë¸Œì íŠ¸ë¥¼ ìƒˆë¡œ êº¼ë‚´ì˜¨ë‹¤
     //            GameObject.Instantiate(GameObject.Find("Gun"), weaponPos.position, Quaternion.identity).transform.parent = this.gameObject.transform;
     //            wPos = true;
     //        }
@@ -97,4 +52,75 @@ public class GetWeapon : MonoBehaviour
     //    }
     //}
 
+    void pistol()
+    {
+        //í‚¤ë¥¼ ëˆ„ë¥¸ë‹¤.
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            //ì§€ì •ëœ ìœ„ì¹˜ì— ì˜¤ë¸Œì íŠ¸ê°€ ìˆë‹¤ë©´
+            if (wPos == true)
+            {
+                foreach (Transform child in weaponPos)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
+            //ê²Œì„ì˜¤ë¸Œì íŠ¸.ë³µì‚¬í•œë‹¤.(ê²Œì„ì˜¤ë¸Œì íŠ¸.í•˜ì´ë¼í‚¤ì°½ì—ì„œ("ê±´"), ì›¨í°í¬ìŠ¤í¬ì§€ì…˜ì—, ë°©í–¥ì„ ê·¸ëŒ€ë¡œ).ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ = 
+            Weapon weapon = GameObject.Instantiate(pistolFactory, weaponPos.position, Quaternion.identity).GetComponent<Weapon>();
+            weapon.Set(weaponPos, global::Weapon.W_Owner.Player);
+            wPos = true;
+        }
+
+    }
+
+    void ar()
+    {
+        //í‚¤ë¥¼ ëˆ„ë¥¸ë‹¤.
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            //ì§€ì •ëœ ìœ„ì¹˜ì— ì˜¤ë¸Œì íŠ¸ê°€ ìˆë‹¤ë©´
+            if (wPos == true)
+            {
+                foreach (Transform child in weaponPos)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
+            //ê²Œì„ì˜¤ë¸Œì íŠ¸.ë³µì‚¬í•œë‹¤.(ê²Œì„ì˜¤ë¸Œì íŠ¸.í•˜ì´ë¼í‚¤ì°½ì—ì„œ("ê±´"), ì›¨í°í¬ìŠ¤í¬ì§€ì…˜ì—, ë°©í–¥ì„ ê·¸ëŒ€ë¡œ).ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ = 
+            Weapon weapon = GameObject.Instantiate(arFactory, weaponPos.position, Quaternion.identity).GetComponent<Weapon>();
+            weapon.Set(weaponPos, global::Weapon.W_Owner.Player);
+            wPos = true;
+        }
+    }
+
+    void bat()
+    {
+        //í‚¤ë¥¼ ëˆ„ë¥¸ë‹¤.
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            //ì§€ì •ëœ ìœ„ì¹˜ì— ì˜¤ë¸Œì íŠ¸ê°€ ìˆë‹¤ë©´
+            if (wPos == true)
+            {
+                foreach (Transform child in weaponPos)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
+            //ê²Œì„ì˜¤ë¸Œì íŠ¸.ë³µì‚¬í•œë‹¤.(ê²Œì„ì˜¤ë¸Œì íŠ¸.í•˜ì´ë¼í‚¤ì°½ì—ì„œ("ê±´"), ì›¨í°í¬ìŠ¤í¬ì§€ì…˜ì—, ë°©í–¥ì„ ê·¸ëŒ€ë¡œ).ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ = 
+            Weapon weapon = GameObject.Instantiate(batFactory, weaponPos.position, Quaternion.identity).GetComponent<Weapon>();
+            weapon.Set(weaponPos, global::Weapon.W_Owner.Player);
+            wPos = true;
+        }
+    }
+
+    void blow()
+    {
+        if(Input.GetKeyDown(KeyCode.X))
+        {
+            foreach (Transform child in weaponPos)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+    }
 }
