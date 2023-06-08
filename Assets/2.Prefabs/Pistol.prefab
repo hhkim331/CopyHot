@@ -136,6 +136,7 @@ MonoBehaviour:
   attackCoolTime: 2
   col: {fileID: 5042569063383934121}
   rb: {fileID: 5042569063383934120}
+  isThrow: 0
   bulletCount: 4
   firePosition: {fileID: 9112473840075362392}
 --- !u!1 &9112473840075362392
