@@ -17,7 +17,7 @@ public class CAM : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rotValue = transform.rotation.eulerAngles;
+        rotValue = transform.localRotation.eulerAngles;
     }
 
     // Update is called once per frame
@@ -32,13 +32,13 @@ public class CAM : MonoBehaviour
         if (useHorizontal == true)
         {
             //좌우의 회전값을 누적한다.
-            rotX += mx * Time.deltaTime * rotSpeed;
+            rotX += mx * Time.unscaledDeltaTime * rotSpeed;
         }
         //만약에 useVertical이 true면
         if (useVertical == true)
         {
             //위아래로 회전값을 누적한다.
-            rotY += my * Time.deltaTime * rotSpeed;
+            rotY += my * Time.unscaledDeltaTime * rotSpeed;
         }
         //위아래 회전의 값을 제한
         rotY = Mathf.Clamp(rotY, -90f, 90);
