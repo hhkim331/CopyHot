@@ -1,10 +1,10 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 // Singleton Templete class
 // e.g. public class MyClassName : Singleton<MyClassName> {}
-// protected MyClassname() {} À» ¼±¾ğÇØ¼­ ºñ ½Ì±ÛÅæ »ı¼ºÀÚ »ç¿ëÀ» ¹æÁöÇÒ °Í
+// protected MyClassname() {} ì„ ì„ ì–¸í•´ì„œ ë¹„ ì‹±ê¸€í†¤ ìƒì„±ì ì‚¬ìš©ì„ ë°©ì§€í•  ê²ƒ
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    // Destroy ¿©ºÎ È®ÀÎ¿ë
+    // Destroy ì—¬ë¶€ í™•ì¸ìš©
     private static bool _ShuttingDown = false;
     private static object _Lock = new object();
     private static T _Instance;
@@ -13,8 +13,8 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         get
         {
-            // °ÔÀÓ Á¾·á ½Ã Object º¸´Ù ½Ì±ÛÅæÀÇ OnDestroy °¡ ¸ÕÀú ½ÇÇà µÉ ¼öµµ ÀÖ´Ù. 
-            // ÇØ´ç ½Ì±ÛÅæÀ» gameObject.Ondestory() ¿¡¼­´Â »ç¿ëÇÏÁö ¾Ê°Å³ª »ç¿ëÇÑ´Ù¸é null Ã¼Å©¸¦ ÇØÁÖÀÚ
+            // ê²Œì„ ì¢…ë£Œ ì‹œ Object ë³´ë‹¤ ì‹±ê¸€í†¤ì˜ OnDestroy ê°€ ë¨¼ì € ì‹¤í–‰ ë  ìˆ˜ë„ ìˆë‹¤. 
+            // í•´ë‹¹ ì‹±ê¸€í†¤ì„ gameObject.Ondestory() ì—ì„œëŠ” ì‚¬ìš©í•˜ì§€ ì•Šê±°ë‚˜ ì‚¬ìš©í•œë‹¤ë©´ null ì²´í¬ë¥¼ í•´ì£¼ì
             if (_ShuttingDown)
             {
                 Debug.Log("[Singleton] Instance '" + typeof(T) + "' already destroyed. Returning null.");
@@ -25,24 +25,27 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             {
                 if (_Instance == null)
                 {
-                    // ÀÎ½ºÅÏ½º Á¸Àç ¿©ºÎ È®ÀÎ
+                    // ì¸ìŠ¤í„´ìŠ¤ ì¡´ì¬ ì—¬ë¶€ í™•ì¸
                     _Instance = (T)FindObjectOfType(typeof(T));
 
-                    // ¾ÆÁ÷ »ı¼ºµÇÁö ¾Ê¾Ò´Ù¸é ÀÎ½ºÅÏ½º »ı¼º
+                    // ì•„ì§ ìƒì„±ë˜ì§€ ì•Šì•˜ë‹¤ë©´ ì¸ìŠ¤í„´ìŠ¤ ìƒì„±
                     if (_Instance == null)
                     {
-                        // »õ·Î¿î °ÔÀÓ¿ÀºêÁ§Æ®¸¦ ¸¸µé¾î¼­ ½Ì±ÛÅæ Attach
+                        // ìƒˆë¡œìš´ ê²Œì„ì˜¤ë¸Œì íŠ¸ë¥¼ ë§Œë“¤ì–´ì„œ ì‹±ê¸€í†¤ Attach
                         var singletonObject = new GameObject();
                         _Instance = singletonObject.AddComponent<T>();
                         singletonObject.name = typeof(T).ToString() + " (Singleton)";
-
-                        // Make instance persistent.
-                        DontDestroyOnLoad(singletonObject);
                     }
                 }
                 return _Instance;
             }
         }
+    }
+
+    protected virtual void Awake()
+    {
+        // Make instance persistent.
+        DontDestroyOnLoad(gameObject);
     }
 
     private void OnApplicationQuit()
