@@ -32,7 +32,7 @@ public class Bullet : MonoBehaviour, IPoolObject
 
         if (hit) return;
         //총알 앞으로 날라가게 하기
-        transform.position += transform.forward * Time.deltaTime * 10f;
+        transform.position += transform.forward * Time.deltaTime * 20f;
     }
 
     //충돌처리

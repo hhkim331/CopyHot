@@ -12,11 +12,12 @@ public class CAM : MonoBehaviour
     float rotY = 0;
     //마우스의 회전 속도
     public float rotSpeed = 800f;
+    Vector3 rotValue;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        rotValue = transform.rotation.eulerAngles;
     }
 
     // Update is called once per frame
@@ -42,7 +43,7 @@ public class CAM : MonoBehaviour
         //위아래 회전의 값을 제한
         rotY = Mathf.Clamp(rotY, -90f, 90);
         //움직인다.
-        transform.localEulerAngles = new Vector3(rotY, rotX, 0);
+        transform.localEulerAngles = new Vector3(rotY, rotX, 0) + rotValue;
 
     }
 }
