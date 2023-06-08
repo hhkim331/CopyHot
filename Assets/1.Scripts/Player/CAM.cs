@@ -1,17 +1,17 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CAM : MonoBehaviour
 {
-    //È¸Àü°¡´É¿©ºÎ
+    //íšŒì „ê°€ëŠ¥ì—¬ë¶€
     public bool useVertical = false;
     public bool useHorizontal = false;
-    //¸¶¿ì½ºÀÇ È¸ÀüÀ» ´©Àû
+    //ë§ˆìš°ìŠ¤ì˜ íšŒì „ì„ ëˆ„ì 
     float rotX = 0;
     float rotY = 0;
-    //¸¶¿ì½ºÀÇ È¸Àü ¼Óµµ
-    public float rotSpeed = 500f;
+    //ë§ˆìš°ìŠ¤ì˜ íšŒì „ ì†ë„
+    public float rotSpeed = 800f;
 
     // Start is called before the first frame update
     void Start()
@@ -22,26 +22,26 @@ public class CAM : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //¸¶¿ì½ºÀÇ ¿òÁ÷ÀÓÀ» ¹Ş¾Æ¿Â´Ù.
+        //ë§ˆìš°ìŠ¤ì˜ ì›€ì§ì„ì„ ë°›ì•„ì˜¨ë‹¤.
         float mx = Input.GetAxis("Mouse X");
         float my = -Input.GetAxis("Mouse Y");
 
-        //¸¶¿ì½ºÀÇ ¿òÁ÷ÀÓÀ» ´©Àû
-        //¸¸¾à¿¡ useHorizontalÀÌ true ¶ó¸é
+        //ë§ˆìš°ìŠ¤ì˜ ì›€ì§ì„ì„ ëˆ„ì 
+        //ë§Œì•½ì— useHorizontalì´ true ë¼ë©´
         if (useHorizontal == true)
         {
-            //ÁÂ¿ìÀÇ È¸Àü°ªÀ» ´©ÀûÇÑ´Ù.
+            //ì¢Œìš°ì˜ íšŒì „ê°’ì„ ëˆ„ì í•œë‹¤.
             rotX += mx * Time.deltaTime * rotSpeed;
         }
-        //¸¸¾à¿¡ useVerticalÀÌ true¸é
+        //ë§Œì•½ì— useVerticalì´ trueë©´
         if (useVertical == true)
         {
-            //À§¾Æ·¡·Î È¸Àü°ªÀ» ´©ÀûÇÑ´Ù.
+            //ìœ„ì•„ë˜ë¡œ íšŒì „ê°’ì„ ëˆ„ì í•œë‹¤.
             rotY += my * Time.deltaTime * rotSpeed;
         }
-        //À§¾Æ·¡ È¸ÀüÀÇ °ªÀ» Á¦ÇÑ
+        //ìœ„ì•„ë˜ íšŒì „ì˜ ê°’ì„ ì œí•œ
         rotY = Mathf.Clamp(rotY, -90f, 90);
-        //¿òÁ÷ÀÎ´Ù.
+        //ì›€ì§ì¸ë‹¤.
         transform.localEulerAngles = new Vector3(rotY, rotX, 0);
 
     }
