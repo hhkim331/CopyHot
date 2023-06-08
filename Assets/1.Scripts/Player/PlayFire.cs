@@ -44,25 +44,27 @@ public class PlayFire : MonoBehaviour
             //총알의 정면방향을 ray의 정면으로 지정
             bullet.transform.forward = ray.direction;
         }
-        
-        //만약 자식이 있다면
-        if(weaponPos.GetChild(0) != null)
+        if (weaponPos.childCount > 0)
         {
-            //WeaponShoot은 weaponPos의 자식의 게임오브젝트다
-            WeaponShoot = weaponPos.GetChild(0).gameObject;
-            //마우스 우클릭을하면
-            if (Input.GetButtonDown("Fire2"))
+            //만약 자식이 있다면
+            if (weaponPos.GetChild(0) != null)
             {
-                //리지드바디의 constraints의 모든값을 없앤다
-                WeaponShoot.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-                //자식을 부모로부터 제거
-                WeaponShoot.transform.SetParent(null);
-                //클릭을했을때 날아가게 한다.(리지드바디의 AddForce를 이용하여 힘을 가한다.)
-                WeaponShoot.GetComponent<Rigidbody>().AddForce(transform.forward * 5, ForceMode.Impulse);
-                WeaponShoot.GetComponent<Rigidbody>().AddTorque(Vector3.up * 45, ForceMode.Impulse);
-                WeaponShoot.GetComponent<Rigidbody>().AddTorque(Vector3.right * 45, ForceMode.Impulse);
+                //WeaponShoot은 weaponPos의 자식의 게임오브젝트다
+                WeaponShoot = weaponPos.GetChild(0).gameObject;
+                //마우스 우클릭을하면
+                if (Input.GetButtonDown("Fire2"))
+                {
+                    //리지드바디의 constraints의 모든값을 없앤다
+                    WeaponShoot.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+                    //자식을 부모로부터 제거
+                    WeaponShoot.transform.SetParent(null);
+                    //클릭을했을때 날아가게 한다.(리지드바디의 AddForce를 이용하여 힘을 가한다.)
+                    WeaponShoot.GetComponent<Rigidbody>().AddForce(transform.forward * 5, ForceMode.Impulse);
+                    WeaponShoot.GetComponent<Rigidbody>().AddTorque(Vector3.up * 45, ForceMode.Impulse);
+                    WeaponShoot.GetComponent<Rigidbody>().AddTorque(Vector3.right * 45, ForceMode.Impulse);
+                }
             }
         }
     }
-    
+
 }

@@ -16,12 +16,9 @@ public class PlayerMove : MonoBehaviour
         // Rigidbody를 가져온다.
         rigid = GetComponent<Rigidbody>();           
     }
-
     // Update is called once per frame
     void Update()
     {
-       
-
         //  키보드에 따른 이동량 측정
         float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
@@ -42,9 +39,6 @@ public class PlayerMove : MonoBehaviour
             //isGround값을 초기화
             isGround = false;
         }
-
-        
-
     }
 
     // 충돌감지
@@ -59,11 +53,4 @@ public class PlayerMove : MonoBehaviour
 
     }
 
-    //void slow()
-    //{
-    //    if(Input.GetKey(KeyCode.Space))
-    //    {
-
-    //    }
-    //}
 }
