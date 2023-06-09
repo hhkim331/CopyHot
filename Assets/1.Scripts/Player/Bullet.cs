@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour, IPoolObject
 {
+    public Weapon.W_Owner owner = Weapon.W_Owner.None;
+
     Collider coll;
     MeshRenderer mesh;
     bool hit = false;
@@ -29,6 +31,7 @@ public class Bullet : MonoBehaviour, IPoolObject
         if (lifeTime > 5f && !inPool)
         {
             inPool = true;
+            owner = Weapon.W_Owner.None;
             StageManager.Instance.poolManager.TakeToPool<Bullet>("Bullets", this);
         }
 
@@ -41,31 +44,32 @@ public class Bullet : MonoBehaviour, IPoolObject
     //충돌처리
     private void OnCollisionEnter(Collision collision)
     {
-        //충돌한 상대방 게임오브젝트의 태그값 비교
-        if (collision.gameObject.tag == "Enemy" && !hit)
+        if(!hit)
         {
-            Enemy enemy = collision.transform.root.GetComponent<Enemy>();
-            if(enemy.e_State != Enemy.E_State.Die)
+            //충돌한 상대방 게임오브젝트의 태그값 비교
+            if (collision.gameObject.tag == "Enemy" && owner == Weapon.W_Owner.Player)
             {
-                enemy.Die();
+                Enemy enemy = collision.transform.root.GetComponent<Enemy>();
+                if (enemy.e_State != Enemy.E_State.Die)
+                {
+                    enemy.Die();
 
-                hit = true;
-                Transform root = collision.transform.root;
-                DeathCutter deathCutter = StageManager.Instance.poolManager.GetFromPool<DeathCutter>();
-                deathCutter.CutTriple(root, transform);
+                    Transform root = collision.transform.root;
+                    DeathCutter deathCutter = StageManager.Instance.poolManager.GetFromPool<DeathCutter>();
+                    deathCutter.CutTriple(root, transform);
+                }
             }
+
+            if (collision.gameObject.tag == "Player" && owner == Weapon.W_Owner.Enemy)
+            {
+                //충돌상대가 플레이어면
+                Destroy(gameObject);
+                Destroy(collision.gameObject.GetComponent<PlayerMove>());
+                Destroy(collision.gameObject.GetComponentInChildren<PlayFire>());
+                Destroy(collision.gameObject.GetComponentInChildren<GetWeapon>());
+            }
+            hit = true;
         }
-
-        if (collision.gameObject.tag == "Player")
-        {
-            //충돌상대가 플레이어면
-            Destroy(gameObject);
-            Destroy(collision.gameObject.GetComponent<PlayerMove>());
-            Destroy(collision.gameObject.GetComponentInChildren<PlayFire>());
-            Destroy(collision.gameObject.GetComponentInChildren<GetWeapon>());     
-        }
-
-
 
         ////충돌 비활성화
         //coll.enabled = false;
@@ -74,6 +78,7 @@ public class Bullet : MonoBehaviour, IPoolObject
         if (!inPool)
         {
             inPool = true;
+            owner = Weapon.W_Owner.None;
             StageManager.Instance.poolManager.TakeToPool<Bullet>("Bullets", this);
         }
 

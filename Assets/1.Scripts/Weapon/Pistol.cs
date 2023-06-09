@@ -31,6 +31,7 @@ public class Pistol : Weapon
         Bullet bullet = StageManager.Instance.poolManager.GetFromPool<Bullet>();
         //GameObject bullet = Instantiate(BulletFactory);
         //총알이 소환되는 위치를 지정
+        bullet.owner = owner;
         bullet.transform.position = firePosition.transform.position;
         bullet.transform.forward = firePosition.transform.forward;
     }
