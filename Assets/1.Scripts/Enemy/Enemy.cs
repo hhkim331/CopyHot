@@ -32,8 +32,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] Transform weaponPos;
     Weapon myWeapon;  //현재 장착 무기
 
+    int hp;
+    [SerializeField] int maxHp = 3;
+
     //스폰 이펙트
     public float spawnEffectTime = 0.5f;
+    public GameObject portalParticle;
 
     //공격가능여부
     bool isAttackable = true;
@@ -122,7 +126,7 @@ public class Enemy : MonoBehaviour
             bool fire = Physics.Raycast(weaponPos.position, weaponPos.forward, out RaycastHit fireHit);
             bool range = Physics.Raycast(weaponPos.position, player.transform.position - weaponPos.position, out RaycastHit rangeHit);
 
-            if (fire && fireHit.transform.gameObject == player)
+            if (fire && fireHit.transform.gameObject == player && isAttackable)
             {
                 nav.ResetPath();
                 e_State = E_State.Attack;
@@ -316,7 +320,9 @@ public class Enemy : MonoBehaviour
         stunTime += Time.deltaTime;
         if (stunTime >= stunDuration)
         {
+            hp = maxHp;
             stunTime = 0;
+            isAttackable = true;
             e_State = E_State.Idle;
         }
     }
@@ -347,7 +353,7 @@ public class Enemy : MonoBehaviour
     public void Set(EnemySpawnData enemySpawnData, bool immediate)
     {
         id = enemySpawnData.id;
-
+        hp = maxHp;
         transform.position = enemySpawnData.position;
         transform.eulerAngles = enemySpawnData.rotation;
 
@@ -375,12 +381,18 @@ public class Enemy : MonoBehaviour
 
     void SpawnEffect()
     {
-        //포탈 + 공격 불가상태
+        isAttackable = false;
+        //포탈 생성
+        GameObject portal = Instantiate(portalParticle, transform.position + transform.up * 1.8f, transform.rotation);
+        Destroy(portal, 2f);
+        //포탈 이펙트가 끝나면 공격 가능
+        StartCoroutine(SpawnEffectCoroutine());
     }
 
-    void ChangeState()
+    IEnumerator SpawnEffectCoroutine()
     {
-
+        yield return new WaitForSeconds(2f);
+        isAttackable = true;
     }
 
     //무기 떨구기
@@ -402,10 +414,19 @@ public class Enemy : MonoBehaviour
 
     public void Hurt()
     {
-        Drop(true);
-        e_State = E_State.Stunned;
-        stunTime = 0;
-        nav.ResetPath();
+        hp--;
+        if(hp>0)
+        {
+            Drop(true);
+            isAttackable = false;
+            e_State = E_State.Stunned;
+            stunTime = 0;
+            nav.ResetPath();
+        }
+        else
+        {
+            Die();
+        }
     }
 
     public void Die()

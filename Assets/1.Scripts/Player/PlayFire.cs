@@ -39,6 +39,7 @@ public class PlayFire : MonoBehaviour
             ray = new Ray(firePos, dir);
             //총알을 소환한다
             Bullet bullet = StageManager.Instance.poolManager.GetFromPool<Bullet>();
+            bullet.owner = Weapon.W_Owner.Player;
             //GameObject bullet = Instantiate(BulletFactory);
             //총알이 소환되는 위치를 지정
             bullet.transform.position = firePos;

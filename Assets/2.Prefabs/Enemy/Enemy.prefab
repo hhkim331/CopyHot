@@ -274,7 +274,9 @@ MonoBehaviour:
   e_WeaponType: 0
   enemyAnimatorController: {fileID: 0}
   weaponPos: {fileID: 2208283304995322429}
+  hp: 3
   spawnEffectTime: 0.5
+  portalParticle: {fileID: 7261714725020207218, guid: cde98e68b5b999140ab4e435df0d8839, type: 3}
   punchRange: 2
   punchCoolTime: 2
   attackDummy: {fileID: 5006728210887392332}
