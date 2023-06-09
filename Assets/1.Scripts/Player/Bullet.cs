@@ -10,7 +10,7 @@ public class Bullet : MonoBehaviour, IPoolObject
     float lifeTime = 0f;
 
     //오브젝트 풀안에서 꺼냈는가?
-    bool inPool = true;
+    bool inPool = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -39,15 +39,11 @@ public class Bullet : MonoBehaviour, IPoolObject
     private void OnCollisionEnter(Collision collision)
     {
         //충돌한 상대방 게임오브젝트의 태그값 비교
-        //적이 hit 상태면
         if (collision.gameObject.tag == "Enemy" && !hit)
         {
-            //enemy = 충돌체의 컴포넌트이다
             Enemy enemy = collision.transform.root.GetComponent<Enemy>();
-            //적의 애니메이션상태가 DIe가 아니면
             if(enemy.e_State != Enemy.E_State.Die)
             {
-                //죽는다.
                 enemy.Die();
 
                 hit = true;
@@ -57,16 +53,9 @@ public class Bullet : MonoBehaviour, IPoolObject
             }
         }
 
-        //충돌한 상대방 게임오브젝트의 태그값 비교
-        //적이 hit 상태면
-        if (collision.gameObject.tag == "Player")
-        {
-            Destroy(collision.gameObject.GetComponent<PlayerMove>());
-        }
-
-        //충돌 비활성화
-        coll.enabled = false;
-        mesh.enabled = false;
+        ////충돌 비활성화
+        //coll.enabled = false;
+        //mesh.enabled = false;
 
         if(!inPool)
         {
@@ -77,6 +66,11 @@ public class Bullet : MonoBehaviour, IPoolObject
 
     public void OnCreatedInPool()
     {
+        inPool = false;
+        hit = false;
+        lifeTime = 0f;
+        //coll.enabled = true;
+        //mesh.enabled = true;
     }
 
     public void OnGettingFromPool()
@@ -84,7 +78,7 @@ public class Bullet : MonoBehaviour, IPoolObject
         inPool = false;
         hit = false;
         lifeTime = 0f;
-        coll.enabled = true;
-        mesh.enabled = true;
+        //coll.enabled = true;
+        //mesh.enabled = true;
     }
 }
