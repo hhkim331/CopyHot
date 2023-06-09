@@ -44,6 +44,7 @@ public class PlayFire : MonoBehaviour
             //총알의 정면방향을 ray의 정면으로 지정
             bullet.transform.forward = ray.direction;
         }
+        //던지기
         if (weaponPos.childCount > 0)
         {
             //만약 자식이 있다면
