@@ -39,11 +39,15 @@ public class Bullet : MonoBehaviour, IPoolObject
     private void OnCollisionEnter(Collision collision)
     {
         //충돌한 상대방 게임오브젝트의 태그값 비교
+        //적이 hit 상태면
         if (collision.gameObject.tag == "Enemy" && !hit)
         {
+            //enemy = 충돌체의 컴포넌트이다
             Enemy enemy = collision.transform.root.GetComponent<Enemy>();
+            //적의 애니메이션상태가 DIe가 아니면
             if(enemy.e_State != Enemy.E_State.Die)
             {
+                //죽는다.
                 enemy.Die();
 
                 hit = true;
@@ -51,6 +55,13 @@ public class Bullet : MonoBehaviour, IPoolObject
                 DeathCutter deathCutter = StageManager.Instance.poolManager.GetFromPool<DeathCutter>();
                 deathCutter.CutTriple(root, transform);
             }
+        }
+
+        //충돌한 상대방 게임오브젝트의 태그값 비교
+        //적이 hit 상태면
+        if (collision.gameObject.tag == "Player")
+        {
+            Destroy(collision.gameObject.GetComponent<PlayerMove>());
         }
 
         //충돌 비활성화
