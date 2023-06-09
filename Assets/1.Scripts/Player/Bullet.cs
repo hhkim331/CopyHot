@@ -9,14 +9,17 @@ public class Bullet : MonoBehaviour, IPoolObject
     bool hit = false;
     float lifeTime = 0f;
 
+    TrailRenderer trail;
+
     //오브젝트 풀안에서 꺼냈는가?
-    bool inPool = false;
+    bool inPool = true;
 
     // Start is called before the first frame update
     void Awake()
     {
         coll = GetComponent<Collider>();
         mesh = GetComponent<MeshRenderer>();
+        trail = GetComponent<TrailRenderer>();
     }
 
     // Update is called once per frame
@@ -53,15 +56,28 @@ public class Bullet : MonoBehaviour, IPoolObject
             }
         }
 
+        if (collision.gameObject.tag == "Player")
+        {
+            //충돌상대가 플레이어면
+            Destroy(gameObject);
+            Destroy(collision.gameObject.GetComponent<PlayerMove>());
+            Destroy(collision.gameObject.GetComponentInChildren<PlayFire>());
+            Destroy(collision.gameObject.GetComponentInChildren<GetWeapon>());     
+        }
+
+
+
         ////충돌 비활성화
         //coll.enabled = false;
         //mesh.enabled = false;
 
-        if(!inPool)
+        if (!inPool)
         {
             inPool = true;
             StageManager.Instance.poolManager.TakeToPool<Bullet>("Bullets", this);
         }
+
+        trail.Clear();
     }
 
     public void OnCreatedInPool()

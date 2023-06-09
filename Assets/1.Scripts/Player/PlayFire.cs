@@ -32,13 +32,14 @@ public class PlayFire : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             //총구의 위치 = firePos게임오브젝트의 위치
-            firePos = Camera.main.transform.position + Camera.main.transform.forward;
+            firePos = Camera.main.transform.position + Camera.main.transform.forward + (Camera.main.transform.right - Camera.main.transform.up)*0.1f;
             //총구의 방향 = 메인카메라에서부터 마우스 위치까지의 ray
             dir = Camera.main.ScreenPointToRay(Input.mousePosition).direction;
             //ray 방향으로 총구 위치에서 시작하는 ray
             ray = new Ray(firePos, dir);
             //총알을 소환한다
-            GameObject bullet = Instantiate(BulletFactory);
+            Bullet bullet = StageManager.Instance.poolManager.GetFromPool<Bullet>();
+            //GameObject bullet = Instantiate(BulletFactory);
             //총알이 소환되는 위치를 지정
             bullet.transform.position = firePos;
             //총알의 정면방향을 ray의 정면으로 지정

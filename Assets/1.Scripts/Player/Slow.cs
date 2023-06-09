@@ -8,9 +8,9 @@ public class Slow : MonoBehaviour
     bool move;
     float currentTime = 0f;
     float slowTime = 0.2f;
+
     //시간을 느리게 한다.
-
-
+    PlayerMove pmove;
 
 
     //마우스 왼쪽클릭, 이동,
@@ -19,7 +19,7 @@ public class Slow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        pmove = GetComponent<PlayerMove>();
     }
 
     // Update is called once per frame
@@ -37,10 +37,12 @@ public class Slow : MonoBehaviour
                 attack = false;
             }
         }
-
+        //마우스 좌클릭시
         if (Input.GetButtonDown("Fire1"))
         {
+            //시간값을 0으로 초기화
             currentTime = 0;
+            //attack값을 true로 변경
             attack = true;
         }
 

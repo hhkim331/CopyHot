@@ -19,10 +19,27 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        playerMove();        
+    }
+
+    // 충돌감지
+    private void OnCollisionEnter(Collision collision)
+    {
+        // 만약에 게임오브젝트태그가 Ground와 충돌한다면
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            // isGround값을 true로 한다.
+            isGround = true;
+        }
+
+    }
+
+    void playerMove()
+    {
         //  키보드에 따른 이동량 측정
         float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
-        
+
         //이동값을 저장
         Vector3 dirH = transform.right * h;
         Vector3 dirV = transform.forward * v;
@@ -39,18 +56,6 @@ public class PlayerMove : MonoBehaviour
             //isGround값을 초기화
             isGround = false;
         }
-    }
-
-    // 충돌감지
-    private void OnCollisionEnter(Collision collision)
-    {
-        // 만약에 게임오브젝트태그가 Ground와 충돌한다면
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            // isGround값을 true로 한다.
-            isGround = true;
-        }
-
     }
 
 }
