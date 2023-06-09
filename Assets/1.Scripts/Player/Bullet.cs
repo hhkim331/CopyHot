@@ -47,7 +47,7 @@ public class Bullet : MonoBehaviour, IPoolObject
         if(!hit)
         {
             //충돌한 상대방 게임오브젝트의 태그값 비교
-            if (collision.gameObject.tag == "Enemy" && owner == Weapon.W_Owner.Player)
+            if (collision.gameObject.tag == "Enemy")
             {
                 Enemy enemy = collision.transform.root.GetComponent<Enemy>();
                 if (enemy.e_State != Enemy.E_State.Die)
