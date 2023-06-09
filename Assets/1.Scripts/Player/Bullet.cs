@@ -10,7 +10,7 @@ public class Bullet : MonoBehaviour, IPoolObject
     float lifeTime = 0f;
 
     //오브젝트 풀안에서 꺼냈는가?
-    bool inPool = true;
+    bool inPool = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -53,9 +53,9 @@ public class Bullet : MonoBehaviour, IPoolObject
             }
         }
 
-        //충돌 비활성화
-        coll.enabled = false;
-        mesh.enabled = false;
+        ////충돌 비활성화
+        //coll.enabled = false;
+        //mesh.enabled = false;
 
         if(!inPool)
         {
@@ -66,6 +66,11 @@ public class Bullet : MonoBehaviour, IPoolObject
 
     public void OnCreatedInPool()
     {
+        inPool = false;
+        hit = false;
+        lifeTime = 0f;
+        //coll.enabled = true;
+        //mesh.enabled = true;
     }
 
     public void OnGettingFromPool()
@@ -73,7 +78,7 @@ public class Bullet : MonoBehaviour, IPoolObject
         inPool = false;
         hit = false;
         lifeTime = 0f;
-        coll.enabled = true;
-        mesh.enabled = true;
+        //coll.enabled = true;
+        //mesh.enabled = true;
     }
 }
