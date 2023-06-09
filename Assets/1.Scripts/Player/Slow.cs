@@ -10,8 +10,6 @@ public class Slow : MonoBehaviour
     float slowTime = 0.2f;
 
     //시간을 느리게 한다.
-    PlayerMove pmove;
-
 
     //마우스 왼쪽클릭, 이동,
     float v;
@@ -19,7 +17,7 @@ public class Slow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        pmove = GetComponent<PlayerMove>();
+
     }
 
     // Update is called once per frame

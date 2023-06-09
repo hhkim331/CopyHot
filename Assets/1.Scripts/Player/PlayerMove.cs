@@ -7,8 +7,9 @@ public class PlayerMove : MonoBehaviour
 
     public float moveSpeed = 2.0f; // 이동 속도
     public float jumpForce = 5.0f; // 점프하는 힘
-    private bool isGround = true; // 땅에 붙어있는가?
+    bool isGround = true; // 땅에 붙어있는가?
     Rigidbody rigid; // Rigidbody를 가져올 변수
+
 
     // Start is called before the first frame update
     void Start()
@@ -36,9 +37,13 @@ public class PlayerMove : MonoBehaviour
 
     void playerMove()
     {
-        //  키보드에 따른 이동량 측정
-        float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
+        //  키보드에 따른 이동량 측정
+        bool w = Input.GetKey(KeyCode.W);
+        bool a = Input.GetKey(KeyCode.A);
+        bool s = Input.GetKey(KeyCode.S);
+        bool d = Input.GetKey(KeyCode.D);
 
         //이동값을 저장
         Vector3 dirH = transform.right * h;
