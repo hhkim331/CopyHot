@@ -62,11 +62,9 @@ public class Bullet : MonoBehaviour, IPoolObject
 
             if (collision.gameObject.tag == "Player" && owner == Weapon.W_Owner.Enemy)
             {
+                collision.gameObject.GetComponent<PlayerMove>().Die();
                 //충돌상대가 플레이어면
                 Destroy(gameObject);
-                Destroy(collision.gameObject.GetComponent<PlayerMove>());
-                Destroy(collision.gameObject.GetComponentInChildren<PlayFire>());
-                Destroy(collision.gameObject.GetComponentInChildren<GetWeapon>());
             }
             hit = true;
         }

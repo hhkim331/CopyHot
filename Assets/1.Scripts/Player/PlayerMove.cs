@@ -11,16 +11,21 @@ public class PlayerMove : MonoBehaviour
     Rigidbody rigid; // Rigidbody를 가져올 변수
 
 
+    public CAM cam1;
+    public CAM cam2;
+    public PlayFire playFire;
+    public GetWeapon getWeapon;
+
     // Start is called before the first frame update
     void Start()
     {
         // Rigidbody를 가져온다.
-        rigid = GetComponent<Rigidbody>();           
+        rigid = GetComponent<Rigidbody>();
     }
     // Update is called once per frame
     void Update()
     {
-        playerMove();        
+        playerMove();
     }
 
     // 충돌감지
@@ -37,18 +42,45 @@ public class PlayerMove : MonoBehaviour
 
     void playerMove()
     {
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+        //
+        float h;
+        float v;
         //  키보드에 따른 이동량 측정
         bool w = Input.GetKey(KeyCode.W);
         bool a = Input.GetKey(KeyCode.A);
         bool s = Input.GetKey(KeyCode.S);
         bool d = Input.GetKey(KeyCode.D);
 
+        if (w)
+        {
+            h = 1;
+        }
+        else if (s)
+        {
+            h = -1;
+        }
+        else
+        {
+            h = 0;
+        }
+
+        if (a)
+        {
+            v = -1;
+        }
+        else if (d)
+        {
+            v = 1;
+        }
+        else
+        {
+            v = 0;
+        }
         //이동값을 저장
-        Vector3 dirH = transform.right * h;
-        Vector3 dirV = transform.forward * v;
+        Vector3 dirH = transform.right * v;
+        Vector3 dirV = transform.forward * h;
         Vector3 dir = dirH + dirV;
+        dir.Normalize();
         // 이동값을 좌표에 반영
         //transform.position = transform.position + dir * moveSpeed * Time.deltaTime;
         rigid.MovePosition(transform.position + dir * moveSpeed * Time.deltaTime);
@@ -61,6 +93,16 @@ public class PlayerMove : MonoBehaviour
             //isGround값을 초기화
             isGround = false;
         }
+    }
+
+    //
+    public void Die()
+    {
+        cam1.enabled = false;
+        cam2.enabled = false;
+        playFire.enabled = false;
+        getWeapon.enabled = false;
+        this.enabled = false;
     }
 
 }
