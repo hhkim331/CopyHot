@@ -133,7 +133,7 @@ MonoBehaviour:
   owner: 0
   attackSpeed: 1
   attackRange: 2
-  attackCoolTime: 2
+  attackCoolTime: 1
   col: {fileID: 5042569063383934121}
   rb: {fileID: 5042569063383934120}
   isThrow: 0

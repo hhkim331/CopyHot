@@ -433,7 +433,7 @@ public class Enemy : MonoBehaviour
     {
         Drop(false);
         e_State = E_State.Die;
-        nav.ResetPath();
+        nav.enabled=false;
 
         StageManager.Instance.enemySpawner.CheckStepEnd(id);
         Destroy(gameObject, 3f);
