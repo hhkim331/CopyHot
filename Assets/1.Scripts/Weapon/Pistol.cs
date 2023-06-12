@@ -35,4 +35,6 @@ public class Pistol : Weapon
         bullet.transform.position = firePosition.transform.position;
         bullet.transform.forward = firePosition.transform.forward;
     }
+
+
 }

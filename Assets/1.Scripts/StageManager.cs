@@ -29,7 +29,6 @@ public class StageManager : MonoBehaviour
     [SerializeField] GameObject StageFallImage;
     [SerializeField] TextMeshProUGUI mainText;
     [SerializeField] TextMeshProUGUI descText;
-    [SerializeField] TextMeshProUGUI RestartText;
     [SerializeField] TextMeshProUGUI StageFallText;
     bool superText = false;
     float textChangeTime = 0f;

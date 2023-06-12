@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - Ground
   - Weapon
+  - bullet
+  - Wall
   layers:
   - Default
   - TransparentFX

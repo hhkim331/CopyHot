@@ -46,6 +46,7 @@ public class Weapon : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezeAll;
     }
 
+
     //무기 해제
     public virtual void Unset()
     {
@@ -74,10 +75,20 @@ public class Weapon : MonoBehaviour
 
         if(collision.gameObject.CompareTag("Enemy"))
         {
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            Enemy enemy = collision.transform.root.GetComponent<Enemy>();
             enemy.Hurt();
         }
 
-        Destroy(gameObject);
+        else if(collision.gameObject.CompareTag("bullet"))
+        {
+            Destroy(gameObject);
+            Destroy(collision.gameObject);
+        }
+        else if(collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Ground"))
+        {
+            gameObject.GetComponent<Rigidbody>().useGravity = true;
+        }
+       
+
     }
 }
