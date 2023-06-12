@@ -26,8 +26,11 @@ public class StageManager : MonoBehaviour
     //UI
     [Header("UI")]
     [SerializeField] GameObject panel;
+    [SerializeField] GameObject StageFallImage;
     [SerializeField] TextMeshProUGUI mainText;
     [SerializeField] TextMeshProUGUI descText;
+    [SerializeField] TextMeshProUGUI RestartText;
+    [SerializeField] TextMeshProUGUI StageFallText;
     bool superText = false;
     float textChangeTime = 0f;
     float textChangeDelay = 1f;
@@ -96,6 +99,33 @@ public class StageManager : MonoBehaviour
                 }
             }
         }
+
+        //스테이지 실패
+        if (stageFall)
+        {
+            if (superText)
+            {
+                textChangeTime += Time.unscaledDeltaTime;
+                if (textChangeTime >= textChangeDelay)
+                {
+                    textChangeTime = 0f;
+                    superText = false;
+                    mainText.text = "HOT";
+                    mainText.fontStyle = FontStyles.Bold;
+                }
+            }
+            else
+            {
+                textChangeTime += Time.unscaledDeltaTime;
+                if (textChangeTime >= textChangeDelay)
+                {
+                    textChangeTime = 0f;
+                    superText = true;
+                    mainText.text = "SUPER";
+                    mainText.fontStyle = FontStyles.Normal;
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -118,6 +148,10 @@ public class StageManager : MonoBehaviour
 
     public void StageFALL()
     {
+        //멘트 활성화
+        stageFall = true;
+        activeReset = true;
 
+        StageFallImage.SetActive(true);
     }
 }

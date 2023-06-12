@@ -42,15 +42,15 @@ public class PlayerMove : MonoBehaviour
 
     void playerMove()
     {
-        //
+        //키보드값을 누적시킬 변수선언
         float h;
         float v;
-        //  키보드에 따른 이동량 측정
+        // 키보드의 입력만 받아옴
         bool w = Input.GetKey(KeyCode.W);
         bool a = Input.GetKey(KeyCode.A);
         bool s = Input.GetKey(KeyCode.S);
         bool d = Input.GetKey(KeyCode.D);
-
+        //입력받을 키보드의 값을 설정
         if (w)
         {
             h = 1;
@@ -71,7 +71,7 @@ public class PlayerMove : MonoBehaviour
         else if (d)
         {
             v = 1;
-        }
+        }//가만히 있을시 0
         else
         {
             v = 0;
@@ -95,14 +95,17 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    //
+    //캐릭터가 죽었을때
     public void Die()
     {
+        //컴포넌트들을 죽임
         cam1.enabled = false;
         cam2.enabled = false;
         playFire.enabled = false;
         getWeapon.enabled = false;
         this.enabled = false;
+        //스테이지매니저에있는 스테이지실패 함수를 가져옴
+        StageManager.Instance.StageFALL();
     }
 
 }

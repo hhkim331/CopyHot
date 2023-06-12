@@ -14,7 +14,7 @@ public class PlayFire : MonoBehaviour
     Vector3 firePos;
     //총구 방향
     Vector3 dir;
-    //ray
+    //레이저
     Ray ray;
     //무기의 위치
     public Transform weaponPos;
@@ -33,9 +33,9 @@ public class PlayFire : MonoBehaviour
         {
             //총구의 위치 = firePos게임오브젝트의 위치
             firePos = Camera.main.transform.position + Camera.main.transform.forward + (Camera.main.transform.right - Camera.main.transform.up)*0.1f;
-            //총구의 방향 = 메인카메라에서부터 마우스 위치까지의 ray
+            //총구의 방향 = 메인카메라에서부터 마우스 위치까지의 레이저
             dir = Camera.main.ScreenPointToRay(Input.mousePosition).direction;
-            //ray 방향으로 총구 위치에서 시작하는 ray
+            //레이저 방향 = 총구 위치에서 시작
             ray = new Ray(firePos, dir);
             //총알을 소환한다
             Bullet bullet = StageManager.Instance.poolManager.GetFromPool<Bullet>();
