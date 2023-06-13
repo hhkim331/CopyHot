@@ -26,7 +26,7 @@ public class Enemy : MonoBehaviour
     int id;
 
     //적 애니메이션
-    [SerializeField] EnemyAnimatorController enemyAnimatorController;
+    [SerializeField] Animator animator;
 
     [Header("무기 장착 위치")]
     [SerializeField] Transform weaponPos;
@@ -55,9 +55,9 @@ public class Enemy : MonoBehaviour
     public GameObject attackDummy;
 
     //줍기 사거리
-    public float pickUpRange = 1.5f;
+    float pickUpRange = 1.5f;
     //줍기 딜레이
-    float pickUpDelay = 0.5f;
+    float pickUpDelay = 1.2f;
     //줍기 행동 시간
     float pickUpTime = 0f;
     //줍기 타게팅 오브젝트
@@ -108,10 +108,17 @@ public class Enemy : MonoBehaviour
         {
             //플레이어와 거리가 멀어지면 Move로 전환
             float pDistance = Vector3.Distance(transform.position, player.transform.position);
-            if (pDistance > attackRange) e_State = E_State.Move;
+            if (pDistance > attackRange)
+            {
+                e_State = E_State.Move;
+                animator.SetBool("Move", true);
+            }
         }
         else
+        {
             e_State = E_State.Move;
+            animator.SetBool("Move", true);
+        }
     }
 
     void Move()
@@ -123,15 +130,16 @@ public class Enemy : MonoBehaviour
         if (e_WeaponType == Weapon.WeaponType.Range)
         {
             //총의 사선
-            bool fire = Physics.Raycast(weaponPos.position, weaponPos.forward, out RaycastHit fireHit);
-            bool range = Physics.Raycast(weaponPos.position, player.transform.position - weaponPos.position, out RaycastHit rangeHit);
+            bool fire = Physics.Raycast(myWeapon.transform.position + myWeapon.transform.forward * 1.5f, myWeapon.transform.forward, out RaycastHit fireHit);
+            bool range = Physics.Raycast(myWeapon.transform.position, player.transform.position - myWeapon.transform.position, out RaycastHit rangeHit);
 
-            if (fire && fireHit.transform.gameObject == player && isAttackable)
+            if (fire && fireHit.transform.root.gameObject == player && isAttackable)
             {
                 nav.ResetPath();
                 e_State = E_State.Attack;
+                animator.SetBool("Move", false);
             }
-            else if (range && rangeHit.transform.gameObject == player)
+            else if (range && rangeHit.transform.root.gameObject == player)
             {
                 //플레이어 방향 바라보기
                 Vector3 dir = player.transform.position - transform.position;
@@ -139,10 +147,12 @@ public class Enemy : MonoBehaviour
                 Quaternion rot = Quaternion.LookRotation(dir);
                 transform.rotation = Quaternion.Lerp(transform.rotation, rot, 10f * Time.deltaTime);
                 nav.ResetPath();
+                animator.SetBool("Move", false);
             }
             else
             {
                 nav.SetDestination(player.transform.position);
+                animator.SetBool("Move", true);
             }
         }
         //근접공격을 해야하는 경우
@@ -151,9 +161,17 @@ public class Enemy : MonoBehaviour
             //플레이어와 가까워지면 추격중지
             nav.ResetPath();
             //공격 가능 상태인경우 Attack
-            if (isAttackable) e_State = E_State.Attack;
+            if (isAttackable)
+            {
+                e_State = E_State.Attack;
+                animator.SetBool("Move", false);
+            }
             //공격 불가능 상태인경우 Idle
-            else e_State = E_State.Idle;
+            else
+            {
+                e_State = E_State.Idle;
+                animator.SetBool("Move", false);
+            }
         }
         else
         {
@@ -212,6 +230,9 @@ public class Enemy : MonoBehaviour
                     if (wDistance <= pickUpRange)
                     {
                         e_State = E_State.PickUp;
+                        nav.ResetPath();
+                        animator.SetBool("Move", false);
+                        animator.SetTrigger("PickUp");
                     }
                     else if (wDistance <= detectRange)
                     {
@@ -239,6 +260,7 @@ public class Enemy : MonoBehaviour
         if (!isAttackable)
         {
             e_State = E_State.Idle;
+            animator.SetBool("Move", false);
             return;
         }
 
@@ -252,6 +274,8 @@ public class Enemy : MonoBehaviour
                 if (pDistance > attackRange)
                 {
                     e_State = E_State.Move;
+                    animator.SetBool("Move", true);
+                    animator.SetBool("Attack", false);
                     return;
                 }
 
@@ -260,6 +284,7 @@ public class Enemy : MonoBehaviour
                 {
                     attackDelay = 0;
                     StartCoroutine(PunchCoroutine());
+                    animator.SetBool("Attack", true);
                     //myWeapon.Attack();
                 }
                 break;
@@ -268,6 +293,9 @@ public class Enemy : MonoBehaviour
                 if (pDistance > attackRange)
                 {
                     e_State = E_State.Move;
+                    animator.SetBool("Move", true);
+                    animator.SetBool("Attack", false);
+                    myWeapon.AttackEnd();
                     return;
                 }
                 //공격 딜레이가 끝난 경우 공격
@@ -275,32 +303,35 @@ public class Enemy : MonoBehaviour
                 {
                     attackDelay = 0;
                     myWeapon.Attack();
+                    animator.SetBool("Attack", true);
                 }
                 break;
             case Weapon.WeaponType.Range:
                 //공격 가능 사거리에서 플레이어가 벗어난 경우 Move 전환
                 //총의 사선에 플레이어가 있는지 체크
-                if (Physics.Raycast(weaponPos.position, weaponPos.forward, out RaycastHit hit))
+                bool fire = Physics.Raycast(myWeapon.transform.position + myWeapon.transform.forward * 1.5f, myWeapon.transform.forward, out RaycastHit fireHit);
+                bool range = Physics.Raycast(myWeapon.transform.position, player.transform.position - myWeapon.transform.position, out RaycastHit rangeHit);
+
+                //플레이어가 총의 사선에 있으면 공격
+                if (fire && fireHit.transform.root.gameObject == player)
                 {
-                    //플레이어가 총의 사선에 있으면 공격
-                    if (hit.transform.gameObject == player)
+                    //공격 딜레이가 끝난 경우 공격
+                    if (attackDelay >= attackCoolTime)
                     {
-                        //공격 딜레이가 끝난 경우 공격
-                        if (attackDelay >= attackCoolTime)
-                        {
-                            attackDelay = 0;
-                            myWeapon.Attack();
-                        }
+                        attackDelay = 0;
+                        myWeapon.Attack();
                     }
-                    //플레이어가 총의 사선에 없으면 추적
-                    else
-                    {
-                        e_State = E_State.Move;
-                    }
+                }
+                //플레이어가 사격가능위치에 있는 경우 회전이동
+                else if (range && rangeHit.transform.root.gameObject == player)
+                {
+                    e_State = E_State.Move;
+                    animator.SetBool("Move", false);
                 }
                 else
                 {
                     e_State = E_State.Move;
+                    animator.SetBool("Move", true);
                 }
 
                 break;
@@ -329,19 +360,28 @@ public class Enemy : MonoBehaviour
 
     void PickUp()
     {
+        //타겟이 사라진경우
+        if(pickUpTarget == null)
+        {
+            e_State = E_State.Idle;
+            return;
+        }
+
         pickUpTime += Time.deltaTime;
         if (pickUpTime <= pickUpDelay)
         {
             //무기를 줍는중
+
+        }
+        else if (pickUpTime <= pickUpDelay * 2)
+        {
+            //무기를 줍고 일어나는 중
             myWeapon = pickUpTarget.GetComponent<Weapon>();
             myWeapon.Set(weaponPos, Weapon.W_Owner.Enemy);
             e_WeaponType = myWeapon.weaponType;
             attackRange = myWeapon.attackRange;
             attackCoolTime = myWeapon.attackCoolTime;
-        }
-        else if (pickUpTime <= pickUpDelay * 2)
-        {
-            //무기를 줍고 일어나는 중
+            animator.SetInteger("Weapon", (int)e_WeaponType);
         }
         else
         {
@@ -360,7 +400,7 @@ public class Enemy : MonoBehaviour
         e_State = E_State.Idle;
 
         //무기 장착
-        if(enemySpawnData.defaultWeapon != 0)
+        if (enemySpawnData.defaultWeapon != 0)
         {
             GameObject newWeapon = Instantiate(GameManager.Instance.totalEnemySpawnData.GetWeapon(enemySpawnData.defaultWeapon));
             myWeapon = newWeapon.GetComponent<Weapon>();
@@ -374,6 +414,8 @@ public class Enemy : MonoBehaviour
         else
             e_WeaponType = Weapon.WeaponType.None;
 
+        //애니메이션 무기 설정
+        animator.SetInteger("Weapon", (int)e_WeaponType);
 
         if (!immediate)
             SpawnEffect();
@@ -415,11 +457,12 @@ public class Enemy : MonoBehaviour
     public void Hurt()
     {
         hp--;
-        if(hp>0)
+        if (hp > 0)
         {
             Drop(true);
             isAttackable = false;
             e_State = E_State.Stunned;
+            animator.SetBool("Move", false);
             stunTime = 0;
             nav.ResetPath();
         }
@@ -433,7 +476,8 @@ public class Enemy : MonoBehaviour
     {
         Drop(false);
         e_State = E_State.Die;
-        nav.enabled=false;
+        animator.enabled = false;
+        nav.enabled = false;
 
         StageManager.Instance.enemySpawner.CheckStepEnd(id);
         Destroy(gameObject, 3f);

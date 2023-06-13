@@ -26,11 +26,18 @@ public class Weapon : MonoBehaviour
     public float attackRange = 2f;
     //공격 쿨타임
     public float attackCoolTime = 2f;
+    //공격활성시간
+    public float attackActiveTime = 1f;
 
     public Collider col;
     public Rigidbody rb;
 
     public bool isThrow = false;
+
+    private void Update()
+    {
+        transform.forward = transform.root.forward;
+    }
 
     //무기 장착
     public virtual void Set(Transform weaponPos, W_Owner owner)
@@ -38,7 +45,6 @@ public class Weapon : MonoBehaviour
         this.owner = owner;
         transform.parent = weaponPos;
         transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.identity;
 
         col.isTrigger = true;
         col.enabled = false;
@@ -59,6 +65,11 @@ public class Weapon : MonoBehaviour
     }
 
     public virtual void Attack()
+    {
+
+    }
+
+    public virtual void AttackEnd()
     {
 
     }

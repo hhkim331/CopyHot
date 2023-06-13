@@ -8,43 +8,42 @@ public class BaseballBat : Weapon
     public int durability = 3;
     bool isAttack = false;
 
+    //활성 시간
+    float activeTime = 0;
     //피벗용 부모
-    Transform pivotParent;
+    //Transform pivotParent;
 
-    private void Awake()
-    {
-        pivotParent = transform.root;
-    }
+    //private void Awake()
+    //{
+    //    pivotParent = transform.root;
+    //}
 
     private void Update()
     {
         if (!isAttack) return;
 
-        //소유자가 플레이어인 경우
-        if (owner == W_Owner.Player)
-        {
-            //무기 오른쪽에서 왼쪽으로 회전시키기
-            pivotParent.localRotation = Quaternion.Euler(0, pivotParent.localRotation.eulerAngles.y - 180 * Time.deltaTime * attackSpeed, -90);
-        }
-        //소유자가 적인 경우
-        else if (owner == W_Owner.Enemy)
-        {
-            //무기 오른쪽에서 왼쪽으로 회전시키기
-            pivotParent.localRotation = Quaternion.Euler(0, pivotParent.localRotation.eulerAngles.y - 180 * Time.deltaTime * attackSpeed, -90);
-        }
+        //activeTime+=Time.deltaTime;
 
-        if(pivotParent.localRotation.eulerAngles.y < 190)
-        {
-            isAttack = false;
-            col.enabled = false;
-            pivotParent.localRotation = Quaternion.Euler(0, 350, -90);
-        }
+        ////소유자가 플레이어인 경우
+        //if (owner == W_Owner.Player)
+        //{
+        //    //무기 오른쪽에서 왼쪽으로 회전시키기
+        //    pivotParent.localRotation = Quaternion.Euler(0, pivotParent.localRotation.eulerAngles.y - 180 * Time.deltaTime * attackSpeed, -90);
+        //}
+        ////소유자가 적인 경우
+        //else if (owner == W_Owner.Enemy)
+        //{
+        //    //무기 오른쪽에서 왼쪽으로 회전시키기
+        //}
+
+        //if(activeTime>attackActiveTime)
+        //    AttackEnd();
     }
 
     public override void Set(Transform weaponPos, W_Owner owner)
     {
         base.Set(weaponPos, owner);
-        transform.localRotation = Quaternion.Euler(0, -10, -90);
+        transform.localRotation = Quaternion.Euler(0, 0, 0);
     }
 
     public override void Unset()
@@ -56,8 +55,18 @@ public class BaseballBat : Weapon
     {
         base.Attack();
         //무기 휘두르기
+        activeTime = 0f;
         isAttack = true;
         col.enabled = true;
+    }
+
+    public override void AttackEnd()
+    {
+        base.AttackEnd();
+        //무기 휘두르기 끝
+        activeTime = 0f;
+        isAttack = false;
+        col.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
