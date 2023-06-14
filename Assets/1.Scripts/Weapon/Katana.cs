@@ -9,6 +9,9 @@ public class Katana : Weapon
     //활성 시간
     float activeTime = 0;
 
+    //공격코루틴
+    Coroutine attackCoroutine;
+
     private void Update()
     {
         if (!isAttack) return;
@@ -51,16 +54,27 @@ public class Katana : Weapon
         //무기 휘두르기
         activeTime = 0f;
         isAttack = true;
+        //col.enabled = true;
+        attackCoroutine= StartCoroutine(AttackCoroutine());
+    }
+
+    IEnumerator AttackCoroutine()
+    {
+        yield return new WaitForSeconds(0.5f);
         col.enabled = true;
     }
 
     public override void AttackEnd()
     {
         base.AttackEnd();
+
+        if (attackCoroutine != null)
+            StopCoroutine(attackCoroutine);
         //무기 휘두르기 끝
         activeTime = 0f;
         isAttack = false;
         col.enabled = false;
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -85,7 +99,7 @@ public class Katana : Weapon
             //플레이어 피격
             if (other.transform.root.tag == "Player")
             {
-                Debug.Log("플레이어 맞음!");
+                other.transform.root.GetComponent<PlayerMove>().Die();
             }
         }
     }
