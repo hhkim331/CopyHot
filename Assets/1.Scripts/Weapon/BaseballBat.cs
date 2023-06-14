@@ -92,7 +92,7 @@ public class BaseballBat : Weapon
             //플레이어 피격
             if (other.transform.root.tag == "Player")
             {
-                Debug.Log("플레이어 맞음!");
+                other.transform.root.GetComponent<PlayerMove>().Die();
             }
         }
     }

@@ -113,6 +113,10 @@ public class Enemy : MonoBehaviour
                 e_State = E_State.Move;
                 animator.SetBool("Move", true);
             }
+            else
+            {
+                e_State = E_State.Attack;
+            }
         }
         else
         {
@@ -230,6 +234,7 @@ public class Enemy : MonoBehaviour
                     if (wDistance <= pickUpRange)
                     {
                         e_State = E_State.PickUp;
+                        pickUpTime = 0f;
                         nav.ResetPath();
                         animator.SetBool("Move", false);
                         animator.SetTrigger("PickUp");
@@ -463,6 +468,7 @@ public class Enemy : MonoBehaviour
             isAttackable = false;
             e_State = E_State.Stunned;
             animator.SetBool("Move", false);
+            animator.SetTrigger("Hit");
             stunTime = 0;
             nav.ResetPath();
         }

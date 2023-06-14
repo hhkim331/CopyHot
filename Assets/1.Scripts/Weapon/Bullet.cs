@@ -54,9 +54,8 @@ public class Bullet : MonoBehaviour, IPoolObject
                 {
                     enemy.Die();
 
-                    Transform root = collision.transform.root;
                     DeathCutter deathCutter = StageManager.Instance.poolManager.GetFromPool<DeathCutter>();
-                    deathCutter.CutTriple(root, transform);
+                    deathCutter.CutTriple(collision.transform.root, transform);
                 }
             }
 
