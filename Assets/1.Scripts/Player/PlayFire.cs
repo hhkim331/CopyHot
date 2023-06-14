@@ -57,17 +57,8 @@ public class PlayFire : MonoBehaviour
                 //마우스 우클릭을하면
                 if (Input.GetButtonDown("Fire2"))
                 {
-                    //리지드바디의 constraints의 모든값을 없앤다
-                    WeaponShoot.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-                    WeaponShoot.GetComponent<MeshCollider>().enabled = true;
-                    WeaponShoot.GetComponent<MeshCollider>().isTrigger = false;
+                    //던진다
                     WeaponShoot.GetComponent<Weapon>().Throw();
-                    //자식을 부모로부터 제거
-                    WeaponShoot.transform.SetParent(null);
-                    //클릭을했을때 날아가게 한다.(리지드바디의 AddForce를 이용하여 힘을 가한다.)
-                    WeaponShoot.GetComponent<Rigidbody>().AddForce(transform.forward * 5, ForceMode.Impulse);
-                    WeaponShoot.GetComponent<Rigidbody>().AddTorque(Vector3.up * 45, ForceMode.Impulse);
-                    WeaponShoot.GetComponent<Rigidbody>().AddTorque(Vector3.right * 45, ForceMode.Impulse);
                 }
             }
         }

@@ -78,6 +78,18 @@ public class Weapon : MonoBehaviour
     public virtual void Throw()
     {
         isThrow = true;
+
+        owner = W_Owner.None;
+        transform.parent = null;
+
+        col.isTrigger = false;
+        col.enabled = true;
+        rb.constraints = RigidbodyConstraints.None;
+
+        //클릭을했을때 날아가게 한다.(리지드바디의 AddForce를 이용하여 힘을 가한다.)
+        rb.AddForce(transform.forward * 5, ForceMode.Impulse);
+        rb.AddTorque(Vector3.up * 45, ForceMode.Impulse);
+        rb.AddTorque(Vector3.right * 45, ForceMode.Impulse);
     }
 
     protected virtual void OnCollisionEnter(Collision collision)
@@ -95,11 +107,7 @@ public class Weapon : MonoBehaviour
             Destroy(gameObject);
             Destroy(collision.gameObject);
         }
-        else if(collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Ground"))
-        {
-            gameObject.GetComponent<Rigidbody>().useGravity = true;
-        }
-       
 
+        rb.useGravity = true;
     }
 }
