@@ -67,8 +67,10 @@ MonoBehaviour:
   attackSpeed: 2
   attackRange: 3
   attackCoolTime: 1.5
+  attackActiveTime: 1
   col: {fileID: 8220916339150231176}
   rb: {fileID: 2641196973833819550}
+  isThrow: 0
 --- !u!1 &8220916339153488522
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,14 +97,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8220916339153488522}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: -0.023, z: 0.775}
-  m_LocalScale: {x: 0.03849118, y: 0.03849118, z: 0.017821811}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0.7071068, w: 0}
+  m_LocalPosition: {x: -0, y: 0.5, z: 0.013}
+  m_LocalScale: {x: 0.02, y: 0.02, z: 0.012}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2641196973833819551}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 180}
 --- !u!33 &8220916339150231178
 MeshFilter:
   m_ObjectHideFlags: 0

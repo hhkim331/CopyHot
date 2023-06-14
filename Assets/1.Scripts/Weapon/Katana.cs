@@ -6,35 +6,38 @@ public class Katana : Weapon
 {
     bool isAttack = false;
 
+    //활성 시간
+    float activeTime = 0;
+
     private void Update()
     {
         if (!isAttack) return;
 
-        //소유자가 플레이어인 경우
-        if (owner == W_Owner.Player)
-        {
-            //무기 오른쪽에서 왼쪽으로 회전시키기
-            transform.localRotation = Quaternion.Euler(0, transform.localRotation.eulerAngles.y - 180 * Time.deltaTime * attackSpeed, 90);
-        }
-        //소유자가 적인 경우
-        else if (owner == W_Owner.Enemy)
-        {
-            //무기 오른쪽에서 왼쪽으로 회전시키기
-            transform.localRotation = Quaternion.Euler(0, transform.localRotation.eulerAngles.y - 180 * Time.deltaTime * attackSpeed, 90);
-        }
+        ////소유자가 플레이어인 경우
+        //if (owner == W_Owner.Player)
+        //{
+        //    //무기 오른쪽에서 왼쪽으로 회전시키기
+        //    transform.localRotation = Quaternion.Euler(0, transform.localRotation.eulerAngles.y - 180 * Time.deltaTime * attackSpeed, 90);
+        //}
+        ////소유자가 적인 경우
+        //else if (owner == W_Owner.Enemy)
+        //{
+        //    //무기 오른쪽에서 왼쪽으로 회전시키기
+        //    transform.localRotation = Quaternion.Euler(0, transform.localRotation.eulerAngles.y - 180 * Time.deltaTime * attackSpeed, 90);
+        //}
 
-        if (transform.localRotation.eulerAngles.y < 280 && transform.localRotation.eulerAngles.y>90)
-        {
-            isAttack = false;
-            col.enabled = false;
-            transform.localRotation = Quaternion.Euler(0, 80, 90);
-        }
+        //if (transform.localRotation.eulerAngles.y < 280 && transform.localRotation.eulerAngles.y>90)
+        //{
+        //    isAttack = false;
+        //    col.enabled = false;
+        //    transform.localRotation = Quaternion.Euler(0, 80, 90);
+        //}
     }
 
     public override void Set(Transform weaponPos, W_Owner owner)
     {
         base.Set(weaponPos, owner);
-        transform.localRotation = Quaternion.Euler(0, 80, 90);
+        transform.localRotation = Quaternion.Euler(0, 0, 0);
     }
 
     public override void Unset()
@@ -46,8 +49,18 @@ public class Katana : Weapon
     {
         base.Attack();
         //무기 휘두르기
+        activeTime = 0f;
         isAttack = true;
         col.enabled = true;
+    }
+
+    public override void AttackEnd()
+    {
+        base.AttackEnd();
+        //무기 휘두르기 끝
+        activeTime = 0f;
+        isAttack = false;
+        col.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
