@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3102472665163501720}
   - component: {fileID: 3102472665163501722}
   - component: {fileID: 3102472665163501721}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: BaseBallBat
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -67,6 +67,7 @@ MonoBehaviour:
   attackSpeed: 1
   attackRange: 2
   attackCoolTime: 2
+  attackActiveTime: 1
   col: {fileID: 3102472665530498296}
   rb: {fileID: 3102472665163501722}
   isThrow: 0
@@ -83,7 +84,7 @@ GameObject:
   - component: {fileID: 3102472665533752924}
   - component: {fileID: 3102472665532654748}
   - component: {fileID: 3102472665530498296}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: BaseBall_Bat
   m_TagString: Untagged
   m_Icon: {fileID: 0}

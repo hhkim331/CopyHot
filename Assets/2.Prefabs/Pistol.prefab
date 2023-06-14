@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7234702075225165733}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: FirePosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 6800269979013585486}
   - component: {fileID: 8771779306059427460}
   - component: {fileID: 7960687851733184110}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,9 +141,9 @@ GameObject:
   - component: {fileID: 1167147970127148173}
   - component: {fileID: 8237855568650915632}
   - component: {fileID: 7244185660187598650}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: Pistol
-  m_TagString: Weapon
+  m_TagString: gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -181,6 +181,7 @@ MonoBehaviour:
   attackSpeed: 1
   attackRange: 2
   attackCoolTime: 1
+  attackActiveTime: 1
   col: {fileID: 7960687851733184110}
   rb: {fileID: 7244185660187598650}
   isThrow: 0

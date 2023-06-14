@@ -107,7 +107,7 @@ public class Weapon : MonoBehaviour
             Destroy(gameObject);
             Destroy(collision.gameObject);
         }
-
+        isThrow = false;
         rb.useGravity = true;
     }
 }

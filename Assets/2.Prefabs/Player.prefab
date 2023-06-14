@@ -118,7 +118,7 @@ MonoBehaviour:
   firePosition: {fileID: 488435275342531306}
   firePower: 500
   weaponPos: {fileID: 488435277206287908}
-  WeaponShoot: {fileID: 0}
+  getWeapon: {fileID: 488435277206287910}
 --- !u!114 &2151775438330132984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,7 +333,9 @@ MonoBehaviour:
   arFactory: {fileID: 3102472665163501727, guid: 9058704ada07ca94da1010197d58b9d8, type: 3}
   batFactory: {fileID: 2641196973833819545, guid: 610b2001a933dcb4984012c2f8ee1a85, type: 3}
   wPos: 0
+  playerWeapon: {fileID: 0}
   weaponPos: {fileID: 488435277206287908}
+  getWeapon: {fileID: 0}
 --- !u!65 &488435277206287909
 BoxCollider:
   m_ObjectHideFlags: 0

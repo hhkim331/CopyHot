@@ -16,8 +16,10 @@ public class GetWeapon : MonoBehaviour
     public GameObject batFactory;
     //들고있는지 확인
     public bool wPos = false;
+    public Weapon playerWeapon;
     //무기를 장착할 위치 지정
     public Transform weaponPos;
+    public GameObject getWeapon;
     // Start is called before the first frame update
     void Start()
     {
@@ -94,7 +96,7 @@ public class GetWeapon : MonoBehaviour
         }
     }
 
-    void Interaction()
+    public void Interaction()
     {
         //광선의 발사 위치를 카메라 뷰포트의 정중앙으로 설정
         Vector3 rayOrigin = playerCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f));
@@ -104,17 +106,25 @@ public class GetWeapon : MonoBehaviour
         Debug.DrawRay(rayOrigin, rayDir * distance, Color.black);
         //광선에 감지된 콜라이더의 정보를 담는다.
         RaycastHit hit;
-        if (Input.GetButtonDown("Fire1"))
+
+        //Raycast에게(발사위치,방향,hit...,광선거리,레이어)를 넘겨준다.
+        if (Physics.Raycast(rayOrigin, rayDir, out hit, distance, Target))
         {
-            //Raycast에게(발사위치,방향,hit...,광선거리,레이어)를 넘겨준다.
-            if (Physics.Raycast(rayOrigin, rayDir, out hit, distance, Target))
+            //광선에 충돌 감지된 콜라이더 컴포넌트를 가진 오브젝트를 지정
+            GameObject hitTarget = hit.collider.gameObject;
+            if(wPos == false)
             {
-                //광선에 충돌 감지된 콜라이더 컴포넌트를 가진 오브젝트를 지정
-                GameObject hitTarget = hit.collider.gameObject;
-                //충동감지된 오브젝트를 자식 오브젝트로 가져온다.
-                ////충돌감지된 오브젝트의 색을 바꿈
-                //hitTarget.GetComponent<Renderer>().material.color = Color.red;
+                if (Input.GetButtonDown("Fire1"))
+                {
+                    //충동감지된 오브젝트를 자식 오브젝트로 가져온다.
+                    playerWeapon = hitTarget.transform.root.GetComponent<Weapon>();
+                    playerWeapon.Set(weaponPos, Weapon.W_Owner.Player);
+                    wPos = true;
+                    ////충돌감지된 오브젝트의 색을 바꿈
+                    //hitTarget.GetComponent<Renderer>().material.color = Color.red;
+                }
             }
+            
         }
     }
 

@@ -18,7 +18,9 @@ public class PlayFire : MonoBehaviour
     Ray ray;
     //무기의 위치
     public Transform weaponPos;
-    public GameObject WeaponShoot; // 내가 발사하고자 하는 오브젝트
+    public GetWeapon getWeapon;
+
+    GameObject playerWeapon;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +30,7 @@ public class PlayFire : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //만약에 플레이어가 마우스 왼쪽을 클릭한다면
+
         if (Input.GetButtonDown("Fire1"))
         {
             //총구의 위치 = firePos게임오브젝트의 위치
@@ -46,20 +48,24 @@ public class PlayFire : MonoBehaviour
             //총알의 정면방향을 ray의 정면으로 지정
             bullet.transform.forward = ray.direction;
         }
+
+
+        //웨폰포스에 무언가 있다.
+        //무언가있다면 그것이 무엇인지 확인해라 태그를 체크해서
+        //총을 들고있다면 마우스 클릭시 총알을 발사한다.
+
+        //근접무기를 들고있다면 마우스 클릭시 벤다.
+        //맨손이라면 아무것도 하지 않는다.
         //던지기
-        if (weaponPos.childCount > 0)
+        //마우스 우클릭을하면
+        if (Input.GetButtonDown("Fire2"))
         {
-            //만약 자식이 있다면
-            if (weaponPos.GetChild(0) != null)
+            if (getWeapon.playerWeapon != null)
             {
-                //WeaponShoot은 weaponPos의 자식의 게임오브젝트다
-                WeaponShoot = weaponPos.GetChild(0).gameObject;
-                //마우스 우클릭을하면
-                if (Input.GetButtonDown("Fire2"))
-                {
-                    //던진다
-                    WeaponShoot.GetComponent<Weapon>().Throw();
-                }
+                //던진다
+                getWeapon.playerWeapon.Throw();
+                getWeapon.wPos = false;
+                getWeapon.playerWeapon = null;
             }
         }
     }
