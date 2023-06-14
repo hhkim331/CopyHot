@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5042569063383934120}
   - component: {fileID: 5042569063383934121}
   - component: {fileID: 2705063695372753236}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: Pistol
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5757312813435356514}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: FirePosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}

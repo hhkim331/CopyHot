@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class CAM : MonoBehaviour
 {
-    //충돌체와의 거리를 구한다.
-    RaycastHit hit = new RaycastHit();
-    Ray ray;
-    //반응할 거리
-    public float MAX_RAY_DISTANCE = 50f;
+    
     //회전가능여부
     public bool useVertical = false;
     public bool useHorizontal = false;
@@ -49,12 +45,5 @@ public class CAM : MonoBehaviour
         rotY = Mathf.Clamp(rotY, -90f, 90);
         //움직인다.
         transform.localEulerAngles = new Vector3(rotY, rotX, 0) + rotValue;
-        //마우스방향으로 쏘기
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, MAX_RAY_DISTANCE))
-        {
-            Transform objectHit = hit.transform;
-            Debug.DrawLine(ray.origin, hit.point, Color.red);
-        }
     }
 }

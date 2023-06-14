@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class GetWeapon : MonoBehaviour
 {
-
+    //카메라의 시선
+    public Camera playerCam;
+    //광선의 사거리
+    public float distance = 2.8f;
+    //지정한 레이어콜라이더만 충돌
+    public LayerMask Target;
     //무기공장
     public GameObject pistolFactory;
     public GameObject arFactory;
@@ -25,32 +30,8 @@ public class GetWeapon : MonoBehaviour
         pistol();
         ar();
         bat();
-        blow();
+        Interaction();
     }
-    //충돌감지
-    //private void OnTriggerStay(Collider other)
-    //{
-    //    //만약 무기 태그가 달린 물건과 충돌한다면
-    //    if (other.tag == "Weapon")
-    //    {
-    //        //키를 누른다
-    //        if (Input.GetButtonDown("Fire1"))
-    //        {
-    //            //오브젝트를 파괴하고
-    //            Destroy(other.gameObject);
-    //            //지정된 위치에 오브젝트가 있다면
-    //            if (wPos == true)
-    //            {
-    //                // 파괴하고
-    //                Destroy(weaponPos.gameObject);
-    //            }
-    //            //지정된 위치로 오브젝트를 새로 꺼내온다
-    //            GameObject.Instantiate(GameObject.Find("Gun"), weaponPos.position, Quaternion.identity).transform.parent = this.gameObject.transform;
-    //            wPos = true;
-    //        }
-
-    //    }
-    //}
 
     void pistol()
     {
@@ -113,14 +94,28 @@ public class GetWeapon : MonoBehaviour
         }
     }
 
-    void blow()
+    void Interaction()
     {
-        if(Input.GetKeyDown(KeyCode.X))
+        //광선의 발사 위치를 카메라 뷰포트의 정중앙으로 설정
+        Vector3 rayOrigin = playerCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f));
+        //발사방향은 카메라의 앞쪽
+        Vector3 rayDir = playerCam.transform.forward;
+        //씬화면에서만 볼수있는 광선
+        Debug.DrawRay(rayOrigin, rayDir * distance, Color.black);
+        //광선에 감지된 콜라이더의 정보를 담는다.
+        RaycastHit hit;
+        if (Input.GetButtonDown("Fire1"))
         {
-            foreach (Transform child in weaponPos)
+            //Raycast에게(발사위치,방향,hit...,광선거리,레이어)를 넘겨준다.
+            if (Physics.Raycast(rayOrigin, rayDir, out hit, distance, Target))
             {
-                Destroy(child.gameObject);
+                //광선에 충돌 감지된 콜라이더 컴포넌트를 가진 오브젝트를 지정
+                GameObject hitTarget = hit.collider.gameObject;
+                //충동감지된 오브젝트를 자식 오브젝트로 가져온다.
+                ////충돌감지된 오브젝트의 색을 바꿈
+                //hitTarget.GetComponent<Renderer>().material.color = Color.red;
             }
         }
     }
+
 }
