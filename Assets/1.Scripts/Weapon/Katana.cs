@@ -77,6 +77,14 @@ public class Katana : Weapon
 
     }
 
+    public override void Throw()
+    {
+        base.Throw();
+
+        //클릭을했을때 날아가게 한다.(리지드바디의 AddForce를 이용하여 힘을 가한다.)
+        rb.AddForce(transform.forward * 5, ForceMode.Impulse);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (owner == W_Owner.Player)

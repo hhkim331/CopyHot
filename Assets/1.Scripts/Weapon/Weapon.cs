@@ -86,10 +86,6 @@ public class Weapon : MonoBehaviour
         col.enabled = true;
         rb.constraints = RigidbodyConstraints.None;
 
-        //클릭을했을때 날아가게 한다.(리지드바디의 AddForce를 이용하여 힘을 가한다.)
-        rb.AddForce(transform.forward * 5, ForceMode.Impulse);
-        rb.AddTorque(Vector3.up * 45, ForceMode.Impulse);
-        rb.AddTorque(Vector3.right * 45, ForceMode.Impulse);
     }
 
     protected virtual void OnCollisionEnter(Collision collision)

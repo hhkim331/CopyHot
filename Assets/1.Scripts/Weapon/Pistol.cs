@@ -36,5 +36,13 @@ public class Pistol : Weapon
         bullet.transform.forward = firePosition.transform.forward;
     }
 
+    public override void Throw()
+    {
+        base.Throw();
 
+        //클릭을했을때 날아가게 한다.(리지드바디의 AddForce를 이용하여 힘을 가한다.)
+        rb.AddForce(transform.forward * 5, ForceMode.Impulse);
+        rb.AddTorque(Vector3.up * 45, ForceMode.Impulse);
+        rb.AddTorque(Vector3.right * 45, ForceMode.Impulse);
+    }
 }
