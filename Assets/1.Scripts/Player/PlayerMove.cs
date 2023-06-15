@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-
     public float moveSpeed = 2.0f; // 이동 속도
     public float jumpForce = 5.0f; // 점프하는 힘
     bool isGround = true; // 땅에 붙어있는가?
@@ -15,6 +14,7 @@ public class PlayerMove : MonoBehaviour
     public CAM cam2;
     public PlayFire playFire;
     public GetWeapon getWeapon;
+
 
     // Start is called before the first frame update
     void Start()
@@ -107,5 +107,6 @@ public class PlayerMove : MonoBehaviour
         //스테이지매니저에있는 스테이지실패 함수를 가져옴
         StageManager.Instance.StageFALL();
     }
+
 
 }

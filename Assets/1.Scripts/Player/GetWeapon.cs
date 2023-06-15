@@ -20,6 +20,11 @@ public class GetWeapon : MonoBehaviour
     //무기를 장착할 위치 지정
     public Transform weaponPos;
     public GameObject getWeapon;
+
+    public bool weaponDel = false;
+    float setDelay = 0.1f;    //장착 대기시간
+    float setDelayTime = 0f;    //장착대기중시간
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +34,17 @@ public class GetWeapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (weaponDel)   //장착 대기중이다
+        {
+            setDelayTime += Time.deltaTime;
+            if (setDelayTime > setDelay)
+            {
+                weaponDel = false;
+            }
+        }
+
+        //나중에----- 무기가 있는 경우 리턴시킨다.
+
         pistol();
         ar();
         bat();
@@ -122,6 +138,11 @@ public class GetWeapon : MonoBehaviour
                     wPos = true;
                     ////충돌감지된 오브젝트의 색을 바꿈
                     //hitTarget.GetComponent<Renderer>().material.color = Color.red;
+
+                    //장착딜레이를 시작해라
+                    weaponDel = true;
+                    //장착 딜레이시간 초기화
+                    setDelayTime = 0f;
                 }
             }
             

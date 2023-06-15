@@ -11,6 +11,7 @@ TagManager:
   - bullet
   - Wall
   - gun
+  - Almost
   layers:
   - Default
   - TransparentFX

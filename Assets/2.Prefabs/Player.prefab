@@ -244,6 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c78831f24f398c64ba9cba82e409c954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 6317935522126998562}
   moveSpeed: 20
   jumpForce: 5
   cam1: {fileID: 0}
@@ -581,5 +582,10 @@ PrefabInstance:
 --- !u!4 &94008478977128024 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0463d8996147b5e4c97eaaab059857ea, type: 3}
+  m_PrefabInstance: {fileID: 488435276607328691}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &6317935522126998562 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 0463d8996147b5e4c97eaaab059857ea, type: 3}
   m_PrefabInstance: {fileID: 488435276607328691}
   m_PrefabAsset: {fileID: 0}
