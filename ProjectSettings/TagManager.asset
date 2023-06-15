@@ -12,6 +12,7 @@ TagManager:
   - Wall
   - gun
   - Almost
+  - Door
   layers:
   - Default
   - TransparentFX
