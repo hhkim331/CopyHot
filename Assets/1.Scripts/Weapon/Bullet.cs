@@ -1,5 +1,6 @@
 ﻿using DynamicMeshCutter;
 using Redcode.Pools;
+using System.Collections;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour, IPoolObject
@@ -42,28 +43,26 @@ public class Bullet : MonoBehaviour, IPoolObject
     }
 
     //충돌처리
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if(!hit)
+        if (!hit)
         {
             //충돌한 상대방 게임오브젝트의 태그값 비교
-            if (collision.gameObject.tag == "Enemy")
+            if (other.transform.root.CompareTag("Enemy"))
             {
-                Enemy enemy = collision.transform.root.GetComponent<Enemy>();
+                Enemy enemy = other.transform.root.GetComponent<Enemy>();
                 if (enemy.e_State != Enemy.E_State.Die)
                 {
                     enemy.Die();
 
                     DeathCutter deathCutter = StageManager.Instance.poolManager.GetFromPool<DeathCutter>();
-                    deathCutter.CutTriple(collision.transform.root, transform);
+                    deathCutter.CutTriple(other.transform.root, transform);
                 }
             }
 
-            if (collision.gameObject.tag == "Player" && owner == Weapon.W_Owner.Enemy)
+            if (other.transform.root.gameObject.CompareTag("Player") && owner == Weapon.W_Owner.Enemy)
             {
-                collision.gameObject.GetComponent<PlayerMove>().Die();
-                //충돌상대가 플레이어면
-                Destroy(gameObject);
+                other.transform.root.gameObject.GetComponent<PlayerMove>().Die();
             }
             hit = true;
         }
@@ -72,15 +71,74 @@ public class Bullet : MonoBehaviour, IPoolObject
         //coll.enabled = false;
         //mesh.enabled = false;
 
+        if(other.transform.root.gameObject.CompareTag("Door"))
+        {
+            StartCoroutine(DelayPool());
+        }
+        else
+        {
+            if (!inPool)
+            {
+                inPool = true;
+                owner = Weapon.W_Owner.None;
+                StageManager.Instance.poolManager.TakeToPool<Bullet>("Bullets", this);
+            }
+        }
+
+
+        trail.Clear();
+    }
+
+    IEnumerator DelayPool()
+    {
+        yield return new WaitForSeconds(0.1f);
         if (!inPool)
         {
             inPool = true;
             owner = Weapon.W_Owner.None;
             StageManager.Instance.poolManager.TakeToPool<Bullet>("Bullets", this);
         }
-
-        trail.Clear();
     }
+
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if(!hit)
+    //    {
+    //        //충돌한 상대방 게임오브젝트의 태그값 비교
+    //        if (collision.gameObject.tag == "Enemy")
+    //        {
+    //            Enemy enemy = collision.transform.root.GetComponent<Enemy>();
+    //            if (enemy.e_State != Enemy.E_State.Die)
+    //            {
+    //                enemy.Die();
+
+    //                DeathCutter deathCutter = StageManager.Instance.poolManager.GetFromPool<DeathCutter>();
+    //                deathCutter.CutTriple(collision.transform.root, transform);
+    //            }
+    //        }
+
+    //        if (collision.gameObject.tag == "Player" && owner == Weapon.W_Owner.Enemy)
+    //        {
+    //            collision.gameObject.GetComponent<PlayerMove>().Die();
+    //            //충돌상대가 플레이어면
+    //            Destroy(gameObject);
+    //        }
+    //        hit = true;
+    //    }
+
+    //    ////충돌 비활성화
+    //    //coll.enabled = false;
+    //    //mesh.enabled = false;
+
+    //    if (!inPool)
+    //    {
+    //        inPool = true;
+    //        owner = Weapon.W_Owner.None;
+    //        StageManager.Instance.poolManager.TakeToPool<Bullet>("Bullets", this);
+    //    }
+
+    //    trail.Clear();
+    //}
 
     public void OnCreatedInPool()
     {

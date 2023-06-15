@@ -6,9 +6,11 @@ public class EnemyPunch : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
+        if (StageManager.Instance.activeReset) return;
+
         if(other.transform.root.tag == "Player")
         {
-            Debug.Log("플레이어 맞음!");
+            other.GetComponent<PlayerMove>().Die();
         }
     }
 }
