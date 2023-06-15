@@ -14,7 +14,7 @@ public class StageManager : MonoBehaviour
     public EnemySpawner enemySpawner;
     public PoolManager poolManager;
 
-    bool activeReset = false;
+    public bool activeReset = false;
     bool stageClear = false;
     bool stageFall = false;
 
@@ -47,6 +47,7 @@ public class StageManager : MonoBehaviour
 
         enemySpawner.Set(stageSpawnData);
 
+        StartCoroutine(SceneFade.Instance.LoadScene_FadeOut());
     }
 
     private void Update()

@@ -51,8 +51,9 @@ public class Enemy : MonoBehaviour
     float attackCoolTime = 2f;
     //펀치 공격 쿨타임
     public float punchCoolTime = 2f;
-    //더미 공격 오브젝트
-    public GameObject attackDummy;
+    //펀치 공격 오브젝트
+    public Collider punchObject1;
+    public Collider punchObject2;
 
     //줍기 사거리
     float pickUpRange = 1.5f;
@@ -266,6 +267,11 @@ public class Enemy : MonoBehaviour
         {
             e_State = E_State.Idle;
             animator.SetBool("Move", false);
+            if(e_WeaponType ==Weapon.WeaponType.None)
+            {
+                punchObject1.enabled = false;
+                punchObject2.enabled = false;
+            }
             return;
         }
 
@@ -281,6 +287,8 @@ public class Enemy : MonoBehaviour
                     e_State = E_State.Move;
                     animator.SetBool("Move", true);
                     animator.SetBool("Attack", false);
+                    punchObject1.enabled = false;
+                    punchObject2.enabled = false;
                     return;
                 }
 
@@ -288,8 +296,9 @@ public class Enemy : MonoBehaviour
                 if (attackDelay >= attackCoolTime)
                 {
                     attackDelay = 0;
-                    StartCoroutine(PunchCoroutine());
                     animator.SetBool("Attack", true);
+                    punchObject1.enabled = true;
+                    punchObject2.enabled = true;
                     //myWeapon.Attack();
                 }
                 break;
@@ -341,14 +350,6 @@ public class Enemy : MonoBehaviour
 
                 break;
         }
-    }
-
-    IEnumerator PunchCoroutine()
-    {
-        yield return new WaitForSeconds(0.4f);
-        attackDummy.SetActive(true);
-        yield return new WaitForSeconds(0.2f);
-        attackDummy.SetActive(false);
     }
 
     void Stunned()

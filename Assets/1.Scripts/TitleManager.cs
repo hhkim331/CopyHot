@@ -10,7 +10,8 @@ public class TitleManager : MonoBehaviour
     {
         if(Input.anyKeyDown)
         {
-            SceneManager.LoadScene("Stage1");
+            SceneFade.Instance.nextSceneName = "Start";
+            StartCoroutine(SceneFade.Instance.LoadScene_FadeIn());
         }
     }
 }
