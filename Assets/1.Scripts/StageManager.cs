@@ -18,6 +18,22 @@ public class StageManager : MonoBehaviour
     bool stageClear = false;
     bool stageFall = false;
 
+    bool gameClear = false;
+    public bool GAMECLEAR
+    {
+        get
+        {
+            return gameClear;
+        }
+        set
+        {
+            gameClear = value;
+            SceneFade.Instance.nextSceneName = "End";
+            SceneFade.Instance.SetWhite();
+            StartCoroutine(SceneFade.Instance.LoadScene_FadeIn());
+        }
+    }
+
     //게임 재시작 변수
     public float restartTime = 3f;
     //재시작키 입력시간
@@ -52,6 +68,8 @@ public class StageManager : MonoBehaviour
 
     private void Update()
     {
+        if (gameClear) return;
+
         if (Input.GetKeyDown(KeyCode.R))
         {
             restartInputTime = 0f;

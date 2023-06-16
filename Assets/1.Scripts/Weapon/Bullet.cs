@@ -34,10 +34,10 @@ public class Bullet : MonoBehaviour, IPoolObject
             inPool = true;
             owner = Weapon.W_Owner.None;
             StageManager.Instance.poolManager.TakeToPool<Bullet>("Bullets", this);
+            trail.Clear();
         }
 
-
-        if (hit) return;
+        //if (hit) return;
         //총알 앞으로 날라가게 하기
         transform.position += transform.forward * Time.deltaTime * 20f;
     }
@@ -71,9 +71,11 @@ public class Bullet : MonoBehaviour, IPoolObject
         //coll.enabled = false;
         //mesh.enabled = false;
 
-        if(other.transform.root.gameObject.CompareTag("Door"))
+        if(other.CompareTag("Door"))
         {
-            StartCoroutine(DelayPool());
+            coll.isTrigger = false;
+            mesh.enabled = false;
+            trail.enabled = false;
         }
         else
         {
@@ -85,19 +87,7 @@ public class Bullet : MonoBehaviour, IPoolObject
             }
         }
 
-
         trail.Clear();
-    }
-
-    IEnumerator DelayPool()
-    {
-        yield return new WaitForSeconds(0.1f);
-        if (!inPool)
-        {
-            inPool = true;
-            owner = Weapon.W_Owner.None;
-            StageManager.Instance.poolManager.TakeToPool<Bullet>("Bullets", this);
-        }
     }
 
     //private void OnCollisionEnter(Collision collision)

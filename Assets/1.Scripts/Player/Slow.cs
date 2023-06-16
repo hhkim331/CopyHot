@@ -23,6 +23,8 @@ public class Slow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (StageManager.Instance.GAMECLEAR) return;
+
         if (attack)
         {
             //시간 누적

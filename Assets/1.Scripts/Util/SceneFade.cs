@@ -18,7 +18,7 @@ public class SceneFade : Singleton<SceneFade>
         SplashObj.SetActive(true);
         while (image.color.a < 1f)
         {
-            image.color = new Color(Color.black.r, Color.black.g, Color.black.b, image.color.a + Time.unscaledDeltaTime);
+            image.color = new Color(image.color.r, image.color.g, image.color.b, image.color.a + Time.unscaledDeltaTime);
             yield return null;
         }
 
@@ -29,11 +29,16 @@ public class SceneFade : Singleton<SceneFade>
     {
         while (image.color.a > 0f)
         {
-            image.color = new Color(Color.black.r, Color.black.g, Color.black.b, image.color.a - Time.unscaledDeltaTime);
+            image.color = new Color(image.color.r, image.color.g, image.color.b, image.color.a - Time.unscaledDeltaTime);
             yield return null;
         }
 
         SplashObj.SetActive(false);
         fade = false;
+    }
+
+    public void SetWhite()
+    {
+        image.color = new Color(1, 1, 1, 0);
     }
 }

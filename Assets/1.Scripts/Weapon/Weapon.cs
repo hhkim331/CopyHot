@@ -101,7 +101,6 @@ public class Weapon : MonoBehaviour
         else if(collision.gameObject.CompareTag("bullet"))
         {
             Destroy(gameObject);
-            Destroy(collision.gameObject);
         }
         isThrow = false;
         rb.useGravity = true;
