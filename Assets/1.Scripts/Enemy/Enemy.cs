@@ -470,6 +470,7 @@ public class Enemy : MonoBehaviour
             e_State = E_State.Stunned;
             animator.SetBool("Move", false);
             animator.SetTrigger("Hit");
+            animator.SetInteger("Weapon", 0);
             stunTime = 0;
             nav.ResetPath();
         }

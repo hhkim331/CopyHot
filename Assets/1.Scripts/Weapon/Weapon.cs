@@ -31,6 +31,7 @@ public class Weapon : MonoBehaviour
 
     public Collider col;
     public Rigidbody rb;
+    public Transform spinMiddle;
 
     public bool isThrow = false;
 
@@ -45,6 +46,7 @@ public class Weapon : MonoBehaviour
         this.owner = owner;
         transform.parent = weaponPos;
         transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.Euler(0, 0, 0);
 
         col.isTrigger = true;
         col.enabled = false;
@@ -84,7 +86,7 @@ public class Weapon : MonoBehaviour
 
         col.isTrigger = false;
         col.enabled = true;
-        rb.constraints = RigidbodyConstraints.None;
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
 
     }
 
@@ -104,5 +106,6 @@ public class Weapon : MonoBehaviour
         }
         isThrow = false;
         rb.useGravity = true;
+        rb.constraints = RigidbodyConstraints.None;
     }
 }

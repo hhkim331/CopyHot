@@ -20,7 +20,10 @@ public class BaseballBat : Weapon
 
     private void Update()
     {
-        if (!isAttack) return;
+        if (isThrow)
+            spinMiddle.Rotate(Vector3.right * 1000 * Time.deltaTime);
+
+        //if (!isAttack) return;
 
         //activeTime+=Time.deltaTime;
 
@@ -43,7 +46,7 @@ public class BaseballBat : Weapon
     public override void Set(Transform weaponPos, W_Owner owner)
     {
         base.Set(weaponPos, owner);
-        transform.localRotation = Quaternion.Euler(0, 0, 0);
+        spinMiddle.localRotation = Quaternion.Euler(0, 0, 0);
     }
 
     public override void Unset()
@@ -67,6 +70,14 @@ public class BaseballBat : Weapon
         activeTime = 0f;
         isAttack = false;
         col.enabled = false;
+    }
+
+    public override void Throw()
+    {
+        base.Throw();
+
+        //클릭을했을때 날아가게 한다.(리지드바디의 AddForce를 이용하여 힘을 가한다.)
+        rb.AddForce(transform.forward * 5, ForceMode.Impulse);
     }
 
     private void OnTriggerEnter(Collider other)

@@ -14,7 +14,9 @@ public class Katana : Weapon
 
     private void Update()
     {
-        if (!isAttack) return;
+        if (isThrow)
+            spinMiddle.Rotate(Vector3.right * 1000 * Time.deltaTime);
+        //if (!isAttack) return;
 
         ////소유자가 플레이어인 경우
         //if (owner == W_Owner.Player)
@@ -40,7 +42,7 @@ public class Katana : Weapon
     public override void Set(Transform weaponPos, W_Owner owner)
     {
         base.Set(weaponPos, owner);
-        transform.localRotation = Quaternion.Euler(0, 0, 0);
+        spinMiddle.localRotation = Quaternion.Euler(0, 0, 0);
     }
 
     public override void Unset()

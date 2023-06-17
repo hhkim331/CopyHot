@@ -13,6 +13,12 @@ public class Pistol : Weapon
     ////생성할 총알 오브젝트
     //public GameObject BulletFactory;
 
+    private void Update()
+    {
+        if (isThrow)
+            spinMiddle.Rotate(Vector3.right * 1000 * Time.deltaTime);
+    }
+
     public override void Unset()
     {
         base.Unset();
@@ -42,7 +48,7 @@ public class Pistol : Weapon
 
         //클릭을했을때 날아가게 한다.(리지드바디의 AddForce를 이용하여 힘을 가한다.)
         rb.AddForce(transform.forward * 5, ForceMode.Impulse);
-        rb.AddTorque(Vector3.up * 45, ForceMode.Impulse);
-        rb.AddTorque(Vector3.right * 45, ForceMode.Impulse);
+        //rb.AddTorque(Vector3.up * 45, ForceMode.Impulse);
+        //rb.AddTorque(Vector3.right * 45, ForceMode.Impulse);
     }
 }
