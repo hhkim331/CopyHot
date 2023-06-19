@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     public TotalEnemySpawnData totalEnemySpawnData;
     public GameObject slow;
     float gametime;
+    public GameObject playercam;
+    public GameObject maincamera;
 
     private void Start()
     {
@@ -29,6 +31,8 @@ public class GameManager : MonoBehaviour
         gameStartMassage.SetActive(true);
         Time.timeScale = 0;
         gamestart = true;
+        playercam.GetComponent<CAM>().enabled = false;
+        maincamera.GetComponent<CAM>().enabled = false;
     }
 
     private void Update()
@@ -40,6 +44,8 @@ public class GameManager : MonoBehaviour
             {
                 gameStartMassage.SetActive(false);
                 slow.SetActive(true);
+                playercam.GetComponent<CAM>().enabled = true;
+                maincamera.GetComponent<CAM>().enabled = true;
             }
         }
     }
