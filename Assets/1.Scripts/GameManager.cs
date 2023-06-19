@@ -59,14 +59,17 @@ public class GameManager : MonoBehaviour
             else if (gametime > 1.5f)
             {
                 gameStartText.text = chat3;
+                gameStartMassage.transform.localScale = Vector3.one * (1.5f - (gametime - 1.5f) / 0.6f);
             }
             else if (gametime > 1.2f)
             {
                 gameStartText.text = chat2;
+                gameStartMassage.transform.localScale = Vector3.one * (1.5f - (gametime - 1.2f) / 0.6f);
             }
             else if (gametime > 0.9f)
             {
                 gameStartText.text = chat1;
+                gameStartMassage.transform.localScale = Vector3.one *  (1.5f-  (gametime - 0.9f) / 0.6f);
             }
         }
     }
