@@ -35,6 +35,9 @@ public class Weapon : MonoBehaviour
 
     public bool isThrow = false;
 
+    //피격 파티클
+    public GameObject particle;
+
     private void Update()
     {
         transform.forward = transform.root.forward;
@@ -98,6 +101,16 @@ public class Weapon : MonoBehaviour
         {
             Enemy enemy = collision.transform.root.GetComponent<Enemy>();
             enemy.Hurt();
+
+            //피격지점의 노말벡터를 구한다.
+            Vector3 normal = collision.contacts[0].normal;
+
+            //피격 파티클 생성
+            GameObject pObject = Instantiate(particle);
+            pObject.transform.position = collision.contacts[0].point;
+            pObject.transform.forward = normal;
+
+            Destroy(pObject, 2f);
         }
 
         else if(collision.gameObject.CompareTag("bullet"))

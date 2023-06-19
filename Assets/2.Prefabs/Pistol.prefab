@@ -186,6 +186,7 @@ MonoBehaviour:
   rb: {fileID: 7244185660187598650}
   spinMiddle: {fileID: 1167147970127148173}
   isThrow: 0
+  particle: {fileID: 8084796416782937575, guid: f16fd52a737c5d24dbcceed967f9847a, type: 3}
   bulletCount: 4
   firePosition: {fileID: 6194353952213310111}
 --- !u!54 &7244185660187598650
