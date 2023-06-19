@@ -48,7 +48,7 @@ public class StageManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI StageFallText;
     bool superText = false;
     float textChangeTime = 0f;
-    float textChangeDelay = 1f;
+    float textChangeDelay = 0.8f;
 
 
     void Awake()
@@ -94,7 +94,7 @@ public class StageManager : MonoBehaviour
         //스테이지 클리어
         if (stageClear)
         {
-            if(superText)
+            if (superText)
             {
                 textChangeTime += Time.unscaledDeltaTime;
                 if (textChangeTime >= textChangeDelay)
@@ -116,6 +116,7 @@ public class StageManager : MonoBehaviour
                     mainText.fontStyle = FontStyles.Normal;
                 }
             }
+            panel.transform.localScale = Vector3.one * (1 + (textChangeDelay - textChangeTime)/ textChangeDelay * 0.5f);
         }
 
         //스테이지 실패
