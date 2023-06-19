@@ -113,6 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  particle: {fileID: 8084796416782937575, guid: f16fd52a737c5d24dbcceed967f9847a, type: 3}
 --- !u!54 &1954604366080172154
 Rigidbody:
   m_ObjectHideFlags: 0

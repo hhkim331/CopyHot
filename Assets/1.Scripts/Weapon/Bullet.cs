@@ -2,6 +2,7 @@
 using Redcode.Pools;
 using System.Collections;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 public class Bullet : MonoBehaviour, IPoolObject
 {
@@ -16,6 +17,8 @@ public class Bullet : MonoBehaviour, IPoolObject
 
     //오브젝트 풀안에서 꺼냈는가?
     bool inPool = true;
+
+    public GameObject particle;
 
     // Start is called before the first frame update
     void Awake()
@@ -60,6 +63,13 @@ public class Bullet : MonoBehaviour, IPoolObject
                     DeathCutter deathCutter = StageManager.Instance.poolManager.GetFromPool<DeathCutter>();
                     deathCutter.CutTriple(other.transform.root, transform);
                 }
+
+                //피격 파티클 생성
+                GameObject pObject = Instantiate(particle);
+                pObject.transform.position = transform.position;
+                pObject.transform.forward = other.transform.root.forward;
+
+                Destroy(pObject, 2f);
             }
 
             if (other.transform.root.gameObject.CompareTag("Player") && owner == Weapon.W_Owner.Enemy)
