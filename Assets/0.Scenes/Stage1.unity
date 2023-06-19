@@ -283,8 +283,8 @@ Canvas:
   m_GameObject: {fileID: 135594026}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 1115218249}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -872,7 +872,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &495588553
 RectTransform:
@@ -1353,6 +1353,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 488435277206287910, guid: 1325bf721b476104282b0a500a593dcb, type: 3}
+      propertyPath: playFire
+      value: 
+      objectReference: {fileID: 1934758118}
     - target: {fileID: 2151775438330132984, guid: 1325bf721b476104282b0a500a593dcb, type: 3}
       propertyPath: volumeLayer.m_Bits
       value: 1024
@@ -1494,7 +1498,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\"\uC801\uC744 \uBAA8\uB450 \uC8FD\uC5EC\uB77C\""
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 75a68981321caab459ec35c313232c6f, type: 2}
   m_sharedMaterial: {fileID: 3833059334709029169, guid: 75a68981321caab459ec35c313232c6f, type: 2}
@@ -1521,8 +1525,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 200
-  m_fontSizeBase: 200
+  m_fontSize: 400
+  m_fontSizeBase: 400
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2161,6 +2165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stage: 0
   gameStartMassage: {fileID: 1807367058}
+  gameStartText: {fileID: 796785233}
   totalEnemySpawnData: {fileID: 11400000, guid: de4eead98134ed94dae5c71488cf02c6, type: 2}
   slow: {fileID: 1726065322}
   playercam: {fileID: 642378955}
@@ -3745,6 +3750,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 488435275342531306, guid: 1325bf721b476104282b0a500a593dcb, type: 3}
   m_PrefabInstance: {fileID: 645838692}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1934758118 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 488435275342531300, guid: 1325bf721b476104282b0a500a593dcb, type: 3}
+  m_PrefabInstance: {fileID: 645838692}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934758113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76fc2d2f9fe322148933a0858174abe6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1954498407
 GameObject:
   m_ObjectHideFlags: 0

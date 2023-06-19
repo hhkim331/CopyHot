@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -11,9 +13,14 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
+    readonly string chat1 = "적을";
+    readonly string chat2 = "모두";
+    readonly string chat3 = "죽여라";
+
     public int stage;
 
     public GameObject gameStartMassage;
+    public TextMeshProUGUI gameStartText;
     bool gamestart = false;
 
     public TotalEnemySpawnData totalEnemySpawnData;
@@ -29,8 +36,10 @@ public class GameManager : MonoBehaviour
         //커서 보이지않음
         Cursor.visible = false;
         gameStartMassage.SetActive(true);
+        gameStartText.text = "";
         Time.timeScale = 0;
         gamestart = true;
+        gametime = 0f;
         playercam.GetComponent<CAM>().enabled = false;
         maincamera.GetComponent<CAM>().enabled = false;
     }
@@ -39,13 +48,25 @@ public class GameManager : MonoBehaviour
     {
         if (gamestart == true)
         {
-            gametime += Time.unscaledTime;
-            if (gametime > 3000)
+            gametime += Time.unscaledDeltaTime;
+            if (gametime > 1.8f)
             {
                 gameStartMassage.SetActive(false);
                 slow.SetActive(true);
                 playercam.GetComponent<CAM>().enabled = true;
                 maincamera.GetComponent<CAM>().enabled = true;
+            }
+            else if (gametime > 1.5f)
+            {
+                gameStartText.text = chat3;
+            }
+            else if (gametime > 1.2f)
+            {
+                gameStartText.text = chat2;
+            }
+            else if (gametime > 0.9f)
+            {
+                gameStartText.text = chat1;
             }
         }
     }
