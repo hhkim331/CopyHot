@@ -42,14 +42,17 @@ public class PlayFire : MonoBehaviour
                 {
                     PlayerAttack();
                 }
-                
+
             }
             if (getWeapon.playerWeapon.weaponType == Weapon.WeaponType.Melee)
             {
                 //getWeapon.playerWeapon.transform.rotation;
             }
         }
-        AttackDelay();
+        if (attack == false)
+        {
+            AttackDelay();
+        }
 
         //던지기
         //마우스 우클릭을하면
