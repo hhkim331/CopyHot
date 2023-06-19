@@ -24,6 +24,7 @@ public class GetWeapon : MonoBehaviour
     public bool weaponDel = false;
     float setDelay = 0.1f;    //장착 대기시간
     float setDelayTime = 0f;    //장착대기중시간
+    public PlayFire playFire;
 
     // Start is called before the first frame update
     void Start()
@@ -40,77 +41,78 @@ public class GetWeapon : MonoBehaviour
             if (setDelayTime > setDelay)
             {
                 weaponDel = false;
+                playFire.attack = true;
             }
         }
 
         //나중에----- 무기가 있는 경우 리턴시킨다.
 
-        pistol();
-        ar();
-        bat();
+        //pistol();
+        //ar();
+        //bat();
         Interaction();
     }
 
-    void pistol()
-    {
-        //키를 누른다.
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            //지정된 위치에 오브젝트가 있다면
-            if (wPos == true)
-            {
-                foreach (Transform child in weaponPos)
-                {
-                    Destroy(child.gameObject);
-                }
-            }
-            //게임오브젝트.복사한다.(게임오브젝트.하이라키창에서("건"), 웨폰포스포지션에, 방향을 그대로).부모 오브젝트 = 
-            Weapon weapon = GameObject.Instantiate(pistolFactory, weaponPos.position, Quaternion.identity).GetComponent<Weapon>();
-            weapon.Set(weaponPos, global::Weapon.W_Owner.Player);
-            wPos = true;
-        }
+    //void pistol()
+    //{
+    //    //키를 누른다.
+    //    if (Input.GetKeyDown(KeyCode.Alpha1))
+    //    {
+    //        //지정된 위치에 오브젝트가 있다면
+    //        if (wPos == true)
+    //        {
+    //            foreach (Transform child in weaponPos)
+    //            {
+    //                Destroy(child.gameObject);
+    //            }
+    //        }
+    //        //게임오브젝트.복사한다.(게임오브젝트.하이라키창에서("건"), 웨폰포스포지션에, 방향을 그대로).부모 오브젝트 = 
+    //        Weapon weapon = GameObject.Instantiate(pistolFactory, weaponPos.position, Quaternion.identity).GetComponent<Weapon>();
+    //        weapon.Set(weaponPos, global::Weapon.W_Owner.Player);
+    //        wPos = true;
+    //    }
 
-    }
+    //}
 
-    void ar()
-    {
-        //키를 누른다.
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            //지정된 위치에 오브젝트가 있다면
-            if (wPos == true)
-            {
-                foreach (Transform child in weaponPos)
-                {
-                    Destroy(child.gameObject);
-                }
-            }
-            //게임오브젝트.복사한다.(게임오브젝트.하이라키창에서("건"), 웨폰포스포지션에, 방향을 그대로).부모 오브젝트 = 
-            Weapon weapon = GameObject.Instantiate(arFactory, weaponPos.position, Quaternion.identity).GetComponent<Weapon>();
-            weapon.Set(weaponPos, global::Weapon.W_Owner.Player);
-            wPos = true;
-        }
-    }
+    //void ar()
+    //{
+    //    //키를 누른다.
+    //    if (Input.GetKeyDown(KeyCode.Alpha2))
+    //    {
+    //        //지정된 위치에 오브젝트가 있다면
+    //        if (wPos == true)
+    //        {
+    //            foreach (Transform child in weaponPos)
+    //            {
+    //                Destroy(child.gameObject);
+    //            }
+    //        }
+    //        //게임오브젝트.복사한다.(게임오브젝트.하이라키창에서("건"), 웨폰포스포지션에, 방향을 그대로).부모 오브젝트 = 
+    //        Weapon weapon = GameObject.Instantiate(arFactory, weaponPos.position, Quaternion.identity).GetComponent<Weapon>();
+    //        weapon.Set(weaponPos, global::Weapon.W_Owner.Player);
+    //        wPos = true;
+    //    }
+    //}
 
-    void bat()
-    {
-        //키를 누른다.
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            //지정된 위치에 오브젝트가 있다면
-            if (wPos == true)
-            {
-                foreach (Transform child in weaponPos)
-                {
-                    Destroy(child.gameObject);
-                }
-            }
-            //게임오브젝트.복사한다.(게임오브젝트.하이라키창에서("건"), 웨폰포스포지션에, 방향을 그대로).부모 오브젝트 = 
-            Weapon weapon = GameObject.Instantiate(batFactory, weaponPos.position, Quaternion.identity).GetComponent<Weapon>();
-            weapon.Set(weaponPos, global::Weapon.W_Owner.Player);
-            wPos = true;
-        }
-    }
+    //void bat()
+    //{
+    //    //키를 누른다.
+    //    if (Input.GetKeyDown(KeyCode.Alpha3))
+    //    {
+    //        //지정된 위치에 오브젝트가 있다면
+    //        if (wPos == true)
+    //        {
+    //            foreach (Transform child in weaponPos)
+    //            {
+    //                Destroy(child.gameObject);
+    //            }
+    //        }
+    //        //게임오브젝트.복사한다.(게임오브젝트.하이라키창에서("건"), 웨폰포스포지션에, 방향을 그대로).부모 오브젝트 = 
+    //        Weapon weapon = GameObject.Instantiate(batFactory, weaponPos.position, Quaternion.identity).GetComponent<Weapon>();
+    //        weapon.Set(weaponPos, global::Weapon.W_Owner.Player);
+    //        wPos = true;
+    //    }
+    //}
 
     public void Interaction()
     {
