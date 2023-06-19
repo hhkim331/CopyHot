@@ -136,6 +136,16 @@ public class GetWeapon : MonoBehaviour
                 {
                     //충동감지된 오브젝트를 자식 오브젝트로 가져온다.
                     playerWeapon = hitTarget.transform.root.GetComponent<Weapon>();
+                    if(playerWeapon.weaponType == Weapon.WeaponType.Range)
+                    {
+                        weaponPos.localPosition = new Vector3(0.3f, weaponPos.localPosition.y, weaponPos.localPosition.z);
+                        weaponPos.localRotation = Quaternion.identity;
+                    }
+                    if (playerWeapon.weaponType == Weapon.WeaponType.Melee)
+                    {
+                        weaponPos.localPosition = new Vector3(-0.3f, weaponPos.localPosition.y, weaponPos.localPosition.z);
+                        weaponPos.localRotation = Quaternion.Euler(new Vector3(0,0,-35));
+                    }
                     playerWeapon.Set(weaponPos, Weapon.W_Owner.Player);
                     wPos = true;
                     ////충돌감지된 오브젝트의 색을 바꿈
