@@ -104,6 +104,7 @@ MonoBehaviour:
   rb: {fileID: 2641196973833819550}
   spinMiddle: {fileID: 4142285237811428586}
   isThrow: 0
+  particle: {fileID: 8084796416782937575, guid: f16fd52a737c5d24dbcceed967f9847a, type: 3}
 --- !u!1 &8220916339153488522
 GameObject:
   m_ObjectHideFlags: 0

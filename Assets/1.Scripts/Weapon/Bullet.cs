@@ -28,7 +28,7 @@ public class Bullet : MonoBehaviour, IPoolObject
     // Update is called once per frame
     void Update()
     {
-        lifeTime+=Time.deltaTime;
+        lifeTime += Time.deltaTime;
         if (lifeTime > 5f && !inPool)
         {
             inPool = true;
@@ -45,6 +45,8 @@ public class Bullet : MonoBehaviour, IPoolObject
     //충돌처리
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.layer == LayerMask.NameToLayer("PostProcessing")) return;
+
         if (!hit)
         {
             //충돌한 상대방 게임오브젝트의 태그값 비교
@@ -71,7 +73,7 @@ public class Bullet : MonoBehaviour, IPoolObject
         //coll.enabled = false;
         //mesh.enabled = false;
 
-        if(other.CompareTag("Door"))
+        if (other.CompareTag("Door"))
         {
             coll.isTrigger = false;
             mesh.enabled = false;
