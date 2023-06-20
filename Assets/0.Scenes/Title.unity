@@ -123,6 +123,76 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &33475277
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 33475278}
+  - component: {fileID: 33475279}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &33475278
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 33475277}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &33475279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 33475277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 103b8497e27f02c47839a5e92d607f17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingBGMSoundInfos:
+  - key: Terminal1
+    audioClip: {fileID: 8300000, guid: 1114d7c901903054fb7e6ff0ea4406be, type: 3}
+  - key: Terminal2
+    audioClip: {fileID: 8300000, guid: 6e25fda1b311bee4a8bd7af81771422d, type: 3}
+  - key: Stage1
+    audioClip: {fileID: 8300000, guid: 8d1865199f704f340b69618ebc6f00f3, type: 3}
+  loadingSFXSoundInfos:
+  - key: super
+    audioClip: {fileID: 8300000, guid: 3abaf5844edb7b14fa74d42d807023cb, type: 3}
+  - key: hot
+    audioClip: {fileID: 8300000, guid: 215080e48c6684b41b946919a9415d53, type: 3}
+  - key: pistol_fire
+    audioClip: {fileID: 8300000, guid: 3183d4d5e4be928469255249ddb27fee, type: 3}
+  - key: pistol_pickup
+    audioClip: {fileID: 8300000, guid: 186ee2e498699074bbe230ee8ef7311b, type: 3}
+  - key: enemy_spawn
+    audioClip: {fileID: 8300000, guid: 23328cdfdd25c56459fccdd1d4feecb4, type: 3}
+  - key: space
+    audioClip: {fileID: 8300000, guid: c0ae7f737da37fe4e8ea9fd5efadeb88, type: 3}
+  - key: enter
+    audioClip: {fileID: 8300000, guid: ae67c28c44e9c2542b190801f3e8d4d9, type: 3}
+  - key: message
+    audioClip: {fileID: 8300000, guid: db0d5f826c1618443a960c0751b9c880, type: 3}
+  - key: start
+    audioClip: {fileID: 8300000, guid: 36230795e5693984c93dc57040fa08c0, type: 3}
 --- !u!1 &36859954
 GameObject:
   m_ObjectHideFlags: 0
@@ -1129,6 +1199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SplashObj: {fileID: 36859954}
   image: {fileID: 1770504381}
+  fade: 0
   nextSceneName: 
 --- !u!4 &2071172976
 Transform:

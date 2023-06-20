@@ -45,6 +45,7 @@ public class StartManager : MonoBehaviour
     // Start is called before the first frame update
     IEnumerator Start()
     {
+        SoundManager.Instance.PlayBGM("Terminal2");
         yield return StartCoroutine(SceneFade.Instance.LoadScene_FadeOut());
         chatEnd = true;
     }
@@ -120,22 +121,37 @@ public class StartManager : MonoBehaviour
         chat1Text.text = "";
         for (int i = 0; i < chat1.Length; i++)
         {
+            if (chat1[i] == ' ')
+                yield return new WaitForSeconds(0.12f);
+            else
+                yield return new WaitForSeconds(0.08f);
             chat1Text.text += chat1[i];
-            yield return new WaitForSeconds(0.1f);
+            if (i == chat1.Length - 1)
+                SoundManager.Instance.PlaySFX("enter");
+            else
+                SoundManager.Instance.PlaySFX("space");
         }
 
         chatEnd = true;
     }
     IEnumerator Chat2()
     {
+        yield return new WaitForSeconds(0.2f);
         chat2Text.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.4f);
 
         chat2Text.text = "";
         for (int i = 0; i < chat2.Length; i++)
         {
+            if (chat2[i] == ' ')
+                yield return new WaitForSeconds(0.16f);
+            else
+                yield return new WaitForSeconds(0.08f);
             chat2Text.text += chat2[i];
-            yield return new WaitForSeconds(0.1f);
+            if (i == chat2.Length - 1)
+                SoundManager.Instance.PlaySFX("enter");
+            else
+                SoundManager.Instance.PlaySFX("space");
         }
 
         chatEnd = true;
@@ -143,75 +159,120 @@ public class StartManager : MonoBehaviour
 
     IEnumerator Chat3()
     {
+        yield return new WaitForSeconds(0.2f);
         chat3Text.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.4f);
 
         chat3Text.text = "";
         for (int i = 0; i < chat3.Length; i++)
         {
+            if (chat3[i] == ' ')
+                yield return new WaitForSeconds(0.16f);
+            else
+                yield return new WaitForSeconds(0.08f);
             chat3Text.text += chat3[i];
-            yield return new WaitForSeconds(0.1f);
+            if (i == chat3.Length - 1)
+                SoundManager.Instance.PlaySFX("enter");
+            else
+                SoundManager.Instance.PlaySFX("space");
         }
+        SoundManager.Instance.PlaySFX("enter");
 
         chatEnd = true;
     }
 
     IEnumerator Chat4()
     {
+        yield return new WaitForSeconds(0.2f);
         chat4Text.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.4f);
 
         chat4Text.text = "";
         for (int i = 0; i < chat4.Length; i++)
         {
+            if (chat4[i] == ' ')
+                yield return new WaitForSeconds(0.16f);
+            else
+                yield return new WaitForSeconds(0.08f);
             chat4Text.text += chat4[i];
-            yield return new WaitForSeconds(0.1f);
+            if (i == chat4.Length - 1)
+                SoundManager.Instance.PlaySFX("enter");
+            else
+                SoundManager.Instance.PlaySFX("space");
         }
+        SoundManager.Instance.PlaySFX("enter");
 
         chatEnd = true;
     }
 
     IEnumerator Chat5()
     {
+        yield return new WaitForSeconds(0.2f);
         chat5Text.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.4f);
 
         chat5Text.text = "";
         for (int i = 0; i < chat5.Length; i++)
         {
+            if (chat5[i] == ' ')
+                yield return new WaitForSeconds(0.16f);
+            else
+                yield return new WaitForSeconds(0.08f);
             chat5Text.text += chat5[i];
-            yield return new WaitForSeconds(0.1f);
+            if (i == chat5.Length - 1)
+                SoundManager.Instance.PlaySFX("enter");
+            else
+                SoundManager.Instance.PlaySFX("space");
         }
+        SoundManager.Instance.PlaySFX("enter");
 
         chatEnd = true;
     }
 
     IEnumerator Chat6()
     {
+        yield return new WaitForSeconds(0.2f);
         chat6Text.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.4f);
 
         chat6Text.text = "";
         for (int i = 0; i < chat6.Length; i++)
         {
+            if (chat6[i] == ' ')
+                yield return new WaitForSeconds(0.16f);
+            else
+                yield return new WaitForSeconds(0.08f);
             chat6Text.text += chat6[i];
-            yield return new WaitForSeconds(0.1f);
+            if (i == chat6.Length - 1)
+                SoundManager.Instance.PlaySFX("enter");
+            else
+                SoundManager.Instance.PlaySFX("space");
         }
+        SoundManager.Instance.PlaySFX("enter");
 
         chatEnd = true;
     }
 
     IEnumerator Chat7()
     {
+        yield return new WaitForSeconds(0.2f);
         chat7Text.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.4f);
 
         chat7Text.text = "";
         for (int i = 0; i < chat7.Length; i++)
         {
+            if (chat7[i] == ' ')
+                yield return new WaitForSeconds(0.16f);
+            else
+                yield return new WaitForSeconds(0.08f);
             chat7Text.text += chat7[i];
-            yield return new WaitForSeconds(0.1f);
+            if (i == chat7.Length - 1)
+                SoundManager.Instance.PlaySFX("enter");
+            else
+                SoundManager.Instance.PlaySFX("space");
         }
+        SoundManager.Instance.PlaySFX("enter");
 
         chatEnd = true;
         startButton.interactable = true;
@@ -219,7 +280,7 @@ public class StartManager : MonoBehaviour
 
     void StartButtonEvent()
     {
-        SceneFade.Instance.nextSceneName = "Stage1";
+        SceneFade.Instance.nextSceneName = "Stage1NewMap";
         StartCoroutine(SceneFade.Instance.LoadScene_FadeIn());
     }
 

@@ -54,42 +54,48 @@ MonoBehaviour:
     - id: 110
       step: 1
       createTime: 1
-      position: {x: -5, y: 0, z: -12}
+      position: {x: -5, y: 0, z: 8}
       rotation: {x: 0, y: 180, z: 0}
       defaultWeapon: 1
     - id: 111
       step: 1
       createTime: 2
-      position: {x: -14, y: 0, z: 25}
-      rotation: {x: 0, y: 90, z: 0}
-      defaultWeapon: 2
+      position: {x: 5, y: 0, z: 8}
+      rotation: {x: 0, y: 180, z: 0}
+      defaultWeapon: 1
     - id: 112
       step: 1
-      createTime: 2
-      position: {x: 14, y: 0, z: 25}
-      rotation: {x: 0, y: -90, z: 0}
-      defaultWeapon: 3
+      createTime: 3
+      position: {x: 0, y: 0, z: 8}
+      rotation: {x: 0, y: 180, z: 0}
+      defaultWeapon: 1
     - id: 120
       step: 2
       createTime: 0
-      position: {x: -14, y: 0, z: 25}
-      rotation: {x: 0, y: 90, z: 0}
+      position: {x: 5, y: 0, z: -9}
+      rotation: {x: 0, y: 180, z: 0}
       defaultWeapon: 0
     - id: 121
       step: 2
       createTime: 0
-      position: {x: 14, y: 0, z: 25}
-      rotation: {x: 0, y: -90, z: 0}
-      defaultWeapon: 1
+      position: {x: -5, y: 0, z: -12}
+      rotation: {x: 0, y: 180, z: 0}
+      defaultWeapon: 0
     - id: 122
+      step: 2
+      createTime: 2
+      position: {x: 0, y: 0, z: 8}
+      rotation: {x: 0, y: 180, z: 0}
+      defaultWeapon: 1
+    - id: 123
       step: 2
       createTime: 0
       position: {x: -14, y: 0, z: -25}
       rotation: {x: 0, y: 90, z: 0}
-      defaultWeapon: 2
-    - id: 123
-      step: 2
-      createTime: 0
-      position: {x: 14, y: 0, z: -25}
-      rotation: {x: 0, y: -90, z: 0}
       defaultWeapon: 3
+    - id: 124
+      step: 2
+      createTime: 4
+      position: {x: -14, y: 0, z: -25}
+      rotation: {x: 0, y: 90, z: 0}
+      defaultWeapon: 1

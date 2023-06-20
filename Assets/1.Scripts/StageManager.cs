@@ -63,6 +63,8 @@ public class StageManager : MonoBehaviour
 
         enemySpawner.Set(stageSpawnData);
 
+        SoundManager.Instance.PlayBGM("Stage1");
+
         StartCoroutine(SceneFade.Instance.LoadScene_FadeOut());
     }
 
@@ -77,7 +79,8 @@ public class StageManager : MonoBehaviour
             {
                 //재시작
                 //씬 다시 로딩
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                SceneFade.Instance.nextSceneName = SceneManager.GetActiveScene().name;
+                StartCoroutine(SceneFade.Instance.LoadScene_FadeIn());
             }
         }
         else if (Input.GetKey(KeyCode.R))
@@ -87,7 +90,8 @@ public class StageManager : MonoBehaviour
             {
                 //씬 다시 로딩
                 restartInputTime = 0f;
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                SceneFade.Instance.nextSceneName = SceneManager.GetActiveScene().name;
+                StartCoroutine(SceneFade.Instance.LoadScene_FadeIn());
             }
         }
 
@@ -102,6 +106,7 @@ public class StageManager : MonoBehaviour
                     textChangeTime = 0f;
                     superText = false;
                     mainText.text = "HOT";
+                    SoundManager.Instance.PlaySFX("hot");
                     mainText.fontStyle = FontStyles.Bold;
                 }
             }
@@ -113,6 +118,7 @@ public class StageManager : MonoBehaviour
                     textChangeTime = 0f;
                     superText = true;
                     mainText.text = "SUPER";
+                    SoundManager.Instance.PlaySFX("super");
                     mainText.fontStyle = FontStyles.Normal;
                 }
             }

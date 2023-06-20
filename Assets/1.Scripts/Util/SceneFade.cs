@@ -16,6 +16,7 @@ public class SceneFade : Singleton<SceneFade>
     {
         fade = true;
         SplashObj.SetActive(true);
+        SoundManager.Instance.BGMVolume = 0;
         while (image.color.a < 1f)
         {
             image.color = new Color(image.color.r, image.color.g, image.color.b, image.color.a + Time.unscaledDeltaTime);
@@ -27,6 +28,7 @@ public class SceneFade : Singleton<SceneFade>
 
     public IEnumerator LoadScene_FadeOut()
     {
+        SoundManager.Instance.BGMVolume = 1;
         while (image.color.a > 0f)
         {
             image.color = new Color(image.color.r, image.color.g, image.color.b, image.color.a - Time.unscaledDeltaTime);
