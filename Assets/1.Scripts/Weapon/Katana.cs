@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Katana : Weapon
 {
+    bool isAttack = false;
+
+    //활성 시간
+    float activeTime = 0;
+
     //공격코루틴
     Coroutine attackCoroutine;
 
@@ -49,6 +54,8 @@ public class Katana : Weapon
     {
         base.Attack();
         //무기 휘두르기
+        activeTime = 0f;
+        isAttack = true;
         //col.enabled = true;
         attackCoroutine= StartCoroutine(AttackCoroutine());
     }
@@ -66,6 +73,8 @@ public class Katana : Weapon
         if (attackCoroutine != null)
             StopCoroutine(attackCoroutine);
         //무기 휘두르기 끝
+        activeTime = 0f;
+        isAttack = false;
         col.enabled = false;
 
     }

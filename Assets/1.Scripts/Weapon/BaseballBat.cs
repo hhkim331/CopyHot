@@ -6,7 +6,10 @@ public class BaseballBat : Weapon
 {
     //내구도
     public int durability = 3;
+    bool isAttack = false;
 
+    //활성 시간
+    float activeTime = 0;
     //피벗용 부모
     //Transform pivotParent;
 
@@ -55,6 +58,8 @@ public class BaseballBat : Weapon
     {
         base.Attack();
         //무기 휘두르기
+        activeTime = 0f;
+        isAttack = true;
         col.enabled = true;
     }
 
@@ -62,6 +67,8 @@ public class BaseballBat : Weapon
     {
         base.AttackEnd();
         //무기 휘두르기 끝
+        activeTime = 0f;
+        isAttack = false;
         col.enabled = false;
     }
 

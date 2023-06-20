@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7823bf6b1230526468b0dd8c6522058f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Separation: 0
+  Separation: 0.02
   DestroyTargets: 1
   UseAsync: 1
   VertexCreationThreshold: 0

@@ -65,7 +65,7 @@ public class Enemy : MonoBehaviour
     GameObject pickUpTarget;
 
     //스턴상태 지속시간
-    float stunDuration = 1.5f;
+    float stunDuration = 1f;
     //스턴 시간
     float stunTime = 0f;
 
