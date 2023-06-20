@@ -136,9 +136,21 @@ public class GetWeapon : MonoBehaviour
                 {
                     //충동감지된 오브젝트를 자식 오브젝트로 가져온다.
                     playerWeapon = hitTarget.transform.root.GetComponent<Weapon>();
+                    //무기의 타입이 총이라면
+                    if (playerWeapon.weaponType == Weapon.WeaponType.Range)
+                    {
+                        weaponPos.localPosition = new Vector3(0.3f, weaponPos.localPosition.y, weaponPos.localPosition.z);
+                        weaponPos.localRotation = Quaternion.identity;
+                    }
+                    //무기타입이 칼이라면
+                    if (playerWeapon.weaponType == Weapon.WeaponType.Melee)
+                    {
+                        weaponPos.localPosition = new Vector3(-0.3f, weaponPos.localPosition.y, weaponPos.localPosition.z);
+                        weaponPos.localRotation = Quaternion.Euler(new Vector3(0,0,-35));
+                    }
                     playerWeapon.Set(weaponPos, Weapon.W_Owner.Player);
                     wPos = true;
-                    ////충돌감지된 오브젝트의 색을 바꿈
+                    //충돌감지된 오브젝트의 색을 바꿈
                     //hitTarget.GetComponent<Renderer>().material.color = Color.red;
 
                     //장착딜레이를 시작해라

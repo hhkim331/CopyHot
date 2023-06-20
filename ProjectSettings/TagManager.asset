@@ -10,8 +10,6 @@ TagManager:
   - Weapon
   - bullet
   - Wall
-  - gun
-  - Almost
   - Door
   layers:
   - Default
