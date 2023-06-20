@@ -63,7 +63,11 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
+<<<<<<< Updated upstream:Assets/6.Materials/New Material.mat
     - _Glossiness: 0.5
+=======
+    - _Glossiness: 1
+>>>>>>> Stashed changes:Assets/6.Materials/White.mat
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0

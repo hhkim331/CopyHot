@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (gamestart == true)
+        if (gamestart == true && !slow.activeSelf)
         {
             gametime += Time.unscaledDeltaTime;
             if (gametime > 1.8f)
