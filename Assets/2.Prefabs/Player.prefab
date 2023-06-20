@@ -119,6 +119,8 @@ MonoBehaviour:
   firePower: 500
   weaponPos: {fileID: 488435277206287908}
   getWeapon: {fileID: 488435277206287910}
+  attackDelayTime: 0
+  attack: 0
 --- !u!114 &2151775438330132984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,7 +136,7 @@ MonoBehaviour:
   volumeTrigger: {fileID: 488435275342531307}
   volumeLayer:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1024
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
   antialiasingMode: 0
@@ -336,6 +338,7 @@ MonoBehaviour:
   weaponPos: {fileID: 488435277206287908}
   getWeapon: {fileID: 0}
   weaponDel: 0
+  playFire: {fileID: 488435275342531300}
 --- !u!1001 &488435276607328691
 PrefabInstance:
   m_ObjectHideFlags: 0
