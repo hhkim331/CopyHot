@@ -122,7 +122,7 @@ public class StageManager : MonoBehaviour
                     mainText.fontStyle = FontStyles.Normal;
                 }
             }
-            panel.transform.localScale = Vector3.one * (1 + (textChangeDelay - textChangeTime)/ textChangeDelay * 0.5f);
+            panel.transform.localScale = Vector3.one * (1 + (textChangeDelay - textChangeTime) / textChangeDelay * 0.5f);
         }
 
         //스테이지 실패

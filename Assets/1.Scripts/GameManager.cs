@@ -80,15 +80,14 @@ public class GameManager : MonoBehaviour
             }
             else if (gametime > 0.9f)
             {
-                if(curChat!=chat1)
+                if (curChat != chat1)
                 {
                     curChat = chat1;
                     gameStartText.text = chat1;
                     SoundManager.Instance.PlaySFX("message");
                 }
-                gameStartMassage.transform.localScale = Vector3.one *  (1.5f-  (gametime - 0.9f) / 0.6f);
+                gameStartMassage.transform.localScale = Vector3.one * (1.5f - (gametime - 0.9f) / 0.6f);
             }
         }
     }
-
 }

@@ -167,32 +167,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 103b8497e27f02c47839a5e92d607f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: 288d2a3fca0656840a58a494632f51f0, type: 2}
   loadingBGMSoundInfos:
   - key: Terminal1
     audioClip: {fileID: 8300000, guid: 1114d7c901903054fb7e6ff0ea4406be, type: 3}
+    audioMixerGroup: {fileID: 556018454506305950, guid: 288d2a3fca0656840a58a494632f51f0, type: 2}
   - key: Terminal2
     audioClip: {fileID: 8300000, guid: 6e25fda1b311bee4a8bd7af81771422d, type: 3}
+    audioMixerGroup: {fileID: -8356268842952011072, guid: 288d2a3fca0656840a58a494632f51f0, type: 2}
   - key: Stage1
     audioClip: {fileID: 8300000, guid: 8d1865199f704f340b69618ebc6f00f3, type: 3}
+    audioMixerGroup: {fileID: 556018454506305950, guid: 288d2a3fca0656840a58a494632f51f0, type: 2}
   loadingSFXSoundInfos:
   - key: super
     audioClip: {fileID: 8300000, guid: 3abaf5844edb7b14fa74d42d807023cb, type: 3}
+    audioMixerGroup: {fileID: -8168251193093090381, guid: 288d2a3fca0656840a58a494632f51f0, type: 2}
   - key: hot
     audioClip: {fileID: 8300000, guid: 215080e48c6684b41b946919a9415d53, type: 3}
+    audioMixerGroup: {fileID: -8168251193093090381, guid: 288d2a3fca0656840a58a494632f51f0, type: 2}
   - key: pistol_fire
     audioClip: {fileID: 8300000, guid: 3183d4d5e4be928469255249ddb27fee, type: 3}
+    audioMixerGroup: {fileID: -1681681844352128700, guid: 288d2a3fca0656840a58a494632f51f0, type: 2}
   - key: pistol_pickup
     audioClip: {fileID: 8300000, guid: 186ee2e498699074bbe230ee8ef7311b, type: 3}
+    audioMixerGroup: {fileID: -1681681844352128700, guid: 288d2a3fca0656840a58a494632f51f0, type: 2}
+  - key: pistol_throw
+    audioClip: {fileID: 8300000, guid: 2fa3bcc3015059545b74f16521262bde, type: 3}
+    audioMixerGroup: {fileID: -8168251193093090381, guid: 288d2a3fca0656840a58a494632f51f0, type: 2}
   - key: enemy_spawn
     audioClip: {fileID: 8300000, guid: 23328cdfdd25c56459fccdd1d4feecb4, type: 3}
+    audioMixerGroup: {fileID: 7153222734068723817, guid: 288d2a3fca0656840a58a494632f51f0, type: 2}
+  - key: enemy_death
+    audioClip: {fileID: 8300000, guid: e90892b8a84e45a4dafac72e21f8483c, type: 3}
+    audioMixerGroup: {fileID: 7153222734068723817, guid: 288d2a3fca0656840a58a494632f51f0, type: 2}
   - key: space
     audioClip: {fileID: 8300000, guid: c0ae7f737da37fe4e8ea9fd5efadeb88, type: 3}
+    audioMixerGroup: {fileID: -696471194710954058, guid: 288d2a3fca0656840a58a494632f51f0, type: 2}
   - key: enter
     audioClip: {fileID: 8300000, guid: ae67c28c44e9c2542b190801f3e8d4d9, type: 3}
+    audioMixerGroup: {fileID: -696471194710954058, guid: 288d2a3fca0656840a58a494632f51f0, type: 2}
   - key: message
     audioClip: {fileID: 8300000, guid: db0d5f826c1618443a960c0751b9c880, type: 3}
+    audioMixerGroup: {fileID: -8168251193093090381, guid: 288d2a3fca0656840a58a494632f51f0, type: 2}
   - key: start
     audioClip: {fileID: 8300000, guid: 36230795e5693984c93dc57040fa08c0, type: 3}
+    audioMixerGroup: {fileID: -1681681844352128700, guid: 288d2a3fca0656840a58a494632f51f0, type: 2}
 --- !u!1 &36859954
 GameObject:
   m_ObjectHideFlags: 0
