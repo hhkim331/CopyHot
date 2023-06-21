@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -432,6 +433,7 @@ public class Enemy : MonoBehaviour
         isAttackable = false;
         //포탈 생성
         GameObject portal = Instantiate(portalParticle, transform.position + transform.up * 1.8f, transform.rotation);
+        SoundManager.Instance.PlaySFXFromObject(portal.transform.position, "enemy_spawn");
         Destroy(portal, 2f);
         //포탈 이펙트가 끝나면 공격 가능
         StartCoroutine(SpawnEffectCoroutine());
@@ -488,6 +490,7 @@ public class Enemy : MonoBehaviour
         nav.enabled = false;
 
         StageManager.Instance.enemySpawner.CheckStepEnd(id);
+        SoundManager.Instance.PlaySFXFromObject(transform.position, "enemy_death");
         Destroy(gameObject, 3f);
     }
 }

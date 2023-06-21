@@ -1,14 +1,14 @@
-﻿﻿using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 [System.Serializable]
-public struct LoadingSoundInfo
+public class SoundData
 {
-    [Header("Key value")]
     public string key;
-    [Header("Directory in Resrouces folder")]
     public AudioClip audioClip;
+    public AudioMixerGroup audioMixerGroup;
 }
 
 public class SoundManager : Singleton<SoundManager>
@@ -18,10 +18,10 @@ public class SoundManager : Singleton<SoundManager>
     {
         set
         {
-            bgmVolume = value;
             if (bgmCoroutine != null)
                 StopCoroutine(bgmCoroutine);
-            bgmCoroutine = StartCoroutine(BGMFade(value, 1f));
+            bgmCoroutine = StartCoroutine(BGMFade(bgmVolume, value, 1f));
+            bgmVolume = value;
         }
     }
     Coroutine bgmCoroutine = null;
@@ -31,29 +31,31 @@ public class SoundManager : Singleton<SoundManager>
     {
         set
         {
-            sfxVolume = value;
             if (sfxCoroutine != null)
                 StopCoroutine(sfxCoroutine);
-            sfxCoroutine = StartCoroutine(SFXFade(value, 1f));
+            sfxCoroutine = StartCoroutine(SFXFade(sfxVolume, value, 1f));
+            sfxVolume = value;
         }
     }
     Coroutine sfxCoroutine = null;
 
-    [SerializeField] List<LoadingSoundInfo> loadingBGMSoundInfos = new List<LoadingSoundInfo>();
-    [SerializeField] List<LoadingSoundInfo> loadingSFXSoundInfos = new List<LoadingSoundInfo>();
+    [SerializeField] AudioMixer audioMixer = null;
 
-    Dictionary<string, AudioClip> sfxContainer = new Dictionary<string, AudioClip>();
-    Dictionary<string, AudioClip> bgmContainer = new Dictionary<string, AudioClip>();
+    [SerializeField] List<SoundData> loadingBGMSoundInfos = new List<SoundData>();
+    [SerializeField] List<SoundData> loadingSFXSoundInfos = new List<SoundData>();
+
+    Dictionary<string, SoundData> bgmContainer = new Dictionary<string, SoundData>();
+    Dictionary<string, SoundData> sfxContainer = new Dictionary<string, SoundData>();
 
     GameObject bgmObj = null;   // 백그라운드 오브젝트
     AudioSource bgmSrc = null;  // 백그라운드 AudioSource 컴포넌트
 
-    int sfxMaxCount = 4;
+    int sfxMaxCount = 10;
     int sfxCurCount = 0;
     List<GameObject> sfxObjList = new List<GameObject>(); //ArrayList m_sndObjList = new ArrayList();          // 효과음 오브젝트
-    AudioSource[] sfxSrcList = new AudioSource[4];  // 넉넉히 만들어 놓는다.
+    AudioSource[] sfxSrcList;
 
-    AudioClip a_GAudioClip = null;
+    SoundData soundData = null;
 
     // Start is called before the first frame update
 
@@ -69,14 +71,16 @@ public class SoundManager : Singleton<SoundManager>
         //bgm
         for (int i = 0; i < loadingBGMSoundInfos.Count; i++)
         {
-            bgmContainer.Add(loadingBGMSoundInfos[i].key, loadingBGMSoundInfos[i].audioClip);
+            bgmContainer.Add(loadingBGMSoundInfos[i].key, loadingBGMSoundInfos[i]);
         }
 
         //sfx
         for (int i = 0; i < loadingSFXSoundInfos.Count; i++)
         {
-            sfxContainer.Add(loadingSFXSoundInfos[i].key, loadingSFXSoundInfos[i].audioClip);
+            sfxContainer.Add(loadingSFXSoundInfos[i].key, loadingSFXSoundInfos[i]);
         }
+
+        sfxSrcList = new AudioSource[sfxMaxCount];
     }
 
     public void LoadChildGameObj()
@@ -114,7 +118,7 @@ public class SoundManager : Singleton<SoundManager>
     #region BGM
     public void PlayBGM(string key)
     {
-        a_GAudioClip = bgmContainer[key];
+        soundData = bgmContainer[key];
 
         //Scene이 넘어가면 GameObject는 지워지고, m_bgmObj == null 이면 
         //PlayBGM()하게 되면 다시 로딩하게 된다. 
@@ -128,26 +132,27 @@ public class SoundManager : Singleton<SoundManager>
             bgmObj.name = "BGMObj";
         }
 
-        if (a_GAudioClip != null && bgmSrc != null)
+        if (soundData != null && bgmSrc != null)
         {
-            if (bgmSrc.clip == a_GAudioClip)
+            if (bgmSrc.clip == soundData.audioClip)
                 return;
 
-            bgmSrc.clip = a_GAudioClip;
-            bgmSrc.volume = bgmVolume;
+            bgmSrc.clip = soundData.audioClip;
+            bgmSrc.outputAudioMixerGroup = soundData.audioMixerGroup;
+            //bgmSrc.volume = bgmVolume;
             bgmSrc.loop = true;
             bgmSrc.spatialBlend = 0f;
             bgmSrc.Play(0);
         }
     }
 
-    IEnumerator BGMFade(float endValue, float fadeTime)
+    IEnumerator BGMFade(float startValue, float endValue, float fadeTime)
     {
         float time = 0;
         while (time < fadeTime)
         {
             yield return null;
-            bgmSrc.volume = Mathf.Lerp(bgmSrc.volume, endValue, time / fadeTime);
+            audioMixer.SetFloat("BGM", Mathf.Lerp(startValue, endValue, time / fadeTime));
             time += Time.deltaTime;
         }
     }
@@ -160,7 +165,7 @@ public class SoundManager : Singleton<SoundManager>
         if (sfxContainer.ContainsKey(key) == false)
             return;
 
-        a_GAudioClip = sfxContainer[key];
+        soundData = sfxContainer[key];
 
         // 최대 4개까지 재생
         if (sfxObjList.Count < sfxMaxCount)
@@ -176,10 +181,12 @@ public class SoundManager : Singleton<SoundManager>
             sfxObjList.Add(newSoundOBJ);
         }
 
-        if (a_GAudioClip != null && sfxSrcList[sfxCurCount] != null)
+        if (soundData != null && sfxSrcList[sfxCurCount] != null)
         {
-            sfxSrcList[sfxCurCount].clip = a_GAudioClip;
-            sfxSrcList[sfxCurCount].volume = sfxVolume;
+            sfxSrcList[sfxCurCount].clip = soundData.audioClip;
+            sfxSrcList[sfxCurCount].outputAudioMixerGroup = soundData.audioMixerGroup;
+            sfxSrcList[sfxCurCount].spatialBlend = 0f;
+            //sfxSrcList[sfxCurCount].volume = sfxVolume;
             sfxSrcList[sfxCurCount].loop = bLoop;
             sfxSrcList[sfxCurCount].PlayDelayed(delay);
 
@@ -195,21 +202,57 @@ public class SoundManager : Singleton<SoundManager>
         if (sfxContainer.ContainsKey(key) == false)
             return;
 
-        a_GAudioClip = sfxContainer[key];
+        soundData = sfxContainer[key];
 
         foreach (var sfxSrc in sfxSrcList)
         {
-            if (sfxSrc.clip == a_GAudioClip)
+            if (sfxSrc.clip == soundData.audioClip)
             {
                 if (!sfxSrc.isPlaying)
                 {
-                    sfxSrc.volume = sfxVolume;
+                    //sfxSrc.volume = sfxVolume;
                     sfxSrc.loop = bLoop;
                     sfxSrc.PlayDelayed(delay);
                 }
                 return;
             }
         }
+
+        // 최대 10개까지 재생
+        if (sfxObjList.Count < sfxMaxCount)
+        {
+            GameObject newSoundOBJ = new GameObject();
+            newSoundOBJ.transform.SetParent(this.transform);
+            newSoundOBJ.transform.localPosition = Vector3.zero;
+            AudioSource a_AudioSrc = newSoundOBJ.AddComponent<AudioSource>();
+            a_AudioSrc.playOnAwake = false;
+            newSoundOBJ.name = "SFXObj";
+
+            sfxSrcList[sfxObjList.Count] = a_AudioSrc;
+            sfxObjList.Add(newSoundOBJ);
+        }
+
+        if (soundData != null && sfxSrcList[sfxCurCount] != null)
+        {
+            sfxSrcList[sfxCurCount].clip = soundData.audioClip;
+            sfxSrcList[sfxCurCount].outputAudioMixerGroup = soundData.audioMixerGroup;
+            sfxSrcList[sfxCurCount].spatialBlend = 0f;
+            //sfxSrcList[sfxCurCount].volume = sfxVolume;
+            sfxSrcList[sfxCurCount].loop = bLoop;
+            sfxSrcList[sfxCurCount].PlayDelayed(delay);
+
+            sfxCurCount++;
+            if (sfxMaxCount <= sfxCurCount)
+                sfxCurCount = 0;
+        }
+    }
+
+    public void PlaySFXFromObject(Vector3 soundPosition, string key, float delay = 0, bool bLoop = false)
+    {
+        if (sfxContainer.ContainsKey(key) == false)
+            return;
+
+        soundData = sfxContainer[key];
 
         // 최대 4개까지 재생
         if (sfxObjList.Count < sfxMaxCount)
@@ -225,10 +268,14 @@ public class SoundManager : Singleton<SoundManager>
             sfxObjList.Add(newSoundOBJ);
         }
 
-        if (a_GAudioClip != null && sfxSrcList[sfxCurCount] != null)
+        if (soundData != null && sfxSrcList[sfxCurCount] != null)
         {
-            sfxSrcList[sfxCurCount].clip = a_GAudioClip;
-            sfxSrcList[sfxCurCount].volume = sfxVolume;
+            sfxSrcList[sfxCurCount].transform.position = soundPosition;
+
+            sfxSrcList[sfxCurCount].clip = soundData.audioClip;
+            sfxSrcList[sfxCurCount].outputAudioMixerGroup = soundData.audioMixerGroup;
+            sfxSrcList[sfxCurCount].spatialBlend = 1f;
+            //sfxSrcList[sfxCurCount].volume = sfxVolume;
             sfxSrcList[sfxCurCount].loop = bLoop;
             sfxSrcList[sfxCurCount].PlayDelayed(delay);
 
@@ -238,35 +285,13 @@ public class SoundManager : Singleton<SoundManager>
         }
     }
 
-    public void PlaySFXFromObject(AudioSource audioSource, string key, float delay = 0, bool bLoop = false)
-    {
-        if (sfxContainer.ContainsKey(key) == false)
-            return;
-
-        a_GAudioClip = sfxContainer[key];
-
-        if (a_GAudioClip != null && audioSource != null)
-        {
-            audioSource.clip = a_GAudioClip;
-            audioSource.volume = sfxVolume;
-            audioSource.loop = bLoop;
-            audioSource.playOnAwake = false;
-            audioSource.PlayDelayed(delay);
-
-            sfxCurCount++;
-            if (sfxMaxCount <= sfxCurCount)
-                sfxCurCount = 0;
-        }
-    }
-
-    IEnumerator SFXFade(float endValue, float fadeTime)
+    IEnumerator SFXFade(float startValue, float endValue, float fadeTime)
     {
         float time = 0;
         while (time < fadeTime)
         {
             yield return null;
-            for (int i = 0; i < sfxSrcList.Length; i++)
-                sfxSrcList[i].volume = Mathf.Lerp(sfxSrcList[i].volume, endValue, time / fadeTime);
+            audioMixer.SetFloat("SFX", Mathf.Lerp(startValue, endValue, time / fadeTime));
             time += Time.deltaTime;
         }
     }
@@ -275,6 +300,12 @@ public class SoundManager : Singleton<SoundManager>
     {
         foreach (var src in sfxSrcList)
             src.Stop();
+    }
+
+    public void ChangeSFXPitch(float pitch)
+    {
+        foreach (var src in sfxSrcList)
+            src.pitch = pitch;
     }
     #endregion
 }

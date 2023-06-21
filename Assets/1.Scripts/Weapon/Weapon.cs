@@ -38,10 +38,10 @@ public class Weapon : MonoBehaviour
     //피격 파티클
     public GameObject particle;
 
-    private void Update()
-    {
-        transform.forward = transform.root.forward;
-    }
+    //private void Update()
+    //{
+    //    transform.forward = transform.root.forward;
+    //}
 
     //무기 장착
     public virtual void Set(Transform weaponPos, W_Owner owner)
@@ -94,6 +94,7 @@ public class Weapon : MonoBehaviour
         rb.isKinematic = false;
         rb.constraints = RigidbodyConstraints.FreezeRotation;
 
+        SoundManager.Instance.PlaySFXFromObject(transform.position, "pistol_throw");
     }
 
     protected virtual void OnCollisionEnter(Collision collision)
