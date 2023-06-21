@@ -21,7 +21,7 @@ public class PlayFire : MonoBehaviour
     public GetWeapon getWeapon;
     float attackDelay = 0.5f;
     public float attackDelayTime = 0;
-    public bool attack = false;
+    public bool attack = true;
 
     GameObject playerWeapon;
     // Start is called before the first frame update
@@ -86,6 +86,8 @@ public class PlayFire : MonoBehaviour
             //총알의 정면방향을 ray의 정면으로 지정
             bullet.transform.forward = ray.direction;
             attack = false;
+
+            SoundManager.Instance.PlaySFXFromObject(transform.position, "pistol_fire");
         }
     }
     void AttackDelay()
@@ -93,6 +95,7 @@ public class PlayFire : MonoBehaviour
         attackDelayTime += Time.deltaTime;
         if (attackDelayTime > attackDelay)
         {
+            SoundManager.Instance.PlaySFXFromObject(transform.position, "pistol_pickup");
             attack = true;
             attackDelayTime = 0;
         }

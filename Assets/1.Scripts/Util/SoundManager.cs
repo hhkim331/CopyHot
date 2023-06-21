@@ -305,7 +305,10 @@ public class SoundManager : Singleton<SoundManager>
     public void ChangeSFXPitch(float pitch)
     {
         foreach (var src in sfxSrcList)
-            src.pitch = pitch;
+        {
+            if (src.clip.name == "super" || src.clip.name == "hot") src.pitch = 1;
+            else src.pitch = pitch;
+        }
     }
     #endregion
 }

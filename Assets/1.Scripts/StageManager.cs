@@ -125,32 +125,32 @@ public class StageManager : MonoBehaviour
             panel.transform.localScale = Vector3.one * (1 + (textChangeDelay - textChangeTime) / textChangeDelay * 0.5f);
         }
 
-        //스테이지 실패
-        if (stageFall)
-        {
-            if (superText)
-            {
-                textChangeTime += Time.unscaledDeltaTime;
-                if (textChangeTime >= textChangeDelay)
-                {
-                    textChangeTime = 0f;
-                    superText = false;
-                    mainText.text = "HOT";
-                    mainText.fontStyle = FontStyles.Bold;
-                }
-            }
-            else
-            {
-                textChangeTime += Time.unscaledDeltaTime;
-                if (textChangeTime >= textChangeDelay)
-                {
-                    textChangeTime = 0f;
-                    superText = true;
-                    mainText.text = "SUPER";
-                    mainText.fontStyle = FontStyles.Normal;
-                }
-            }
-        }
+        ////스테이지 실패
+        //if (stageFall)
+        //{
+        //    if (superText)
+        //    {
+        //        textChangeTime += Time.unscaledDeltaTime;
+        //        if (textChangeTime >= textChangeDelay)
+        //        {
+        //            textChangeTime = 0f;
+        //            superText = false;
+        //            mainText.text = "HOT";
+        //            mainText.fontStyle = FontStyles.Bold;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        textChangeTime += Time.unscaledDeltaTime;
+        //        if (textChangeTime >= textChangeDelay)
+        //        {
+        //            textChangeTime = 0f;
+        //            superText = true;
+        //            mainText.text = "SUPER";
+        //            mainText.fontStyle = FontStyles.Normal;
+        //        }
+        //    }
+        //}
     }
 
     /// <summary>
@@ -168,6 +168,7 @@ public class StageManager : MonoBehaviour
         textChangeTime = 0f;
         superText = true;
         mainText.text = "SUPER";
+        SoundManager.Instance.PlaySFX("super");
         mainText.fontStyle = FontStyles.Normal;
     }
 

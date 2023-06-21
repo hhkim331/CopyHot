@@ -180,11 +180,11 @@ MonoBehaviour:
     audioMixerGroup: {fileID: 556018454506305950, guid: 288d2a3fca0656840a58a494632f51f0, type: 2}
   loadingSFXSoundInfos:
   - key: super
-    audioClip: {fileID: 8300000, guid: 3abaf5844edb7b14fa74d42d807023cb, type: 3}
-    audioMixerGroup: {fileID: -8168251193093090381, guid: 288d2a3fca0656840a58a494632f51f0, type: 2}
+    audioClip: {fileID: 8300000, guid: ba1cf0f32d571b04c8ef098bd7dda9d2, type: 3}
+    audioMixerGroup: {fileID: -1681681844352128700, guid: 288d2a3fca0656840a58a494632f51f0, type: 2}
   - key: hot
-    audioClip: {fileID: 8300000, guid: 215080e48c6684b41b946919a9415d53, type: 3}
-    audioMixerGroup: {fileID: -8168251193093090381, guid: 288d2a3fca0656840a58a494632f51f0, type: 2}
+    audioClip: {fileID: 8300000, guid: 819ad1797bf89e04bad6821d6538fb0c, type: 3}
+    audioMixerGroup: {fileID: -1681681844352128700, guid: 288d2a3fca0656840a58a494632f51f0, type: 2}
   - key: pistol_fire
     audioClip: {fileID: 8300000, guid: 3183d4d5e4be928469255249ddb27fee, type: 3}
     audioMixerGroup: {fileID: -1681681844352128700, guid: 288d2a3fca0656840a58a494632f51f0, type: 2}

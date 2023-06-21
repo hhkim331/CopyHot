@@ -64,8 +64,13 @@ public class DeathCutter : CutterBehaviour, IPoolObject
         int cLength = cData.CreatedTargets.Length;
         for (int i = 0; i < cLength; i++)
         {
-            cData.CreatedObjects[i].layer = LayerMask.NameToLayer("Piece");
-            cData.CreatedObjects[i].transform.parent = targetFather;
+            GameObject createdObject = cData.CreatedObjects[i];
+            createdObject.layer = LayerMask.NameToLayer("Piece");
+            foreach (Transform child in createdObject.transform)
+                child.gameObject.layer = LayerMask.NameToLayer("Piece");
+            //for (int c=0;c< createdObject.transform.childCount;c++)
+            //    createdObject.transform.GetChild(c).gameObject.layer = LayerMask.NameToLayer("Piece");
+            createdObject.transform.parent = targetFather;
         }
 
         MeshCreation.TranslateCreatedObjects(info, cData.CreatedObjects, cData.CreatedTargets, Separation);
@@ -77,8 +82,13 @@ public class DeathCutter : CutterBehaviour, IPoolObject
         if (cLength == 0) return;
         for (int i = 0; i < cLength; i++)
         {
-            cData.CreatedObjects[i].layer = LayerMask.NameToLayer("Piece");
-            cData.CreatedObjects[i].transform.parent = targetFather;
+            GameObject createdObject = cData.CreatedObjects[i];
+            createdObject.layer = LayerMask.NameToLayer("Piece");
+            foreach(Transform child in createdObject.transform)
+                child.gameObject.layer = LayerMask.NameToLayer("Piece");
+            //for (int c=0;c< createdObject.transform.childCount;c++)
+            //    createdObject.transform.GetChild(c).gameObject.layer = LayerMask.NameToLayer("Piece");
+            createdObject.transform.parent = targetFather;
         }
 
         for (int i = 0; i < cLength; i++)
@@ -93,8 +103,13 @@ public class DeathCutter : CutterBehaviour, IPoolObject
         if (cLength == 0) return;
         for (int i = 0; i < cLength; i++)
         {
-            cData.CreatedObjects[i].layer = LayerMask.NameToLayer("Piece");
-            cData.CreatedObjects[i].transform.parent = targetFather;
+            GameObject createdObject = cData.CreatedObjects[i];
+            createdObject.layer = LayerMask.NameToLayer("Piece");
+            foreach (Transform child in createdObject.transform)
+                child.gameObject.layer = LayerMask.NameToLayer("Piece");
+            //for (int c=0;c< createdObject.transform.childCount;c++)
+            //    createdObject.transform.GetChild(c).gameObject.layer = LayerMask.NameToLayer("Piece");
+            createdObject.transform.parent = targetFather;
         }
 
         for (int i = 0; i < cLength; i++)
