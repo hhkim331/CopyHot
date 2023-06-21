@@ -57,10 +57,12 @@ public class Slow : MonoBehaviour
         if(move == false && attack == false)
         {
             Time.timeScale = 0.05f;
+            SoundManager.Instance.ChangeSFXPitch(0.5f);
         }
         else
         {
             Time.timeScale = 1f;
+            SoundManager.Instance.ChangeSFXPitch(1f);
         }
 
         //공격

@@ -30,6 +30,8 @@ public class Pistol : Weapon
     {
         base.Attack();
 
+        SoundManager.Instance.PlaySFXFromObject(transform.position, "pistol_fire");
+
         if (owner == W_Owner.Player)
             bulletCount--;
 

@@ -38,14 +38,17 @@ public class Weapon : MonoBehaviour
     //피격 파티클
     public GameObject particle;
 
-    private void Update()
-    {
-        transform.forward = transform.root.forward;
-    }
+    //private void Update()
+    //{
+    //    transform.forward = transform.root.forward;
+    //}
 
     //무기 장착
     public virtual void Set(Transform weaponPos, W_Owner owner)
     {
+        if(owner==W_Owner.Player)
+            SoundManager.Instance.PlaySFXFromObject(transform.position, "pistol_pickup");
+
         rb.isKinematic = true;
 
         this.owner = owner;
@@ -63,6 +66,8 @@ public class Weapon : MonoBehaviour
     //무기 해제
     public virtual void Unset()
     {
+        rb.isKinematic = false;
+
         owner = W_Owner.None;
         transform.parent = null;
 
@@ -94,6 +99,7 @@ public class Weapon : MonoBehaviour
         rb.isKinematic = false;
         rb.constraints = RigidbodyConstraints.FreezeRotation;
 
+        SoundManager.Instance.PlaySFXFromObject(transform.position, "pistol_throw");
     }
 
     protected virtual void OnCollisionEnter(Collision collision)

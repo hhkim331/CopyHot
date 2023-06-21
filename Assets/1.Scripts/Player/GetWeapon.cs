@@ -62,7 +62,7 @@ public class GetWeapon : MonoBehaviour
                 //충동감지된 오브젝트를 자식 오브젝트로 가져온다.
                 playerWeapon = hitTarget.transform.root.GetComponent<Weapon>();
                 playerWeapon.Set(weaponPos, Weapon.W_Owner.Player);
-                
+
 
                 //if (weaponPos.childCount > 0)
                 //{
