@@ -46,6 +46,8 @@ public class Weapon : MonoBehaviour
     //무기 장착
     public virtual void Set(Transform weaponPos, W_Owner owner)
     {
+        rb.isKinematic = true;
+
         this.owner = owner;
         transform.parent = weaponPos;
         transform.localPosition = Vector3.zero;
@@ -89,6 +91,7 @@ public class Weapon : MonoBehaviour
 
         col.isTrigger = false;
         col.enabled = true;
+        rb.isKinematic = false;
         rb.constraints = RigidbodyConstraints.FreezeRotation;
 
     }
