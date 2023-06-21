@@ -339,6 +339,7 @@ MonoBehaviour:
   getWeapon: {fileID: 0}
   weaponDel: 0
   playFire: {fileID: 488435275342531300}
+  hitTarget: {fileID: 0}
 --- !u!1001 &488435276607328691
 PrefabInstance:
   m_ObjectHideFlags: 0

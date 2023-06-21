@@ -25,6 +25,10 @@ public class GetWeapon : MonoBehaviour
     float setDelay = 0.1f;    //장착 대기시간
     float setDelayTime = 0f;    //장착대기중시간
     public PlayFire playFire;
+    bool get = false;
+    public GameObject hitTarget;
+    float currentTime;
+    float getTime = 0.2f;
 
     // Start is called before the first frame update
     void Start()
@@ -46,11 +50,55 @@ public class GetWeapon : MonoBehaviour
         }
 
         //나중에----- 무기가 있는 경우 리턴시킨다.
-
         //pistol();
         //ar();
         //bat();
         Interaction();
+        if (get == true)
+        {
+            currentTime += Time.unscaledDeltaTime;
+            if (currentTime > getTime)
+            {
+                //충동감지된 오브젝트를 자식 오브젝트로 가져온다.
+                playerWeapon = hitTarget.transform.root.GetComponent<Weapon>();
+                playerWeapon.Set(weaponPos, Weapon.W_Owner.Player);
+                
+
+                //if (weaponPos.childCount > 0)
+                //{
+                //    weaponPos.GetChild(0).gameObject.transform.localPosition = new Vector3(0, 0, 0);
+                //}
+                wPos = true;
+
+                //충돌감지된 오브젝트의 색을 바꿈
+                //hitTarget.GetComponent<Renderer>().material.color = Color.red;
+
+                //장착딜레이를 시작해라
+                weaponDel = true;
+                //장착 딜레이시간 초기화
+                setDelayTime = 0f;
+                currentTime = 0;
+                get = false;
+            }
+            else
+            {
+                hitTarget.transform.root.position = Vector3.Slerp(hitTarget.transform.root.position, weaponPos.position, 0.05f);
+                //무기의 타입이 총이라면
+                if (hitTarget.transform.root.GetComponent<Weapon>().weaponType == Weapon.WeaponType.Range)
+                {
+                    weaponPos.localPosition = new Vector3(0.3f, weaponPos.localPosition.y, weaponPos.localPosition.z);
+                    weaponPos.localRotation = Quaternion.identity;
+                }
+                //무기타입이 칼이라면
+                if (hitTarget.transform.root.GetComponent<Weapon>().weaponType == Weapon.WeaponType.Melee)
+                {
+                    weaponPos.localPosition = new Vector3(-0.3f, weaponPos.localPosition.y, weaponPos.localPosition.z);
+                    weaponPos.localRotation = Quaternion.Euler(new Vector3(0, 0, -35));
+                }
+                
+            }
+        }
+
     }
 
     //void pistol()
@@ -129,38 +177,17 @@ public class GetWeapon : MonoBehaviour
         if (Physics.Raycast(rayOrigin, rayDir, out hit, distance, Target))
         {
             //광선에 충돌 감지된 콜라이더 컴포넌트를 가진 오브젝트를 지정
-            GameObject hitTarget = hit.collider.gameObject;
-            if(wPos == false)
+            hitTarget = hit.collider.gameObject;
+            
+            if (wPos == false)
             {
                 if (Input.GetButtonDown("Fire1"))
                 {
-                    //충동감지된 오브젝트를 자식 오브젝트로 가져온다.
-                    playerWeapon = hitTarget.transform.root.GetComponent<Weapon>();
-                    //무기의 타입이 총이라면
-                    if (playerWeapon.weaponType == Weapon.WeaponType.Range)
-                    {
-                        weaponPos.localPosition = new Vector3(0.3f, weaponPos.localPosition.y, weaponPos.localPosition.z);
-                        weaponPos.localRotation = Quaternion.identity;
-                    }
-                    //무기타입이 칼이라면
-                    if (playerWeapon.weaponType == Weapon.WeaponType.Melee)
-                    {
-                        weaponPos.localPosition = new Vector3(-0.3f, weaponPos.localPosition.y, weaponPos.localPosition.z);
-                        weaponPos.localRotation = Quaternion.Euler(new Vector3(0,0,-35));
-                    }
-                    playerWeapon.Set(weaponPos, Weapon.W_Owner.Player);
-                    wPos = true;
-                    //충돌감지된 오브젝트의 색을 바꿈
-                    //hitTarget.GetComponent<Renderer>().material.color = Color.red;
-
-                    //장착딜레이를 시작해라
-                    weaponDel = true;
-                    //장착 딜레이시간 초기화
-                    setDelayTime = 0f;
+                    get = true;
                 }
             }
-            
         }
-    }
 
+    }
 }
+
