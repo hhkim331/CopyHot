@@ -48,9 +48,11 @@ public class ReloadManager : MonoBehaviour
         // per값이 100프로가 되면 회전을 종료
         if (shoot == true)
         {
-            crossHair.rotation = Quaternion.Lerp(Quaternion.identity, Quaternion.Euler(0, 0, 90), per);
+            crossHair.rotation = Quaternion.Lerp(Quaternion.identity, Quaternion.Euler(0, 0, -90), per);
             crossHair.localScale = new Vector3(1.5f, 1.5f, 1.5f);
             GetWeapon.instance.weaponPos.localRotation = Quaternion.Lerp(Quaternion.identity, Quaternion.Euler(-45, 0, 0), per);
+            GetWeapon.instance.weaponPos.localRotation = Quaternion.Lerp(Quaternion.Euler(-45,0,0), Quaternion.Euler(0, 0, 0), per);
+
             if (currentTime >= PlayFire.instance.attackDelay)
             {
                 //현재시간이 최대시간을 넘게되면 초기화
