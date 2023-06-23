@@ -18,8 +18,6 @@ public class GameManager : MonoBehaviour
     readonly string chat3 = "죽여라";
     string curChat = "";
 
-    public int stage;
-
     public GameObject gameStartMassage;
     public TextMeshProUGUI gameStartText;
     bool gamestart = false;

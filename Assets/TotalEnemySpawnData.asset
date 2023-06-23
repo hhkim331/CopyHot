@@ -99,3 +99,65 @@ MonoBehaviour:
       position: {x: -14, y: 0, z: -25}
       rotation: {x: 0, y: 90, z: 0}
       defaultWeapon: 1
+  - SceneName: Stage2
+    enemySpawnDatas:
+    - id: 100
+      step: 0
+      createTime: -1
+      position: {x: 7.52, y: 0, z: -17.8}
+      rotation: {x: 0, y: -115.33, z: 0}
+      defaultWeapon: 0
+    - id: 101
+      step: 0
+      createTime: -1
+      position: {x: -3.72, y: 0, z: -25.76}
+      rotation: {x: 0, y: -315.7, z: 0}
+      defaultWeapon: 0
+    - id: 102
+      step: 0
+      createTime: -1
+      position: {x: 2.72, y: 0, z: -27.69}
+      rotation: {x: 0, y: -23.2, z: 0}
+      defaultWeapon: 2
+    - id: 103
+      step: 0
+      createTime: -1
+      position: {x: 22.75, y: 0, z: -2.47}
+      rotation: {x: 0, y: -82.5, z: 0}
+      defaultWeapon: 3
+    - id: 104
+      step: 0
+      createTime: -1
+      position: {x: 23.2, y: 0, z: 10.1}
+      rotation: {x: 0, y: -91.3, z: 0}
+      defaultWeapon: 1
+    - id: 105
+      step: 0
+      createTime: -1
+      position: {x: -21.77, y: 0, z: -0.19}
+      rotation: {x: 0, y: 90, z: 0}
+      defaultWeapon: 1
+    - id: 200
+      step: 0
+      createTime: 1
+      position: {x: -23, y: 0, z: -24}
+      rotation: {x: 0, y: 45, z: 0}
+      defaultWeapon: 0
+    - id: 201
+      step: 0
+      createTime: 1
+      position: {x: -23, y: 0, z: 24}
+      rotation: {x: 0, y: 135, z: 0}
+      defaultWeapon: 0
+    - id: 202
+      step: 0
+      createTime: 1
+      position: {x: 23, y: 0, z: -24}
+      rotation: {x: 0, y: -45, z: 0}
+      defaultWeapon: 0
+    - id: 203
+      step: 0
+      createTime: 1
+      position: {x: 23, y: 0, z: -24}
+      rotation: {x: 0, y: -135, z: 0}
+      defaultWeapon: 0

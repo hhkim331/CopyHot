@@ -21,6 +21,8 @@ public class EnemySpawner : MonoBehaviour
     //{
     //}
 
+    bool looped = false;
+
     // Update is called once per frame
     void Update()
     {
@@ -39,6 +41,7 @@ public class EnemySpawner : MonoBehaviour
     public void Set(StageSpawnData stageSpawnData)
     {
         this.stageSpawnData = stageSpawnData;
+        looped = stageSpawnData.SceneName == "Stage2"? true : false;
 
         foreach (EnemySpawnData enemySpawnData in stageSpawnData.enemySpawnDatas)
         {
@@ -52,13 +55,19 @@ public class EnemySpawner : MonoBehaviour
     public void CheckStepEnd(int id)
     {
         liveSpawnIdList.Remove(id);
-        if(liveSpawnIdList.Count > 0)
+        if (liveSpawnIdList.Count > 0)
             return;
 
-        if(curStep ==lastStep)
+        if (curStep ==lastStep && !looped)
         {
             //스테이지 클리어
             StageManager.Instance.StageClear();
+            return;
+        }
+
+        if (looped && curStep == lastStep)
+        {
+            Spawn();
             return;
         }
 
