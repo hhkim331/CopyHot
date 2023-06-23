@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class GetWeapon : MonoBehaviour
 {
+    private void Awake()
+    {
+        instance = this;
+    }
+    public static GetWeapon instance;
+
     //카메라의 시선
     public Camera playerCam;
     //광선의 사거리

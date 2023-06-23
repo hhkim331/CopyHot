@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayFire : MonoBehaviour
 {
+    public static PlayFire instance;
+    private void Awake()
+    {
+        instance = this;
+    }
     //생성할 총알 오브젝트
     public GameObject BulletFactory;
     //총알이 발사되는 지점
@@ -19,7 +24,7 @@ public class PlayFire : MonoBehaviour
     //무기의 위치
     public Transform weaponPos;
     public GetWeapon getWeapon;
-    float attackDelay = 0.5f;
+    public float attackDelay = 0.5f;
     public float attackDelayTime = 0;
     public bool attack = true;
 
@@ -41,8 +46,8 @@ public class PlayFire : MonoBehaviour
                 if (attack == true)
                 {
                     PlayerAttack();
+                    ReloadManager.instance.Shoot = true;
                 }
-                
             }
             if (getWeapon.playerWeapon.weaponType == Weapon.WeaponType.Melee)
             {
@@ -95,9 +100,11 @@ public class PlayFire : MonoBehaviour
         attackDelayTime += Time.deltaTime;
         if (attackDelayTime > attackDelay)
         {
+            
             SoundManager.Instance.PlaySFXFromObject(transform.position, "pistol_pickup");
             attack = true;
             attackDelayTime = 0;
+
         }
     }
 }

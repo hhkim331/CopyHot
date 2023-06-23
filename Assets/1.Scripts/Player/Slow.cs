@@ -38,7 +38,7 @@ public class Slow : MonoBehaviour
             }
         }
         //마우스 좌클릭시
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2"))
         {
             //시간값을 0으로 초기화
             currentTime = 0;
