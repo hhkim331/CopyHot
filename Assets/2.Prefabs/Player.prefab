@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 488435275342531301}
   - component: {fileID: 488435275342531300}
   - component: {fileID: 2151775438330132984}
+  - component: {fileID: 1934758115}
   m_Layer: 31
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -119,6 +120,7 @@ MonoBehaviour:
   firePower: 500
   weaponPos: {fileID: 488435277206287908}
   getWeapon: {fileID: 488435277206287910}
+  attackDelay: 0.5
   attackDelayTime: 0
   attack: 0
 --- !u!114 &2151775438330132984
@@ -181,6 +183,20 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!114 &1934758115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488435275342531306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bc7fcadb65393543a5c8a25905670ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crossHair: {fileID: 0}
+  reload: 0
 --- !u!1 &488435277059649014
 GameObject:
   m_ObjectHideFlags: 0

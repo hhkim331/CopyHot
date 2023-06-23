@@ -84,7 +84,8 @@ public class PlayerMove : MonoBehaviour
         dir.Normalize();
         // 이동값을 좌표에 반영
         //transform.position = transform.position + dir * moveSpeed * Time.deltaTime;
-        rigid.MovePosition(transform.position + dir * moveSpeed * Time.deltaTime);
+        //rigid.MovePosition(transform.position + dir * moveSpeed * Time.deltaTime);
+        rigid.velocity = dir * moveSpeed;
 
         // 만약에 스페이스바가 눌려있을때 땅에붙어있다면
         if (Input.GetKey(KeyCode.Space) && isGround)

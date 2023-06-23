@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
 {
     public enum E_State
     {
+        Init,
         Idle,
         Move,
         Attack,
@@ -21,8 +22,9 @@ public class Enemy : MonoBehaviour
     public Weapon.WeaponType e_WeaponType = Weapon.WeaponType.None;
 
     GameObject player;
-    NavMeshAgent nav;
+    [SerializeField] NavMeshAgent nav;
 
+    EnemySpawnData mySpawnData;
     //소환 id
     int id;
 
@@ -85,6 +87,9 @@ public class Enemy : MonoBehaviour
     {
         switch (e_State)
         {
+            case E_State.Init:
+                Init();
+                break;
             case E_State.Idle:
                 Idle();
                 break;
@@ -101,6 +106,14 @@ public class Enemy : MonoBehaviour
                 PickUp();
                 break;
         }
+    }
+
+    void Init()
+    {
+        transform.position = mySpawnData.position;
+        transform.eulerAngles = mySpawnData.rotation;
+        e_State = E_State.Idle;
+        nav.enabled = true;
     }
 
     void Idle()
@@ -399,17 +412,19 @@ public class Enemy : MonoBehaviour
 
     public void Set(EnemySpawnData enemySpawnData, bool immediate)
     {
+        mySpawnData = enemySpawnData;
+
+        //nav.enabled = false;
+
         id = enemySpawnData.id;
         hp = maxHp;
-        transform.position = enemySpawnData.position;
-        transform.eulerAngles = enemySpawnData.rotation;
 
-        e_State = E_State.Idle;
+        e_State = E_State.Init;
 
         //무기 장착
         if (enemySpawnData.defaultWeapon != 0)
         {
-            GameObject newWeapon = Instantiate(GameManager.Instance.totalEnemySpawnData.GetWeapon(enemySpawnData.defaultWeapon));
+            GameObject newWeapon = Instantiate(GameManager1.Instance.totalEnemySpawnData.GetWeapon(enemySpawnData.defaultWeapon));
             myWeapon = newWeapon.GetComponent<Weapon>();
             myWeapon.Set(weaponPos, Weapon.W_Owner.Enemy);
             e_WeaponType = myWeapon.weaponType;

@@ -70,6 +70,12 @@ public class PlayFire : MonoBehaviour
                 getWeapon.playerWeapon = null;
             }
         }
+
+        //엔딩
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+
+        }
     }
 
     public void PlayerAttack()

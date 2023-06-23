@@ -3194,10 +3194,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 488435275342531300, guid: 1325bf721b476104282b0a500a593dcb, type: 3}
-      propertyPath: cross
+    - target: {fileID: 1934758115, guid: 1325bf721b476104282b0a500a593dcb, type: 3}
+      propertyPath: crossHair
       value: 
-      objectReference: {fileID: 1124805924}
+      objectReference: {fileID: 1124805925}
     - target: {fileID: 488435277059649005, guid: 1325bf721b476104282b0a500a593dcb, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -4939,7 +4939,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95f0faff120777a4ca1f9ac8a198b3a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stage: 0
   gameStartMassage: {fileID: 1807367058}
   gameStartText: {fileID: 796785233}
   totalEnemySpawnData: {fileID: 11400000, guid: de4eead98134ed94dae5c71488cf02c6, type: 2}
@@ -7379,20 +7378,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 488435275342531306, guid: 1325bf721b476104282b0a500a593dcb, type: 3}
   m_PrefabInstance: {fileID: 645838692}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1934758115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1934758113}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bc7fcadb65393543a5c8a25905670ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  crossHair: {fileID: 1124805925}
-  reload: 0
 --- !u!1 &1983988665
 GameObject:
   m_ObjectHideFlags: 0

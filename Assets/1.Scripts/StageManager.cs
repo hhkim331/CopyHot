@@ -59,7 +59,7 @@ public class StageManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StageSpawnData stageSpawnData = GameManager.Instance.totalEnemySpawnData.stageSpawnDatas[stageNumber];
+        StageSpawnData stageSpawnData = GameManager1.Instance.totalEnemySpawnData.stageSpawnDatas[stageNumber];
 
         enemySpawner.Set(stageSpawnData);
 

@@ -4,22 +4,21 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager2 : MonoBehaviour
 {
-    public static GameManager Instance;
+    public static GameManager2 Instance;
 
     private void Awake()
     {
         Instance = this;
     }
 
-    readonly string chat1 = "적을";
-    readonly string chat2 = "모두";
-    readonly string chat3 = "죽여라";
+    readonly string chat1 = "코어를";
+    readonly string chat2 = "해킹중입니다";
     string curChat = "";
 
-    public GameObject gameStartMassage;
-    public TextMeshProUGUI gameStartText;
+    public GameObject gameMassage;
+    public TextMeshProUGUI messageText;
     bool gamestart = false;
 
     public TotalEnemySpawnData totalEnemySpawnData;
@@ -28,14 +27,17 @@ public class GameManager : MonoBehaviour
     public GameObject playercam;
     public GameObject maincamera;
 
+    //해킹
+    //슬라이더
+
     private void Start()
     {
         //화면 중앙에 커서 고정
         Cursor.lockState = CursorLockMode.Locked;
         //커서 보이지않음
         Cursor.visible = false;
-        gameStartMassage.SetActive(true);
-        gameStartText.text = " ";
+        gameMassage.SetActive(true);
+        messageText.text = " ";
         curChat = " ";
         Time.timeScale = 0;
         gamestart = true;
@@ -49,43 +51,39 @@ public class GameManager : MonoBehaviour
         if (gamestart == true && !slow.activeSelf)
         {
             gametime += Time.unscaledDeltaTime;
-            if (gametime > 1.8f)
+            if (gametime > 1.5f)
             {
-                gameStartMassage.SetActive(false);
+                gameMassage.SetActive(false);
                 slow.SetActive(true);
                 playercam.GetComponent<CAM>().enabled = true;
                 maincamera.GetComponent<CAM>().enabled = true;
-            }
-            else if (gametime > 1.5f)
-            {
-                if (curChat != chat3)
-                {
-                    curChat = chat3;
-                    gameStartText.text = chat3;
-                    SoundManager.Instance.PlaySFX("message");
-                }
-                gameStartMassage.transform.localScale = Vector3.one * (1.5f - (gametime - 1.5f) / 0.6f);
+                gametime = 0;
             }
             else if (gametime > 1.2f)
             {
                 if (curChat != chat2)
                 {
                     curChat = chat2;
-                    gameStartText.text = chat2;
+                    messageText.text = chat2;
                     SoundManager.Instance.PlaySFX("message");
                 }
-                gameStartMassage.transform.localScale = Vector3.one * (1.5f - (gametime - 1.2f) / 0.6f);
+                gameMassage.transform.localScale = Vector3.one * (1.5f - (gametime - 1.2f) / 0.6f);
             }
             else if (gametime > 0.9f)
             {
                 if (curChat != chat1)
                 {
                     curChat = chat1;
-                    gameStartText.text = chat1;
+                    messageText.text = chat1;
                     SoundManager.Instance.PlaySFX("message");
                 }
-                gameStartMassage.transform.localScale = Vector3.one * (1.5f - (gametime - 0.9f) / 0.6f);
+                gameMassage.transform.localScale = Vector3.one * (1.5f - (gametime - 0.9f) / 0.6f);
             }
+        }
+        else
+        {
+            //코어 해킹중
+            gametime += Time.deltaTime;
         }
     }
 }
