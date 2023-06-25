@@ -31,7 +31,7 @@ public class DeathCutter : CutterBehaviour, IPoolObject
             {
                 waitTime = 0f;
                 targetFather = null;
-                StageManager.Instance.poolManager.TakeToPool<DeathCutter>("Cutters", this);
+                PoolManager.Instance.TakeToPool<DeathCutter>("Cutters", this);
             }
         }
     }

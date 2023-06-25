@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Redcode.Pools;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -92,7 +93,7 @@ public class BaseballBat : Weapon
                 {
                     Debug.Log("적 맞음!");
                     //DeathCutter.Instance.Cut(other.transform.root, transform.position, transform.right);
-                    DeathCutter deathCutter = StageManager.Instance.poolManager.GetFromPool<DeathCutter>();
+                    DeathCutter deathCutter = PoolManager.Instance.GetFromPool<DeathCutter>();
                     deathCutter.CutTriple(other.transform.root, transform);
                     durability--;
                 }

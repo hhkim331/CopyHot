@@ -10,7 +10,8 @@ TagManager:
   - Weapon
   - bullet
   - Wall
-  - Door
+  - Core
+  - Window
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - Piece
   - Stage
   - PostProcessing
-  - 
+  - PlayerBlock
   - 
   - 
   - 

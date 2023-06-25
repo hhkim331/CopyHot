@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
 {
     public enum E_State
     {
+        Init,
         Idle,
         Move,
         Attack,
@@ -21,11 +22,14 @@ public class Enemy : MonoBehaviour
     public Weapon.WeaponType e_WeaponType = Weapon.WeaponType.None;
 
     GameObject player;
-    NavMeshAgent nav;
+    [SerializeField] NavMeshAgent nav;
 
+    EnemySpawnData mySpawnData;
     //소환 id
     int id;
 
+    //적 모델
+    [SerializeField] GameObject model;
     //적 애니메이션
     [SerializeField] Animator animator;
 
@@ -85,6 +89,9 @@ public class Enemy : MonoBehaviour
     {
         switch (e_State)
         {
+            case E_State.Init:
+                Init();
+                break;
             case E_State.Idle:
                 Idle();
                 break;
@@ -101,6 +108,21 @@ public class Enemy : MonoBehaviour
                 PickUp();
                 break;
         }
+    }
+
+    void Init()
+    {
+        transform.position = mySpawnData.position;
+        transform.eulerAngles = mySpawnData.rotation;
+        e_State = E_State.Idle;
+        nav.enabled = true;
+
+        if (mySpawnData.createTime != -1)
+            SpawnEffect();
+
+        model.SetActive(true);
+        //애니메이션 무기 설정
+        animator.SetInteger("Weapon", (int)e_WeaponType);
     }
 
     void Idle()
@@ -268,7 +290,7 @@ public class Enemy : MonoBehaviour
         {
             e_State = E_State.Idle;
             animator.SetBool("Move", false);
-            if(e_WeaponType ==Weapon.WeaponType.None)
+            if (e_WeaponType == Weapon.WeaponType.None)
             {
                 punchObject1.enabled = false;
                 punchObject2.enabled = false;
@@ -368,7 +390,7 @@ public class Enemy : MonoBehaviour
     void PickUp()
     {
         //타겟이 사라진경우
-        if(pickUpTarget == null)
+        if (pickUpTarget == null)
         {
             e_State = E_State.Idle;
             return;
@@ -397,14 +419,16 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void Set(EnemySpawnData enemySpawnData, bool immediate)
+    public void Set(EnemySpawnData enemySpawnData)
     {
+        mySpawnData = enemySpawnData;
+
+        //nav.enabled = false;
+
         id = enemySpawnData.id;
         hp = maxHp;
-        transform.position = enemySpawnData.position;
-        transform.eulerAngles = enemySpawnData.rotation;
 
-        e_State = E_State.Idle;
+        e_State = E_State.Init;
 
         //무기 장착
         if (enemySpawnData.defaultWeapon != 0)
@@ -420,12 +444,6 @@ public class Enemy : MonoBehaviour
         }
         else
             e_WeaponType = Weapon.WeaponType.None;
-
-        //애니메이션 무기 설정
-        animator.SetInteger("Weapon", (int)e_WeaponType);
-
-        if (!immediate)
-            SpawnEffect();
     }
 
     void SpawnEffect()

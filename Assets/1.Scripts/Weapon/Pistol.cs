@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Redcode.Pools;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,7 +37,7 @@ public class Pistol : Weapon
             bulletCount--;
 
         //총알을 소환한다
-        Bullet bullet = StageManager.Instance.poolManager.GetFromPool<Bullet>();
+        Bullet bullet = PoolManager.Instance.GetFromPool<Bullet>();
         //GameObject bullet = Instantiate(BulletFactory);
         //총알이 소환되는 위치를 지정
         bullet.owner = owner;
