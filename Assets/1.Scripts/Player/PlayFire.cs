@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Redcode.Pools;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,18 +39,24 @@ public class PlayFire : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (StageManager.Instance.STAGECLEAR) return;
+        if (StageManager.Instance.pause) return;
+
         if (Input.GetButtonDown("Fire1"))
         {
             if (getWeapon.playerWeapon == null) return;
-            if (getWeapon.weaponDel == false)
+            if (getWeapon.playerWeapon.weaponType == Weapon.WeaponType.Range)
             {
-                if (attack == true)
+                if (getWeapon.weaponDel == false)
                 {
-                    PlayerAttack();
-                    ReloadManager.instance.Shoot = true;
+                    if (attack == true)
+                    {
+                        PlayerAttack();
+                        ReloadManager.instance.Shoot = true;
+                    }
                 }
             }
-            if (getWeapon.playerWeapon.weaponType == Weapon.WeaponType.Melee)
+            else if (getWeapon.playerWeapon.weaponType == Weapon.WeaponType.Melee)
             {
                 //getWeapon.playerWeapon.transform.rotation;
             }
@@ -70,12 +77,6 @@ public class PlayFire : MonoBehaviour
                 getWeapon.playerWeapon = null;
             }
         }
-
-        //엔딩
-        if(Input.GetKeyDown(KeyCode.E))
-        {
-
-        }
     }
 
     public void PlayerAttack()
@@ -89,7 +90,7 @@ public class PlayFire : MonoBehaviour
             //레이저 방향 = 총구 위치에서 시작
             ray = new Ray(firePos, dir);
             //총알을 소환한다
-            Bullet bullet = StageManager.Instance.poolManager.GetFromPool<Bullet>();
+            Bullet bullet = PoolManager.Instance.GetFromPool<Bullet>();
             bullet.owner = Weapon.W_Owner.Player;
             //GameObject bullet = Instantiate(BulletFactory);
             //총알이 소환되는 위치를 지정
@@ -106,8 +107,11 @@ public class PlayFire : MonoBehaviour
         attackDelayTime += Time.deltaTime;
         if (attackDelayTime > attackDelay)
         {
-            
-            SoundManager.Instance.PlaySFXFromObject(transform.position, "pistol_pickup");
+            if (getWeapon.playerWeapon != null)
+            {
+                if (getWeapon.playerWeapon.weaponType == Weapon.WeaponType.Range)
+                    SoundManager.Instance.PlaySFXFromObject(transform.position, "pistol_pickup");
+            }
             attack = true;
             attackDelayTime = 0;
 

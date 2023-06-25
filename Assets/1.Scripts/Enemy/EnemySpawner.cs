@@ -10,6 +10,8 @@ public class EnemySpawner : MonoBehaviour
     float stepTime = 0f;
 
     //해당 스텝동안 소환된 적들의 아이디를 저장하는 리스트
+    List<int> fullIdList;
+    //해당 스텝동안 소환된 적들의 아이디를 저장하는 리스트
     List<int> spawnIdList;
     //해당 스텝중 살아있는 적들의 아이디를 저장하는 리스트
     List<int> liveSpawnIdList;
@@ -33,7 +35,7 @@ public class EnemySpawner : MonoBehaviour
             if (enemySpawnData.step != curStep)
                 continue;
 
-            if (stepTime > enemySpawnData.createTime && !spawnIdList.Contains(enemySpawnData.id))
+            if (stepTime > enemySpawnData.createTime && !spawnIdList.Contains(enemySpawnData.id) && fullIdList.Contains(enemySpawnData.id))
                 SpawnEnemy(enemySpawnData);
         }
     }
@@ -41,11 +43,11 @@ public class EnemySpawner : MonoBehaviour
     public void Set(StageSpawnData stageSpawnData)
     {
         this.stageSpawnData = stageSpawnData;
-        looped = stageSpawnData.SceneName == "Stage2"? true : false;
+        looped = stageSpawnData.SceneName == "Stage2" ? true : false;
 
         foreach (EnemySpawnData enemySpawnData in stageSpawnData.enemySpawnDatas)
         {
-            if(lastStep < enemySpawnData.step)
+            if (lastStep < enemySpawnData.step)
                 lastStep = enemySpawnData.step;
         }
         curStep = 0;
@@ -55,10 +57,10 @@ public class EnemySpawner : MonoBehaviour
     public void CheckStepEnd(int id)
     {
         liveSpawnIdList.Remove(id);
-        if (liveSpawnIdList.Count > 0)
+        if (liveSpawnIdList.Count > 0 || fullIdList.Count > 0)
             return;
 
-        if (curStep ==lastStep && !looped)
+        if (curStep == lastStep && !looped)
         {
             //스테이지 클리어
             StageManager.Instance.StageClear();
@@ -79,6 +81,8 @@ public class EnemySpawner : MonoBehaviour
     {
         stepTime = 0;
         //아이디 리스트 초기화
+        if (fullIdList != null) fullIdList.Clear();
+        else fullIdList = new List<int>();
         if (spawnIdList != null) spawnIdList.Clear();
         else spawnIdList = new List<int>();
         if (liveSpawnIdList != null) liveSpawnIdList.Clear();
@@ -89,8 +93,9 @@ public class EnemySpawner : MonoBehaviour
             if (enemySpawnData.step != curStep)
                 continue;
 
+            fullIdList.Add(enemySpawnData.id);
             if (enemySpawnData.createTime == -1)
-                SpawnEnemy(enemySpawnData, true);
+                SpawnEnemy(enemySpawnData);
         }
     }
 
@@ -98,13 +103,13 @@ public class EnemySpawner : MonoBehaviour
     /// 적 소환
     /// </summary>
     /// <param name="enemySpawnData"></param>
-    /// <param name="immediate"></param>
-    void SpawnEnemy(EnemySpawnData enemySpawnData, bool immediate = false)
+    void SpawnEnemy(EnemySpawnData enemySpawnData)
     {
         spawnIdList.Add(enemySpawnData.id);
         liveSpawnIdList.Add(enemySpawnData.id);
+        fullIdList.Remove(enemySpawnData.id);
 
         GameObject enemy = Instantiate(enemyPrefab);
-        enemy.GetComponent<Enemy>().Set(enemySpawnData, immediate);
+        enemy.GetComponent<Enemy>().Set(enemySpawnData);
     }
 }

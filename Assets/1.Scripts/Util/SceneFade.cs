@@ -39,8 +39,8 @@ public class SceneFade : Singleton<SceneFade>
         fade = false;
     }
 
-    public void SetWhite()
-    {
-        image.color = new Color(1, 1, 1, 0);
-    }
+    //public void SetWhite()
+    //{
+    //    image.color = new Color(1, 1, 1, 0);
+    //}
 }

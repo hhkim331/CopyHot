@@ -8,6 +8,7 @@ public class TitleManager : MonoBehaviour
     void Start()
     {
         SoundManager.Instance.PlayBGM("Terminal1");
+        StartCoroutine(SceneFade.Instance.LoadScene_FadeOut());
     }
 
     // Update is called once per frame

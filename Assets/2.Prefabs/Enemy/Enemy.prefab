@@ -4212,6 +4212,7 @@ MonoBehaviour:
   e_State: 0
   e_WeaponType: 0
   nav: {fileID: 8412639239041495344}
+  model: {fileID: 8682617929581452256}
   animator: {fileID: 2726128551075928864}
   weaponPos: {fileID: 2208283304995322429}
   maxHp: 3
@@ -4241,7 +4242,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8301554328998740314
 Transform:
   m_ObjectHideFlags: 0

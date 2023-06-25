@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -44,6 +44,8 @@ namespace Redcode.Pools
     /// </summary>
     public class PoolManager : MonoBehaviour
     {
+        public static PoolManager Instance;
+
         [SerializeField]
         private List<PoolData> _pools;
 
@@ -51,6 +53,8 @@ namespace Redcode.Pools
 
         private void Awake()
         {
+            Instance = this;
+
             var namesGroups = _pools.Select(p => p.Name).GroupBy(n => n).Where(g => g.Count() > 1);
 
             if (namesGroups.Count() > 0)

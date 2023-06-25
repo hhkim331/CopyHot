@@ -306,7 +306,9 @@ public class SoundManager : Singleton<SoundManager>
     {
         foreach (var src in sfxSrcList)
         {
-            if (src.clip.name == "super" || src.clip.name == "hot") src.pitch = 1;
+            if(src.clip == null)
+                src.pitch = pitch;
+            else if (src.clip.name == "super" || src.clip.name == "hot") src.pitch = 1;
             else src.pitch = pitch;
         }
     }

@@ -2,7 +2,6 @@
 using Redcode.Pools;
 using System.Collections;
 using UnityEngine;
-using static UnityEngine.ParticleSystem;
 
 public class Bullet : MonoBehaviour, IPoolObject
 {
@@ -36,7 +35,7 @@ public class Bullet : MonoBehaviour, IPoolObject
         {
             inPool = true;
             owner = Weapon.W_Owner.None;
-            StageManager.Instance.poolManager.TakeToPool<Bullet>("Bullets", this);
+            PoolManager.Instance.TakeToPool<Bullet>("Bullets", this);
             trail.Clear();
         }
 
@@ -60,7 +59,7 @@ public class Bullet : MonoBehaviour, IPoolObject
                 {
                     enemy.Die();
 
-                    DeathCutter deathCutter = StageManager.Instance.poolManager.GetFromPool<DeathCutter>();
+                    DeathCutter deathCutter = PoolManager.Instance.GetFromPool<DeathCutter>();
                     deathCutter.CutTriple(other.transform.root, transform);
                 }
 
@@ -83,11 +82,9 @@ public class Bullet : MonoBehaviour, IPoolObject
         //coll.enabled = false;
         //mesh.enabled = false;
 
-        if (other.CompareTag("Door"))
+        if (other.CompareTag("Window"))
         {
-            coll.isTrigger = false;
-            mesh.enabled = false;
-            trail.enabled = false;
+            StartCoroutine(FractureCoroutine());
         }
         else
         {
@@ -95,11 +92,19 @@ public class Bullet : MonoBehaviour, IPoolObject
             {
                 inPool = true;
                 owner = Weapon.W_Owner.None;
-                StageManager.Instance.poolManager.TakeToPool<Bullet>("Bullets", this);
+                PoolManager.Instance.TakeToPool<Bullet>("Bullets", this);
             }
         }
 
         trail.Clear();
+    }
+
+    IEnumerator FractureCoroutine()
+    {
+        yield return null;
+        coll.isTrigger = false;
+        mesh.enabled = false;
+        trail.enabled = false;
     }
 
     //private void OnCollisionEnter(Collision collision)
@@ -147,8 +152,9 @@ public class Bullet : MonoBehaviour, IPoolObject
         inPool = false;
         hit = false;
         lifeTime = 0f;
-        //coll.enabled = true;
-        //mesh.enabled = true;
+        coll.isTrigger = true;
+        mesh.enabled = true;
+        trail.enabled = true;
     }
 
     public void OnGettingFromPool()
@@ -156,7 +162,8 @@ public class Bullet : MonoBehaviour, IPoolObject
         inPool = false;
         hit = false;
         lifeTime = 0f;
-        //coll.enabled = true;
-        //mesh.enabled = true;
+        coll.isTrigger = true;
+        mesh.enabled = true;
+        trail.enabled = true;
     }
 }

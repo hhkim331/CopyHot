@@ -122,7 +122,7 @@ MonoBehaviour:
   getWeapon: {fileID: 488435277206287910}
   attackDelay: 0.5
   attackDelayTime: 0
-  attack: 0
+  attack: 1
 --- !u!114 &2151775438330132984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,7 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c78831f24f398c64ba9cba82e409c954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 20
+  moveSpeed: 10
   jumpForce: 5
   cam1: {fileID: 488435275342531301}
   cam2: {fileID: 488435277059649009}

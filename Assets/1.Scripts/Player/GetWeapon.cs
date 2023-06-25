@@ -105,6 +105,23 @@ public class GetWeapon : MonoBehaviour
             }
         }
 
+        //엔딩
+        if (Input.GetKeyDown(KeyCode.E) && StageManager.Instance.hacking)
+        {
+            Vector3 rayOrigin = playerCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f));
+            Vector3 rayDir = playerCam.transform.forward;
+            //광선에 감지된 콜라이더의 정보를 담는다.
+            RaycastHit hit;
+            //Raycast에게(발사위치,방향,hit...,광선거리,레이어)를 넘겨준다.
+            if (Physics.Raycast(rayOrigin, rayDir, out hit))
+            {
+                if(hit.transform.CompareTag("Core"))
+                {
+                    StageManager.Instance.StageClear();
+                    StageManager.Instance.cameraTargetPos = hit.transform.position - hit.transform.forward;
+                }
+            }
+        }
     }
 
     //void pistol()

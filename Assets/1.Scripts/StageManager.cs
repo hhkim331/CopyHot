@@ -1,7 +1,6 @@
-﻿using Redcode.Pools;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,15 +9,10 @@ public class StageManager : MonoBehaviour
     public static StageManager Instance;
 
     public int stageNumber;
-
     public EnemySpawner enemySpawner;
-    public PoolManager poolManager;
 
-    public bool activeReset = false;
-    bool stageClear = false;
-    bool stageFall = false;
-
-    bool gameClear = false;
+    public string nextSceneName = "";
+    protected bool gameClear = false;
     public bool GAMECLEAR
     {
         get
@@ -27,28 +21,48 @@ public class StageManager : MonoBehaviour
         }
         set
         {
+            if (!gameClear)
+            {
+                SceneFade.Instance.nextSceneName = nextSceneName;
+                slow.SetActive(false);
+                Time.timeScale = 1;
+                SoundManager.Instance.ChangeSFXPitch(1);
+                //SceneFade.Instance.SetWhite();
+                StartCoroutine(SceneFade.Instance.LoadScene_FadeIn());
+            }
             gameClear = value;
-            SceneFade.Instance.nextSceneName = "End";
-            SceneFade.Instance.SetWhite();
-            StartCoroutine(SceneFade.Instance.LoadScene_FadeIn());
         }
     }
 
+    protected bool stageClear = false;
+    public bool STAGECLEAR
+    {
+        get
+        {
+            return stageClear;
+        }
+        set
+        {
+            stageClear = value;
+        }
+    }
+
+    protected bool stageFall = false;
+
+    protected float textChangeTime = 0f;
     //게임 재시작 변수
     public float restartTime = 3f;
     //재시작키 입력시간
     float restartInputTime = 0f;
+    //해킹
+    public bool hacking = false;
+    public Vector3 cameraTargetPos;
 
-    //UI
-    [Header("UI")]
-    [SerializeField] GameObject panel;
-    [SerializeField] GameObject StageFallImage;
-    [SerializeField] TextMeshProUGUI mainText;
-    [SerializeField] TextMeshProUGUI descText;
-    [SerializeField] TextMeshProUGUI StageFallText;
-    bool superText = false;
-    float textChangeTime = 0f;
-    float textChangeDelay = 0.8f;
+    public GameObject slow;
+    public CAM playerCam;
+    public CAM maincameraCam;
+
+    public bool pause=false;
 
 
     void Awake()
@@ -57,25 +71,23 @@ public class StageManager : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
-        StageSpawnData stageSpawnData = GameManager1.Instance.totalEnemySpawnData.stageSpawnDatas[stageNumber];
-
+        StageSpawnData stageSpawnData = GameManager.Instance.totalEnemySpawnData.stageSpawnDatas[stageNumber];
         enemySpawner.Set(stageSpawnData);
-
-        SoundManager.Instance.PlayBGM("Stage1");
-
         StartCoroutine(SceneFade.Instance.LoadScene_FadeOut());
+
+        playerCam.enabled = false;
+        maincameraCam.enabled = false;
     }
 
-    private void Update()
+    // Update is called once per frame
+    protected virtual void Update()
     {
-        if (gameClear) return;
-
         if (Input.GetKeyDown(KeyCode.R))
         {
             restartInputTime = 0f;
-            if (activeReset)
+            if (stageFall)
             {
                 //재시작
                 //씬 다시 로딩
@@ -94,90 +106,18 @@ public class StageManager : MonoBehaviour
                 StartCoroutine(SceneFade.Instance.LoadScene_FadeIn());
             }
         }
-
-        //스테이지 클리어
-        if (stageClear)
-        {
-            if (superText)
-            {
-                textChangeTime += Time.unscaledDeltaTime;
-                if (textChangeTime >= textChangeDelay)
-                {
-                    textChangeTime = 0f;
-                    superText = false;
-                    mainText.text = "HOT";
-                    SoundManager.Instance.PlaySFX("hot");
-                    mainText.fontStyle = FontStyles.Bold;
-                }
-            }
-            else
-            {
-                textChangeTime += Time.unscaledDeltaTime;
-                if (textChangeTime >= textChangeDelay)
-                {
-                    textChangeTime = 0f;
-                    superText = true;
-                    mainText.text = "SUPER";
-                    SoundManager.Instance.PlaySFX("super");
-                    mainText.fontStyle = FontStyles.Normal;
-                }
-            }
-            panel.transform.localScale = Vector3.one * (1 + (textChangeDelay - textChangeTime) / textChangeDelay * 0.5f);
-        }
-
-        ////스테이지 실패
-        //if (stageFall)
-        //{
-        //    if (superText)
-        //    {
-        //        textChangeTime += Time.unscaledDeltaTime;
-        //        if (textChangeTime >= textChangeDelay)
-        //        {
-        //            textChangeTime = 0f;
-        //            superText = false;
-        //            mainText.text = "HOT";
-        //            mainText.fontStyle = FontStyles.Bold;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        textChangeTime += Time.unscaledDeltaTime;
-        //        if (textChangeTime >= textChangeDelay)
-        //        {
-        //            textChangeTime = 0f;
-        //            superText = true;
-        //            mainText.text = "SUPER";
-        //            mainText.fontStyle = FontStyles.Normal;
-        //        }
-        //    }
-        //}
     }
 
-    /// <summary>
-    /// 스테이지 클리어
-    /// </summary>
-    public void StageClear()
+    public virtual void StageClear()
     {
         stageClear = true;
-        activeReset = true;
-        //레코드 실행
-
-        //UI 활성화
-        panel.SetActive(true);
 
         textChangeTime = 0f;
-        superText = true;
-        mainText.text = "SUPER";
-        SoundManager.Instance.PlaySFX("super");
-        mainText.fontStyle = FontStyles.Normal;
     }
 
-    public void StageFALL()
+    public virtual void StageFALL()
     {
         //멘트 활성화
         stageFall = true;
-        activeReset = true;
-
-        StageFallImage.SetActive(true);
     }
 }
