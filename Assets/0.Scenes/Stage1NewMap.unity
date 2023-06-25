@@ -2598,6 +2598,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 488435277059649008, guid: 1325bf721b476104282b0a500a593dcb, type: 3}
+      propertyPath: moveSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 488435277059649014, guid: 1325bf721b476104282b0a500a593dcb, type: 3}
       propertyPath: m_Name
       value: Player
@@ -4195,7 +4199,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95f0faff120777a4ca1f9ac8a198b3a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stage: 0
   gameStartMassage: {fileID: 1807367058}
   gameStartText: {fileID: 796785233}
   totalEnemySpawnData: {fileID: 11400000, guid: de4eead98134ed94dae5c71488cf02c6, type: 2}
