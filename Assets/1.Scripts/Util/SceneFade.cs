@@ -17,9 +17,12 @@ public class SceneFade : Singleton<SceneFade>
         fade = true;
         SplashObj.SetActive(true);
         SoundManager.Instance.BGMVolume = -80;
-        while (image.color.a < 1f)
+        float a = 0f;
+        while (a < 1f)
         {
-            image.color = new Color(image.color.r, image.color.g, image.color.b, image.color.a + Time.unscaledDeltaTime);
+            a += Time.unscaledDeltaTime;
+            if (image.color.a < 1)
+                image.color = new Color(image.color.r, image.color.g, image.color.b, a);
             yield return null;
         }
 
@@ -29,9 +32,12 @@ public class SceneFade : Singleton<SceneFade>
     public IEnumerator LoadScene_FadeOut()
     {
         SoundManager.Instance.BGMVolume = 0;
+        float a = 1f;
         while (image.color.a > 0f)
         {
-            image.color = new Color(image.color.r, image.color.g, image.color.b, image.color.a - Time.unscaledDeltaTime);
+            a -= Time.unscaledDeltaTime;
+            if (image.color.a > 0)
+                image.color = new Color(image.color.r, image.color.g, image.color.b, a);
             yield return null;
         }
 
@@ -39,8 +45,8 @@ public class SceneFade : Singleton<SceneFade>
         fade = false;
     }
 
-    //public void SetWhite()
-    //{
-    //    image.color = new Color(1, 1, 1, 0);
-    //}
+    public void SetBlack()
+    {
+        image.color = new Color(0, 0, 0, 1);
+    }
 }

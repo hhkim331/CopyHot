@@ -118,7 +118,7 @@ public class GetWeapon : MonoBehaviour
                 if(hit.transform.CompareTag("Core"))
                 {
                     StageManager.Instance.StageClear();
-                    StageManager.Instance.cameraTargetPos = hit.transform.position - hit.transform.forward;
+                    StageManager.Instance.cameraTargetPos = hit.point;
                 }
             }
         }

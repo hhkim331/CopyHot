@@ -60,7 +60,7 @@ public class Stage2Manager : StageManager
         base.Update();
         if (gameClear) return;
 
-        if(pause)
+        if (pause)
         {
             if (Input.GetButtonDown("Fire1"))
             {
@@ -74,15 +74,25 @@ public class Stage2Manager : StageManager
         //스테이지 클리어
         if (stageClear)
         {
-            gametime+=Time.unscaledDeltaTime;
+            gametime += Time.unscaledDeltaTime;
 
-            Camera.main.transform.position = Vector3.Lerp(hackCameraStartPos, cameraTargetPos, gametime);
-            hackImageTopRT.localPosition = Vector3.Lerp(new Vector3(0,1500,0), new Vector3(0, 500, 0), gametime);
-            hackImageBottomRT.localPosition = Vector3.Lerp(new Vector3(0, -1500, 0), new Vector3(0, -500, 0), gametime);
-            hackImageLeftRT.localPosition = Vector3.Lerp(new Vector3(-2000, 0, 0), new Vector3(-750, 0, 0), gametime);
-            hackImageRightRT.localPosition = Vector3.Lerp(new Vector3(2000, 0, 0), new Vector3(750, 0, 0), gametime);
-            if(gametime>hackingImageTime)
+            if (gametime < 0.2f)
+            {
+                hackImageTopRT.localPosition = Vector3.Lerp(new Vector3(0, 1500, 0), new Vector3(0, 1000, 0), gametime * 5f);
+                hackImageBottomRT.localPosition = Vector3.Lerp(new Vector3(0, -1500, 0), new Vector3(0, -1000, 0), gametime * 5f);
+                hackImageLeftRT.localPosition = Vector3.Lerp(new Vector3(-2000, 0, 0), new Vector3(-1400, 0, 0), gametime * 5f);
+                hackImageRightRT.localPosition = Vector3.Lerp(new Vector3(2000, 0, 0), new Vector3(1400, 0, 0), gametime * 5f);
+            }
+            else
+            {
+                Camera.main.transform.position = Vector3.Lerp(hackCameraStartPos, cameraTargetPos, (gametime - 0.2f) / 0.8f);
+            }
+
+            if (gametime > hackingImageTime)
+            {
                 GAMECLEAR = true;
+                SceneFade.Instance.SetBlack();
+            }
         }
         else
         {
@@ -122,7 +132,7 @@ public class Stage2Manager : StageManager
                     gameMassage.transform.localScale = Vector3.one * (1.5f - (gametime - 0.9f) / 0.6f);
                 }
             }
-            else if(!stageFall && !hacking)
+            else if (!stageFall && !hacking)
             {
                 //코어 해킹중
                 gametime += Time.deltaTime;

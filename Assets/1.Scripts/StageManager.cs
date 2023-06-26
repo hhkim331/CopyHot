@@ -27,7 +27,6 @@ public class StageManager : MonoBehaviour
                 slow.SetActive(false);
                 Time.timeScale = 1;
                 SoundManager.Instance.ChangeSFXPitch(1);
-                //SceneFade.Instance.SetWhite();
                 StartCoroutine(SceneFade.Instance.LoadScene_FadeIn());
             }
             gameClear = value;
