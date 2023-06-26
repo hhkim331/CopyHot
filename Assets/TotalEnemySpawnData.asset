@@ -142,22 +142,22 @@ MonoBehaviour:
       createTime: 1
       position: {x: -23, y: 0, z: -24}
       rotation: {x: 0, y: 45, z: 0}
-      defaultWeapon: 0
+      defaultWeapon: -1
     - id: 201
       step: 1
       createTime: 1
       position: {x: -23, y: 0, z: 24}
       rotation: {x: 0, y: 135, z: 0}
-      defaultWeapon: 0
+      defaultWeapon: -1
     - id: 202
       step: 1
       createTime: 1
       position: {x: 23, y: 0, z: -24}
       rotation: {x: 0, y: -45, z: 0}
-      defaultWeapon: 0
+      defaultWeapon: -1
     - id: 203
       step: 1
       createTime: 1
       position: {x: 23, y: 0, z: 24}
       rotation: {x: 0, y: -135, z: 0}
-      defaultWeapon: 0
+      defaultWeapon: -1

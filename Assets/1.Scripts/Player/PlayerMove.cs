@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     public float moveSpeed = 2.0f; // 이동 속도
-    public float jumpForce = 5.0f; // 점프하는 힘
+    float jumpForce; // 점프하는 힘
     bool isGround = true; // 땅에 붙어있는가?
     Rigidbody rigid; // Rigidbody를 가져올 변수
 
@@ -85,16 +85,31 @@ public class PlayerMove : MonoBehaviour
         // 이동값을 좌표에 반영
         //transform.position = transform.position + dir * moveSpeed * Time.deltaTime;
         //rigid.MovePosition(transform.position + dir * moveSpeed * Time.deltaTime);
-        rigid.velocity = dir * moveSpeed;
 
         // 만약에 스페이스바가 눌려있을때 땅에붙어있다면
         if (Input.GetKey(KeyCode.Space) && isGround)
         {
             //점프를뛴다
-            rigid.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            //rigid.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            //Vector3 jumpVelocity = rigid.velocity;
+            //jumpVelocity.y = jumpForce;
+            //rigid.velocity = jumpVelocity;
+            jumpForce = 10f;
+
             //isGround값을 초기화
             isGround = false;
         }
+
+        if (isGround)
+        {
+            rigid.velocity = dir * moveSpeed;
+        }
+        else
+        {
+            jumpForce -= Time.deltaTime * 20f;
+            rigid.velocity = dir * moveSpeed + Vector3.up * jumpForce;
+        }
+
     }
 
     //캐릭터가 죽었을때

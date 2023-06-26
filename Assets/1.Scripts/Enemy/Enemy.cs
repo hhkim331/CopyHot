@@ -430,10 +430,16 @@ public class Enemy : MonoBehaviour
 
         e_State = E_State.Init;
 
+        int myWeaponId;
+        if (enemySpawnData.defaultWeapon == -1)
+            myWeaponId = Random.Range(0, 3);
+        else
+            myWeaponId = enemySpawnData.defaultWeapon;
+
         //무기 장착
-        if (enemySpawnData.defaultWeapon != 0)
+        if (myWeaponId > 0 && myWeaponId < 3)
         {
-            GameObject newWeapon = Instantiate(GameManager.Instance.totalEnemySpawnData.GetWeapon(enemySpawnData.defaultWeapon));
+            GameObject newWeapon = Instantiate(GameManager.Instance.totalEnemySpawnData.GetWeapon(myWeaponId));
             myWeapon = newWeapon.GetComponent<Weapon>();
             myWeapon.Set(weaponPos, Weapon.W_Owner.Enemy);
             e_WeaponType = myWeapon.weaponType;
