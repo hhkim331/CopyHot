@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -53,9 +52,9 @@ public class Enemy : MonoBehaviour
     //공격 딜레이
     float attackDelay = 0f;
     //공격 쿨타임
-    float attackCoolTime = 2f;
+    float attackCoolTime = 1f;
     //펀치 공격 쿨타임
-    public float punchCoolTime = 2f;
+    public float punchCoolTime = 1f;
     //펀치 공격 오브젝트
     public Collider punchObject1;
     public Collider punchObject2;
