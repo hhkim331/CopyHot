@@ -17,20 +17,6 @@ MonoBehaviour:
   bat: {fileID: 3102472665163501727, guid: 9058704ada07ca94da1010197d58b9d8, type: 3}
   katana: {fileID: 2641196973833819545, guid: 610b2001a933dcb4984012c2f8ee1a85, type: 3}
   stageSpawnDatas:
-  - SceneName: Test
-    enemySpawnDatas:
-    - id: 0
-      step: 0
-      createTime: -1
-      position: {x: 5, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      defaultWeapon: 0
-    - id: 1
-      step: 0
-      createTime: 1
-      position: {x: 5, y: 0, z: -5}
-      rotation: {x: 0, y: 0, z: 0}
-      defaultWeapon: 1
   - SceneName: Stage1
     enemySpawnDatas:
     - id: 100

@@ -107,46 +107,6 @@ public class Bullet : MonoBehaviour, IPoolObject
         trail.enabled = false;
     }
 
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if(!hit)
-    //    {
-    //        //충돌한 상대방 게임오브젝트의 태그값 비교
-    //        if (collision.gameObject.tag == "Enemy")
-    //        {
-    //            Enemy enemy = collision.transform.root.GetComponent<Enemy>();
-    //            if (enemy.e_State != Enemy.E_State.Die)
-    //            {
-    //                enemy.Die();
-
-    //                DeathCutter deathCutter = StageManager.Instance.poolManager.GetFromPool<DeathCutter>();
-    //                deathCutter.CutTriple(collision.transform.root, transform);
-    //            }
-    //        }
-
-    //        if (collision.gameObject.tag == "Player" && owner == Weapon.W_Owner.Enemy)
-    //        {
-    //            collision.gameObject.GetComponent<PlayerMove>().Die();
-    //            //충돌상대가 플레이어면
-    //            Destroy(gameObject);
-    //        }
-    //        hit = true;
-    //    }
-
-    //    ////충돌 비활성화
-    //    //coll.enabled = false;
-    //    //mesh.enabled = false;
-
-    //    if (!inPool)
-    //    {
-    //        inPool = true;
-    //        owner = Weapon.W_Owner.None;
-    //        StageManager.Instance.poolManager.TakeToPool<Bullet>("Bullets", this);
-    //    }
-
-    //    trail.Clear();
-    //}
-
     public void OnCreatedInPool()
     {
         inPool = false;
